@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Benchmarks — dynamics — populace</title>
+<meta name="description" content="The benchmark wall: every populace-dynamics estimate compared against SSA, Trustees, CBO, DYNASIM, and MINT published values, with every gap classified and explained. Gaps closing over certified runs is the progress record." />
+<link rel="icon" type="image/svg+xml" href="/assets/policyengine-mark.svg" />
+<meta name="theme-color" content="#FFFFFF" />
+<link rel="stylesheet" href="/vendor/fonts/fonts.css" />
+<link rel="stylesheet" href="/vendor/ui-kit-tokens.css" />
+<link rel="stylesheet" href="/style.css" />
+<style>
+.bench-main { max-width: 74rem; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+.bench-tier { margin-top: 3rem; }
+.bench-tier h2 { font-size: 1.25rem; }
+.bench-tier .count { opacity: .55; font-size: .9em; margin-left: .4rem; }
+.tier-blurb { max-width: 46rem; opacity: .8; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--border, #e5e7eb); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: .82rem; }
+th, td { padding: .5rem .7rem; text-align: left; vertical-align: top; border-top: 1px solid var(--border, #e5e7eb); }
+thead th { border-top: 0; font-weight: 600; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; opacity: .6; }
+td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.rid { font-size: .7rem; opacity: .6; max-width: 11rem; overflow-wrap: anywhere; }
+td.note { max-width: 22rem; opacity: .8; }
+tr.row-unverified td { opacity: .55; }
+.gap { display: inline-block; padding: .1rem .5rem; border-radius: 999px; font-size: .68rem; white-space: nowrap; border: 1px solid var(--border, #d0d5dd); }
+.gap-label_mismatch { background: #FEF3C7; border-color: #FDE68A; }
+.gap-concept_mismatch { background: #EFF6FF; border-color: #BFDBFE; }
+.gap-unverified_source { background: #F3F4F6; }
+.gap-module_missing { background: #FCE7F3; border-color: #FBCFE8; }
+.gap-frame_no_alignment { background: #ECFDF5; border-color: #A7F3D0; }
+.gap-unexplained { background: #FEE2E2; border-color: #FCA5A5; }
+.bench-preamble { border-left: 3px solid var(--accent, #1E293B); padding: .2rem 0 .2rem 1rem; max-width: 46rem; }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>populace</a>
+  <nav class="nav-links">
+    <a href="/dynamics">dynamics</a>
+    <a href="/dynamics/paper">paper</a>
+    <a href="https://github.com/PolicyEngine/populace-dynamics/tree/master/benchmarks">source</a>
+  </nav>
+</header>
+
+<main class="bench-main">
+  <p class="strategy-crumb"><a href="/dynamics">dynamics</a> / benchmarks</p>
+  <h1>The benchmark wall.</h1>
+  <p class="strategy-lede">
+    Every populace-dynamics estimate that an external model or agency also
+    publishes, side by side, with the gap measured and classified. Large gaps
+    are fine; unexplained gaps fail the build. As modules land and
+    calibration activates, the gaps shrink on the record — this page is the
+    progress tracker, regenerated from committed, referee-audited artifacts
+    on every certified run.
+  </p>
+  <div class="bench-preamble">
+    <p><strong>Read the labels first.</strong> Current estimates are
+    frame-relative and carry the labor-income proxy label; they make no
+    population-alignment claim, and only ratios, shares, trajectories, and
+    orderings are ever compared — never absolute dollar levels. Rows in
+    gray rest on sources we could not verify against publisher-controlled
+    bytes and are excluded from the verified set.</p>
+  </div>
+
+  <section class="bench-tier">
+    <h2>Administrative truth <span class="count mono">7</span></h2>
+    <p class="tier-blurb">Published administrative statistics from SSA and the Trustees. Gaps here are errors, and they should shrink as modules land.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>row</th><th>quantity</th><th>vs</th>
+      <th>gap</th><th>class</th><th>why</th></tr></thead>
+      <tbody>
+<tr><td class="mono rid">ssa.reported_taxable_earnings_per_worker</td><td>Reported taxable earnings per worker</td><td>SSA Trustees / Annual Statistical Supplement</td><td class="num">+22.2% to +34.5%</td><td><span class="gap gap-label_mismatch">label mismatch</span></td><td class="note">Our legacy-labeled capped labor-income proxy and positive-proxy-earner denominator are not SSA employer-reported taxable earnings and workers.</td></tr>
+<tr><td class="mono rid">ssa.adjusted_taxable_payroll_per_covered_worker</td><td>Adjusted taxable payroll per covered worker</td><td>SSA Trustees / Annual Statistical Supplement</td><td class="num">+22.6% to +35.0%</td><td><span class="gap gap-label_mismatch">label mismatch</span></td><td class="note">Our legacy-labeled capped proxy and positive-proxy earners omit Trustees adjusted-payroll and covered-worker accounting.</td></tr>
+<tr><td class="mono rid">ssa.gross_contributions_per_worker</td><td>Gross OASDI contributions per worker</td><td>SSA Trustees / Annual Statistical Supplement</td><td class="num">+22.2% to +34.5%</td><td><span class="gap gap-label_mismatch">label mismatch</span></td><td class="note">Our legacy-labeled 12.4-percent arithmetic uses the proxy payroll and earner frame rather than SSA taxable-earnings and gross-contribution accounting.</td></tr>
+<tr><td class="mono rid">ssa.net_payroll_tax_contributions_per_covered_worker</td><td>Net payroll-tax contributions per covered worker</td><td>SSA Trustees / Annual Statistical Supplement</td><td class="num">+23.4% to +37.2%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our earnings-year rate arithmetic differs from trust-fund cash receipts with estimated deposits and later adjustments.</td></tr>
+<tr><td class="mono rid">ssa.retired_worker_beneficiaries_per_worker</td><td>Retired-worker beneficiaries per worker</td><td>SSA Trustees / Annual Statistical Supplement</td><td class="num">-24.2% to -12.9%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our mechanical annual-presence and opening-backfill stock is not SSA&#x27;s December current-payment stock, and the worker frames differ.</td></tr>
+<tr><td class="mono rid">ssa.retired_worker_awards_per_worker</td><td>Retired-worker awards per worker</td><td>SSA Trustees / Annual Statistical Supplement</td><td class="num">-44.2% to -26.4%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our mechanical claim-age crossings are not administratively effectuated awards, and the worker frames differ.</td></tr>
+<tr><td class="mono rid">ssa.retired_worker_benefits_per_reported_taxable_earnings</td><td>Retired-worker benefits per reported taxable earnings</td><td>SSA Trustees / Annual Statistical Supplement</td><td class="num">-42.3% to -31.7%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our annualized statutory own-record amounts and opening backfill are not allocated outlays, and proxy earnings are not reported taxable earnings.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section class="bench-tier">
+    <h2>Model triangulation <span class="count mono">34</span></h2>
+    <p class="tier-blurb">Published estimates from DYNASIM, MINT, and CBO. These are models too — gaps are information, never targets, and rows are never fixed toward them.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>row</th><th>quantity</th><th>vs</th>
+      <th>gap</th><th>class</th><th>why</th></tr></thead>
+      <tbody>
+<tr><td class="mono rid">cbo.taxable_payroll.trajectory_2015_100</td><td>Taxable-payroll trajectory normalized to 2015</td><td>CBOLT / CBO (historical actual-data segment)</td><td class="num">see artifact</td><td><span class="gap gap-frame_no_alignment">frame</span></td><td class="note">A closed, unaligned PSID proxy-payroll path cannot be population-aligned to CBO&#x27;s national actual-data taxable-payroll path.</td></tr>
+<tr><td class="mono rid">cbo.tax_revenue.share_of_taxable_payroll</td><td>Social Security tax revenues as a share of taxable payroll</td><td>CBOLT / CBO (historical actual-data segment)</td><td class="num">see artifact</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our mechanical 12.4-percent contributions omit CBO&#x27;s income tax on benefits and use an unaligned proxy-payroll denominator.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.married.male.lose_ge_5</td><td>Package 1b winner/loser share: married, male, lose_ge_5</td><td>DYNASIM3</td><td class="num">+74.20%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.married.male.gain_ge_5</td><td>Package 1b winner/loser share: married, male, gain_ge_5</td><td>DYNASIM3</td><td class="num">-87.14%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.married.female.lose_ge_5</td><td>Package 1b winner/loser share: married, female, lose_ge_5</td><td>DYNASIM3</td><td class="num">+10.65%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.married.female.gain_ge_5</td><td>Package 1b winner/loser share: married, female, gain_ge_5</td><td>DYNASIM3</td><td class="num">+3.74%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.married.female.gain_ge_20</td><td>Package 1b winner/loser share: married, female, gain_ge_20</td><td>DYNASIM3</td><td class="num">+12.13%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.divorced.male.lose_ge_5</td><td>Package 1b winner/loser share: divorced, male, lose_ge_5</td><td>DYNASIM3</td><td class="num">+116.39%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.divorced.male.gain_ge_5</td><td>Package 1b winner/loser share: divorced, male, gain_ge_5</td><td>DYNASIM3</td><td class="num">-80.66%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.divorced.female.gain_ge_5</td><td>Package 1b winner/loser share: divorced, female, gain_ge_5</td><td>DYNASIM3</td><td class="num">+24.41%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.widowed.male.lose_ge_20</td><td>Package 1b winner/loser share: widowed, male, lose_ge_20</td><td>DYNASIM3</td><td class="num">+53.06%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.widowed.male.lose_ge_5</td><td>Package 1b winner/loser share: widowed, male, lose_ge_5</td><td>DYNASIM3</td><td class="num">+13.78%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.widowed.female.lose_ge_20</td><td>Package 1b winner/loser share: widowed, female, lose_ge_20</td><td>DYNASIM3</td><td class="num">-42.15%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr><td class="mono rid">dynasim.favreault_steuerle.package1b.widowed.female.lose_ge_5</td><td>Package 1b winner/loser share: widowed, female, lose_ge_5</td><td>DYNASIM3</td><td class="num">-11.39%</td><td><span class="gap gap-concept_mismatch">concept</span></td><td class="note">Our observed-era retirement-only age-62-marital-status subgroup is not DYNASIM&#x27;s 2049 OASI-and-DI current-status population, and the spouse histories, scalar, and timing differ.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.price_indexing.all</td><td>Price-indexed benefit as percent of scheduled, all retired workers ages 62-67</td><td>DYNASIM3</td><td class="num">-1.57%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our transported generator is not Mermin&#x27;s projected 2050 retired-worker population.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.generated.q1</td><td>Progressive-price-indexed benefit as percent of scheduled, generated individual-AIME quintile 1</td><td>DYNASIM3</td><td class="num">+1.32%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our transported generator and individual-AIME ranking are not DYNASIM&#x27;s projected 2050 shared-lifetime-income population.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.generated.q2</td><td>Progressive-price-indexed benefit as percent of scheduled, generated individual-AIME quintile 2</td><td>DYNASIM3</td><td class="num">+9.93%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our transported generator and individual-AIME ranking are not DYNASIM&#x27;s projected 2050 shared-lifetime-income population.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.generated.q3</td><td>Progressive-price-indexed benefit as percent of scheduled, generated individual-AIME quintile 3</td><td>DYNASIM3</td><td class="num">+16.46%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our transported generator and individual-AIME ranking are not DYNASIM&#x27;s projected 2050 shared-lifetime-income population.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.generated.q4</td><td>Progressive-price-indexed benefit as percent of scheduled, generated individual-AIME quintile 4</td><td>DYNASIM3</td><td class="num">+18.67%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our transported generator and individual-AIME ranking are not DYNASIM&#x27;s projected 2050 shared-lifetime-income population.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.generated.q5</td><td>Progressive-price-indexed benefit as percent of scheduled, generated individual-AIME quintile 5</td><td>DYNASIM3</td><td class="num">+17.74%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our transported generator and individual-AIME ranking are not DYNASIM&#x27;s projected 2050 shared-lifetime-income population.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.real_shared.q1</td><td>Progressive-price-indexed benefit as percent of scheduled, real-PSID shared-lifetime-income quintile 1</td><td>DYNASIM3</td><td class="num">+0.80%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our restricted observed PSID support and compressed careers are not DYNASIM&#x27;s projected 2050 population and full careers.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.real_shared.q2</td><td>Progressive-price-indexed benefit as percent of scheduled, real-PSID shared-lifetime-income quintile 2</td><td>DYNASIM3</td><td class="num">+7.43%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our restricted observed PSID support and compressed careers are not DYNASIM&#x27;s projected 2050 population and full careers.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.real_shared.q3</td><td>Progressive-price-indexed benefit as percent of scheduled, real-PSID shared-lifetime-income quintile 3</td><td>DYNASIM3</td><td class="num">+15.38%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our restricted observed PSID support and compressed careers are not DYNASIM&#x27;s projected 2050 population and full careers.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.real_shared.q4</td><td>Progressive-price-indexed benefit as percent of scheduled, real-PSID shared-lifetime-income quintile 4</td><td>DYNASIM3</td><td class="num">+19.54%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our restricted observed PSID support and compressed careers are not DYNASIM&#x27;s projected 2050 population and full careers.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.ppi.real_shared.q5</td><td>Progressive-price-indexed benefit as percent of scheduled, real-PSID shared-lifetime-income quintile 5</td><td>DYNASIM3</td><td class="num">+20.80%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our restricted observed PSID support and compressed careers are not DYNASIM&#x27;s projected 2050 population and full careers.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.nra70.q1</td><td>NRA-to-70 benefit as percent of scheduled, individual-AIME quintile 1</td><td>DYNASIM3</td><td class="num">+0.41%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our observed-era claiming, individual-AIME ranking, and person weighting differ from Mermin&#x27;s projected cross-section, shared-income ranking, and dollar weighting.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.nra70.q2</td><td>NRA-to-70 benefit as percent of scheduled, individual-AIME quintile 2</td><td>DYNASIM3</td><td class="num">+0.31%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our observed-era claiming, individual-AIME ranking, and person weighting differ from Mermin&#x27;s projected cross-section, shared-income ranking, and dollar weighting.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.nra70.q3</td><td>NRA-to-70 benefit as percent of scheduled, individual-AIME quintile 3</td><td>DYNASIM3</td><td class="num">+0.19%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our observed-era claiming, individual-AIME ranking, and person weighting differ from Mermin&#x27;s projected cross-section, shared-income ranking, and dollar weighting.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.nra70.q4</td><td>NRA-to-70 benefit as percent of scheduled, individual-AIME quintile 4</td><td>DYNASIM3</td><td class="num">-0.03%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our observed-era claiming, individual-AIME ranking, and person weighting differ from Mermin&#x27;s projected cross-section, shared-income ranking, and dollar weighting.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.nra70.q5</td><td>NRA-to-70 benefit as percent of scheduled, individual-AIME quintile 5</td><td>DYNASIM3</td><td class="num">-0.16%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our observed-era claiming, individual-AIME ranking, and person weighting differ from Mermin&#x27;s projected cross-section, shared-income ranking, and dollar weighting.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.nra70.all</td><td>NRA-to-70 benefit as percent of scheduled, all scored retirees</td><td>DYNASIM3</td><td class="num">+0.07%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our observed-era claiming, individual-AIME ranking, and person weighting differ from Mermin&#x27;s projected cross-section, shared-income ranking, and dollar weighting.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.cola_minus_0_4pp.age_62_67</td><td>Benefit under COLA minus 0.4 percentage points as percent of scheduled, ages 62-67</td><td>DYNASIM3</td><td class="num">+0.30%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our claim-age COLA start and person weighting differ from Mermin&#x27;s age-62 start and dollar-weighted projection.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.cola_minus_0_4pp.age_80_85</td><td>Benefit under COLA minus 0.4 percentage points as percent of scheduled, ages 80-85</td><td>DYNASIM3</td><td class="num">+0.67%</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our claim-age COLA start and person weighting differ from Mermin&#x27;s age-62 start and dollar-weighted projection.</td></tr>
+<tr class="row-unverified"><td class="mono rid">dynasim.mermin.four_reform_cost_ordering</td><td>Ordinal benefit-reduction ordering across four reforms</td><td>DYNASIM3 / CBO 2005 actuarial scoring</td><td class="num">see artifact</td><td><span class="gap gap-unverified_source">unverified source</span></td><td class="note">Publisher bytes are unavailable, and our per-capita benefit-change order is only an ordinal analogue of 75-year actuarial-payroll effects.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section class="bench-tier">
+    <h2>Statutory parameters <span class="count mono">1</span></h2>
+    <p class="tier-blurb">Values read directly from enacted or introduced law, pinned to official bill text.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>row</th><th>quantity</th><th>vs</th>
+      <th>gap</th><th>class</th><th>why</th></tr></thead>
+      <tbody>
+<tr><td class="mono rid">wish.hr4289.employee_rate.share_of_payroll</td><td>Single-side WISH employee payroll-tax rate</td><td>WISH Act statutory text (not an actuarial model)</td><td class="num">see artifact</td><td><span class="gap gap-module_missing">module missing</span></td><td class="note">The scalar is copied by construction, while the model lacks the national IRC section 3121(a) base, combined financing, actuarial trajectory, and LTSS benefit module.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section class="bench-tier">
+    <h2>The gap ledger</h2>
+    <p class="tier-blurb">Every gap class and what closes it. A row without
+    a class, or a class of "unexplained," fails the repository's tests by
+    law.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>class</th><th>rows</th><th>closes when</th></tr></thead>
+      <tbody>
+<tr><td><span class="gap gap-concept_mismatch">concept</span></td><td class="num">17</td><td>Closes when both sides implement the same registered population, timing, benefit, earnings, and accounting concepts.</td></tr>
+<tr><td><span class="gap gap-frame_no_alignment">frame</span></td><td class="num">1</td><td>Closes when a pre-registered, independently constructed bridge aligns the two population frames.</td></tr>
+<tr><td><span class="gap gap-label_mismatch">label mismatch</span></td><td class="num">3</td><td>Closes when ledger entry 14&#x27;s corrected covered-earnings label activates.</td></tr>
+<tr><td><span class="gap gap-module_missing">module missing</span></td><td class="num">1</td><td>Closes when an immutable evaluation artifact supplies the missing modeled module and comparable output.</td></tr>
+<tr><td><span class="gap gap-unexplained">unexplained</span></td><td class="num">0</td><td></td></tr>
+<tr><td><span class="gap gap-unverified_source">unverified source</span></td><td class="num">20</td><td>Closes when an accepted, provenance-pinned publisher source verifies the reported value at the exact registered locator.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <p class="tier-blurb" style="margin-top:2.5rem">
+    Canonical data: <a href="https://github.com/PolicyEngine/populace-dynamics/tree/master/benchmarks">benchmarks/</a>
+    in the populace-dynamics repository — registry, append-only evaluation
+    history, and the generated wall, each pinned by reproduction tests.
+  </p>
+</main>
+</body>
+</html>
