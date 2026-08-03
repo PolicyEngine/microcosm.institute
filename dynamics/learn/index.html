@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Learn — dynamics — populace</title>
+<meta name="description" content="How the populace-dynamics Social Security microsimulation works, how it is validated, and how to read the benchmark wall — with a self-test drill." />
+<link rel="icon" type="image/svg+xml" href="/assets/policyengine-mark.svg" />
+<meta name="theme-color" content="#FFFFFF" />
+<link rel="stylesheet" href="/vendor/fonts/fonts.css" />
+<link rel="stylesheet" href="/vendor/ui-kit-tokens.css" />
+<link rel="stylesheet" href="/style.css" />
+<style>
+.learn-main { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+.learn-main h1 { font-size: 2rem; margin: 0.4rem 0 0.5rem; }
+.learn-main h2 { font-size: 1.3rem; margin: 2.6rem 0 0.5rem; }
+.learn-main h3 { font-size: 1.02rem; margin: 1.6rem 0 0.3rem; }
+.learn-main p, .learn-main li { line-height: 1.6; }
+.learn-lede { font-size: 1.08rem; opacity: 0.85; max-width: 42rem; }
+.learn-toc { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.2rem 0 0; }
+.learn-toc a { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.78rem;
+  text-decoration: none; border: 1px solid var(--border, #E2E8F0); border-radius: 999px;
+  padding: 0.35rem 0.8rem; color: inherit; }
+.learn-toc a:hover { border-color: var(--primary, #2C7A7B); color: var(--primary, #2C7A7B); }
+.stat-table { border: 1px solid var(--border, #E2E8F0); border-radius: 10px; overflow: hidden; margin: 1rem 0; }
+.stat-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border, #E2E8F0); font-size: 0.92rem; }
+.stat-row:last-child { border-bottom: none; }
+.stat-row .val { font-family: var(--mono, 'JetBrains Mono', monospace); font-variant-numeric: tabular-nums;
+  white-space: nowrap; font-size: 0.85rem; }
+.gapchips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.8rem 0; }
+.gapchips span { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.74rem;
+  border: 1px solid var(--border, #E2E8F0); border-radius: 999px; padding: 0.25rem 0.7rem; opacity: 0.85; }
+.gapchips .zero { border-color: var(--primary, #2C7A7B); color: var(--primary, #2C7A7B); font-weight: 600; }
+.callout { border-left: 3px solid var(--primary, #2C7A7B); padding: 0.1rem 0 0.1rem 1rem; margin: 1.2rem 0; }
+.callout p { margin: 0.4rem 0; }
+dl.gloss dt { font-weight: 600; margin-top: 0.9rem; }
+dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
+.drill-card { border: 1.5px solid var(--border, #E2E8F0); border-radius: 12px; min-height: 11rem;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 1.6rem; cursor: pointer; font-size: 1.05rem; line-height: 1.5; user-select: none; margin: 1rem 0 0.6rem; }
+.drill-card.back { border-color: var(--primary, #2C7A7B); background: color-mix(in srgb, var(--primary, #2C7A7B) 7%, transparent); }
+.drill-meta { display: flex; justify-content: space-between; font-size: 0.8rem; opacity: 0.6;
+  font-family: var(--mono, 'JetBrains Mono', monospace); margin-bottom: 0.7rem; }
+.drill-btns { display: flex; gap: 0.6rem; }
+.drill-btns button { font: 600 0.85rem/1 inherit; padding: 0.6rem 1.1rem; border-radius: 8px;
+  cursor: pointer; border: 1px solid var(--border, #E2E8F0); background: transparent; color: inherit; }
+.drill-btns button.primary { background: var(--primary, #2C7A7B); border-color: var(--primary, #2C7A7B); color: #fff; }
+.drill-btns button:focus-visible, .drill-card:focus-visible { outline: 2px solid var(--ring, #319795); outline-offset: 2px; }
+.crumb { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.78rem; opacity: 0.6; }
+.crumb a { color: inherit; }
+</style>
+</head>
+<body>
+<main class="learn-main">
+  <p class="crumb"><a href="/dynamics">dynamics</a> / learn</p>
+  <h1>How the model works — and how to check it</h1>
+  <p class="learn-lede">populace-dynamics is a dynamic microsimulation of Social Security built on the PSID panel. This page explains the machine, the validation discipline around it, and how to read the <a href="/dynamics/benchmarks">benchmark wall</a> — then lets you quiz yourself.</p>
+  <nav class="learn-toc">
+    <a href="#model">the model</a>
+    <a href="#discipline">the discipline</a>
+    <a href="#wall">reading the wall</a>
+    <a href="#correction">the correction program</a>
+    <a href="#drill">drill</a>
+    <a href="#glossary">glossary</a>
+  </nav>
+
+  <h2 id="model">The model</h2>
+  <p>Dynamic microsimulation is the method behind DYNASIM (Urban Institute) and MINT (Social Security Administration): start from real people's longitudinal records, age each person forward through estimated transition models — work, marriage, children, disability, death, benefit claiming — then run program rules over the projected lifepaths and add them up. It's how you answer questions that cross decades and generations: who gains from a benefit formula change in 2050, and what it does to payroll revenue on the way there.</p>
+  <p>populace-dynamics builds on the <strong>Panel Study of Income Dynamics</strong> — the longest-running household panel in the world, following the same families since 1968. The choice trades the administrative earnings precision of MINT's matched frame for something the field has never had: a Social Security microsimulation whose data, code, and validation record are <strong>fully public and reproducible end to end</strong>.</p>
+  <h3>The pipeline</h3>
+  <ul>
+    <li><strong>Histories:</strong> PSID individual and family records, 1968–2023 — marriage, fertility, and earnings histories read directly from the panel.</li>
+    <li><strong>Transition modules:</strong> differential mortality, marriage and survivorship, fertility and caregiving, disability, and claiming-age behavior — each gated before use.</li>
+    <li><strong>Projection engine:</strong> a wave-loop composing the modules year by year, certified by a pre-registered <strong>temporal holdout</strong>: fit on early waves, scored blind on held-out later years, against thresholds locked before any candidate ran. The first candidate engine failed 6 of 11 checks — published as a fail. The third passed.</li>
+    <li><strong>Policy layer:</strong> benefit rules and payroll revenue over the projected lifepaths.</li>
+  </ul>
+
+  <h2 id="discipline">The discipline</h2>
+  <p>The defining commitment is that <strong>generation is cheap and verification carries the weight</strong>. Three mechanisms:</p>
+  <ul>
+    <li><strong>Pre-registration.</strong> Evaluation gates and their pass thresholds are committed before candidates run. Failures are published alongside passes.</li>
+    <li><strong>Adversarial review.</strong> Design documents and results go through independent referee rounds whose explicit job is to break them; ratification requires an affirmative verdict on exact bytes. Major changes get two referees in parallel, because independent reviews reliably find different defects.</li>
+    <li><strong>A graded forecast ledger.</strong> The schedule itself is forecast in public — append-only entries with 50% and 80% confidence dates, graded when they resolve. Revisions never overwrite history; they supersede it with stated evidence, so a missed date can't be laundered.</li>
+  </ul>
+
+  <h2 id="wall">Reading the wall</h2>
+  <p>The <a href="/dynamics/benchmarks">benchmark wall</a> registers every quantity the model shares with an external source — SSA administrative data, the Trustees, CBO, DYNASIM, MINT — and shows the comparison, including the misses. Two laws govern it:</p>
+  <div class="callout">
+    <p><strong>Validation-only.</strong> Benchmark rows are never tuning targets. Nothing in estimation reads them, and expected values come from independent references — so agreement means something, and divergence gets explained rather than optimized away.</p>
+    <p><strong>No unexplained gaps.</strong> Every divergence carries a classification and a written explanation. A gap without one fails the build.</p>
+  </div>
+  <h3>Results so far</h3>
+  <div class="stat-table">
+    <div class="stat-row"><span>Claiming-age shares (NRA-to-70) vs published DYNASIM3 results</span><span class="val">within ±0.4pp, all quintiles</span></div>
+    <div class="stat-row"><span>Payroll revenue share vs CBO</span><span class="val">−1.1% to +0.2%</span></div>
+    <div class="stat-row"><span>COLA −0.4pp reform vs external estimate</span><span class="val">+0.3% to +0.7%</span></div>
+    <div class="stat-row"><span>Price-indexing reform</span><span class="val">±1.6%</span></div>
+    <div class="stat-row"><span>Labor-income proxy vs true covered earnings</span><span class="val">+22% to +34%</span></div>
+  </div>
+  <h3>The gap census</h3>
+  <div class="gapchips">
+    <span>module_missing 59</span>
+    <span>unverified_source 20</span>
+    <span>concept_mismatch 18</span>
+    <span>label_mismatch 3</span>
+    <span>frame_no_alignment 1</span>
+    <span class="zero">unexplained 0</span>
+  </div>
+  <p>Most of the wall's 101 rows are open gaps today — quantities the model doesn't yet compute, each with a written reason. That's deliberate: the wall doubles as the public roadmap, and progress is measured by gaps closing on the record, run over run.</p>
+
+  <h2 id="correction">The correction program</h2>
+  <p>The first estimates labeled their earnings input honestly as a labor-income <em>proxy</em>. True FICA-covered earnings — what Social Security actually taxes and credits — differ from labor income by 22–34% in aggregate across the projection. Replacing the proxy properly turned into a research program of its own:</p>
+  <ul>
+    <li>Hand annotation of <strong>all 81 PSID questionnaires</strong>, 1968–2023, page by page, under a sealed per-document protocol;</li>
+    <li>Independent re-derivation of every codebook and data dictionary, and a complete classification of all <strong>89,599 raw fields</strong> — with fields that can't be lawfully interpreted recorded as closed failures rather than silently dropped;</li>
+    <li>Capture of the underlying statute — the SECA amendment chain, coverage law, wage-base determinations — as <strong>112 primary legal documents</strong> with cryptographic provenance, and the remaining source gaps documented openly;</li>
+    <li>A design contract amended only through adversarial referee rounds, each amendment triggered by raw evidence contradicting a ratified assumption.</li>
+  </ul>
+  <p>The corrected series publishes when the whole chain passes its gates — the current forecast is on the ledger, where it will be graded.</p>
+
+  <h2 id="drill">Drill</h2>
+  <p class="crumb">Tap to flip · arrow keys to move</p>
+  <div class="drill-card" id="dcard" tabindex="0" role="button" aria-label="flashcard"></div>
+  <div class="drill-meta"><span id="dnum"></span><span id="dside"></span></div>
+  <div class="drill-btns">
+    <button id="dprev" type="button">← Back</button>
+    <button id="dflip" type="button" class="primary">Flip</button>
+    <button id="dnext" type="button">Next →</button>
+  </div>
+
+  <h2 id="glossary">Glossary</h2>
+  <dl class="gloss">
+    <dt>Dynamic microsimulation</dt><dd>Project a population person-by-person through estimated transition models, then run policy rules over the simulated lifepaths.</dd>
+    <dt>PSID</dt><dd>Panel Study of Income Dynamics — US household panel following the same families since 1968; the model's estimation frame.</dd>
+    <dt>DYNASIM</dt><dd>The Urban Institute's dynamic microsimulation, in its fourth generation. Published DYNASIM3 claiming results are the model's closest external comparator.</dd>
+    <dt>MINT</dt><dd>Modeling Income in the Near Term — SSA's microsimulation, built on survey records matched to administrative earnings.</dd>
+    <dt>Temporal holdout</dt><dd>Certification by fitting on early panel waves and scoring blind on held-out later years, with thresholds locked in advance.</dd>
+    <dt>Validation-only</dt><dd>The rule that benchmark comparisons never feed back into estimation — the wall measures the model; it never trains it.</dd>
+    <dt>Gap classes</dt><dd>Every benchmark divergence is classified: a missing module, an unverified source, a concept or label mismatch, a frame that can't align — or unexplained, which is required to be zero.</dd>
+    <dt>Forecast ledger</dt><dd>Append-only public schedule forecasts with p50/p80 dates, graded at resolution; superseded entries stay on the record.</dd>
+    <dt>Covered earnings</dt><dd>Earnings subject to FICA — what Social Security credits and taxes. The correction program replaces the model's labor-income proxy with this concept.</dd>
+  </dl>
+</main>
+
+<script>
+(function () {
+  var cards = [
+    ["What kind of model is populace-dynamics?", "A dynamic microsimulation: real PSID histories, aged person-by-person through estimated transitions, with Social Security rules run over projected lifepaths."],
+    ["Claiming-age shares vs published DYNASIM3?", "Within ±0.4 percentage points in every earnings quintile."],
+    ["How many benchmark rows, and the tier split?", "101 rows: 18 admin-truth, 82 model-triangulation, 1 statutory parameter."],
+    ["How many unexplained gaps are allowed?", "Zero — every divergence carries a class and a written explanation, enforced in CI."],
+    ["What does module_missing (59 rows) mean?", "Quantities the model doesn't compute yet, held on the wall as the public roadmap."],
+    ["Why do benchmarks stay validation-only?", "So agreement means something: rows are never tuning targets, and expected values come from independent references."],
+    ["How was the projection engine certified?", "A pre-registered temporal holdout — fit on early waves, blind-scored on later years, thresholds locked first. Candidate 1 failed publicly; candidate 3 passed."],
+    ["Labor-income proxy vs true covered earnings?", "+22% to +34% aggregate divergence — the number that motivated the correction program."],
+    ["Payroll revenue vs CBO?", "Within −1.1% to +0.2% on the shared revenue-share quantity."],
+    ["What is the forecast ledger?", "Append-only public schedule forecasts (p50/p80 dates), graded when they resolve; revisions supersede, never overwrite."],
+    ["The PSID annotation effort, in numbers?", "All 81 questionnaires, 1968–2023, annotated page-by-page, plus a complete classification of all 89,599 raw fields."],
+    ["Why build on PSID instead of administrative data?", "Full public reproducibility and deep family linkage — at the cost of earnings measurement error, which the wall and the correction confront directly."]
+  ];
+  var i = 0, back = false;
+  var el = document.getElementById("dcard"), num = document.getElementById("dnum"), side = document.getElementById("dside");
+  function render() {
+    el.textContent = back ? cards[i][1] : cards[i][0];
+    el.classList.toggle("back", back);
+    num.textContent = "card " + (i + 1) + " / " + cards.length;
+    side.textContent = back ? "answer" : "prompt";
+  }
+  function flip() { back = !back; render(); }
+  function next() { i = (i + 1) % cards.length; back = false; render(); }
+  function prev() { i = (i - 1 + cards.length) % cards.length; back = false; render(); }
+  el.addEventListener("click", flip);
+  el.addEventListener("keydown", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); } });
+  document.getElementById("dflip").addEventListener("click", flip);
+  document.getElementById("dnext").addEventListener("click", next);
+  document.getElementById("dprev").addEventListener("click", prev);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") next();
+    else if (e.key === "ArrowLeft") prev();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
