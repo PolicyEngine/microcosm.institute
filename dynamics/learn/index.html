@@ -142,6 +142,56 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
     <li><strong>Calibration — on the cross-sectional side.</strong> The populace program builds the calibrated national microdata: reweighting to administrative totals and imputing what surveys never ask. The division of labor is deliberate: <strong>the panel supplies transitions</strong> — who moves between work, marriage, disability, claiming — while <strong>calibrated cross-sections supply representativeness</strong>. The dynamics side never calibrates to the benchmarks it validates against; levels are checked against SSA, Trustees, and CBO series and divergences are explained on the wall.</li>
   </ul>
 
+  <h3 id="seam">How the panel and the cross-section fit together</h3>
+  <p>Two datasets, two jobs. The panel knows how lives change; the cross-section knows who the country is. The projection needs both, and they meet at exactly one seam:</p>
+  <style>
+    .seam-fig { margin: 1.2rem 0 0.6rem; font-size: 0.86rem; }
+    .seam-fig .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .seam-box { border: 1px solid color-mix(in srgb, currentColor 25%, transparent); border-radius: 8px; padding: 0.7rem 0.85rem; }
+    .seam-box .tag { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 0.3rem; }
+    .seam-box p { margin: 0.25rem 0; }
+    .seam-panel { border-left: 3px solid #0D9488; } .seam-panel .tag { color: #0D9488; }
+    .seam-xsec  { border-left: 3px solid #7C3AED; } .seam-xsec .tag { color: #7C3AED; }
+    .seam-join  { border-left: 3px solid #B45309; } .seam-join .tag { color: #B45309; }
+    .seam-wall  { border-style: dashed; }
+    .seam-arrows { text-align: center; font-family: var(--mono, 'JetBrains Mono', monospace); opacity: 0.55; padding: 0.15rem 0; }
+    .seam-fig .spine { display: flex; flex-direction: column; gap: 0; }
+    .seam-note { font-size: 0.8rem; opacity: 0.75; margin-top: 0.5rem; }
+    @media (max-width: 560px) { .seam-fig .cols { grid-template-columns: 1fr; } }
+  </style>
+  <figure class="seam-fig" aria-label="How the PSID panel and the populace cross-section combine">
+    <div class="cols">
+      <div class="seam-box seam-panel">
+        <span class="tag">The panel — populace-dynamics</span>
+        <p><strong>PSID: the same families, 1968–2023.</strong> Supplies <em>transitions</em> — the estimated modules of the annual loop (mortality, marriage, disability, earnings, claiming), each certified on a temporal holdout.</p>
+        <p>Knows <em>how lives change</em>. Its sample is small and its weights are survey weights.</p>
+      </div>
+      <div class="seam-box seam-xsec">
+        <span class="tag">The cross-section — populace</span>
+        <p><strong>Calibrated national microdata (CPS frame).</strong> Reweighted to administrative totals, with imputations for what surveys never ask.</p>
+        <p>Knows <em>who the country is</em> in one year — but not what happens to anyone next year.</p>
+      </div>
+    </div>
+    <div class="seam-arrows">↘&ensp;&ensp;↙</div>
+    <div class="spine">
+      <div class="seam-box seam-join">
+        <span class="tag">The seam — transport, period 0</span>
+        <p>The panel-estimated generators are <strong>deployed onto the pinned national frame</strong> — 166,302 people in 57,240 households, hash-pinned — and each adult's entry state (marital, disability, earnings position) is seeded there. A dedicated pre-registered gate scored whether the transported models reproduce the right joint distributions on the new frame, separately from whether the dynamics are right.</p>
+      </div>
+      <div class="seam-arrows">↓</div>
+      <div class="seam-box">
+        <span class="tag">Projection</span>
+        <p>The annual loop runs forward on the national frame, year over year → a <strong>projected national panel</strong> → the policy layer computes benefits and payroll revenue over the projected lifepaths.</p>
+      </div>
+      <div class="seam-arrows">↓ <span style="font-size:0.7rem">(one-way)</span></div>
+      <div class="seam-box seam-wall">
+        <span class="tag">Benchmark wall — validation only</span>
+        <p>Levels and shares are compared against SSA, Trustees, CBO, DYNASIM, and MINT. Nothing flows back: the model never calibrates to the benchmarks it is judged against.</p>
+      </div>
+    </div>
+    <figcaption class="seam-note">The division of labor in one line: <strong>the panel supplies transitions, the calibrated cross-section supplies representativeness.</strong> The first estimates published so far are survey-frame — scored on the panel's own held-out years, isolating the dynamics from transport error; the transport seam is how the same machinery produces national-frame estimates, and it carries its own gate so error can't hide between the two.</figcaption>
+  </figure>
+
   <h3>How the engine earned certification</h3>
   <p>The projection engine's gate is the clearest picture of the whole method. The loop:</p>
   <ul>
