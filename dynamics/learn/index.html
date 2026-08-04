@@ -176,12 +176,12 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
     <div class="spine">
       <div class="seam-box seam-join">
         <span class="tag">The seam — transport, period 0</span>
-        <p>The panel-estimated generators are <strong>deployed onto the pinned national frame</strong> — 166,302 people in 57,240 households, hash-pinned — and each adult's entry state (marital, disability, earnings position) is seeded there. A dedicated pre-registered gate scored whether the transported models reproduce the right joint distributions on the new frame, separately from whether the dynamics are right.</p>
+        <p>The panel-estimated generators are <strong>deployed onto the pinned national frame</strong> — 166,302 people in 57,240 households, hash-pinned. Each frame adult gets a seeded entry state (marital, disability, earnings position), and where the policy rules need a career — AIME needs 35 years of earnings — a <strong>synthetic history is transported</strong>: one persistent earnings rank drawn per person and threaded through the certified age-indexed quantile maps, so a 55-year-old at the 80th percentile has been near the 80th percentile their whole career. A dedicated pre-registered gate scored whether the transported states and histories reproduce the right joint distributions on the new frame, separately from whether the dynamics are right.</p>
       </div>
       <div class="seam-arrows">↓</div>
       <div class="seam-box">
-        <span class="tag">Projection</span>
-        <p>The annual loop runs forward on the national frame, year over year → a <strong>projected national panel</strong> → the policy layer computes benefits and payroll revenue over the projected lifepaths.</p>
+        <span class="tag">Projection — transitions only, no annual re-calibration</span>
+        <p>The annual loop runs forward on the national frame, year over year → a <strong>projected national panel</strong> → the policy layer computes benefits and payroll revenue over the projected lifepaths. Calibration happens <strong>once, at the seam</strong>: weights carry forward under a pinned rule, deaths remove people, births add them, and no year is re-aligned to external demographic or economic totals. (DYNASIM and MINT align projected aggregates to the Trustees' assumptions year by year; here annual levels stay free so validating against those series means something.)</p>
       </div>
       <div class="seam-arrows">↓ <span style="font-size:0.7rem">(one-way)</span></div>
       <div class="seam-box seam-wall">
