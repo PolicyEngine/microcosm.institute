@@ -49,6 +49,26 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
 .drill-btns button:focus-visible, .drill-card:focus-visible { outline: 2px solid var(--ring, #319795); outline-offset: 2px; }
 .crumb { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.78rem; opacity: 0.6; }
 .crumb a { color: inherit; }
+.viz-wrap { position: relative; margin: 1.2rem 0 0.6rem; }
+#lifecanvas { width: 100%; height: auto; display: block; border: 1px solid var(--border, #E2E8F0); border-radius: 10px; cursor: crosshair; }
+.viz-controls { display: flex; align-items: center; gap: 0.7rem; margin-top: 0.7rem; }
+.viz-controls button { font: 600 0.85rem/1 inherit; padding: 0.55rem 1rem; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--border, #E2E8F0); background: transparent; color: inherit; }
+.viz-controls button.primary { background: var(--primary, #2C7A7B); border-color: var(--primary, #2C7A7B); color: #fff; }
+.viz-controls input[type="range"] { flex: 1; accent-color: var(--primary, #2C7A7B); }
+.viz-year { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.85rem; min-width: 3.2em; text-align: right; }
+.viz-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-top: 0.6rem;
+  font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.72rem; opacity: 0.85; }
+.viz-legend i.sw { display: inline-block; width: 14px; height: 8px; border-radius: 3px; margin-right: 0.35rem; vertical-align: baseline; }
+.sw-earn { background: linear-gradient(90deg, #0D948833, #0D9488); }
+.sw-marry { background: #7C3AED; height: 8px; width: 8px; border-radius: 50%; }
+.sw-claim { background: transparent; border: 2.5px solid #B45309; width: 7px; height: 7px; border-radius: 50%; }
+.sw-death { background: #101828; width: 3px; height: 10px; border-radius: 1px; }
+.sw-sim { background: repeating-linear-gradient(90deg, #94A3B8 0 4px, transparent 4px 8px); height: 3px; }
+.sw-imp { background: repeating-linear-gradient(45deg, #0D948855 0 3px, transparent 3px 6px); height: 8px; border: 1px solid #0D948866; }
+.viz-tip { position: absolute; pointer-events: none; background: #101828; color: #fff; font-size: 0.75rem;
+  font-family: var(--mono, 'JetBrains Mono', monospace); padding: 0.45rem 0.6rem; border-radius: 6px;
+  max-width: 260px; line-height: 1.45; z-index: 5; }
 </style>
 </head>
 <body>
@@ -57,13 +77,37 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
   <h1>How the model works — and how to check it</h1>
   <p class="learn-lede">populace-dynamics is a dynamic microsimulation of Social Security built on the PSID panel. This page explains the machine, the validation discipline around it, and how to read the <a href="/dynamics/benchmarks">benchmark wall</a> — then lets you quiz yourself.</p>
   <nav class="learn-toc">
+    <a href="#watch">watch it work</a>
     <a href="#model">the model</a>
+    <a href="#data">weights &amp; calibration</a>
     <a href="#discipline">the discipline</a>
     <a href="#wall">reading the wall</a>
     <a href="#correction">the correction program</a>
     <a href="#drill">drill</a>
     <a href="#glossary">glossary</a>
   </nav>
+
+  <h2 id="watch">Watch it work</h2>
+  <p>A dynamic microsimulation follows people, not averages. Below: a small synthetic cohort moves through time — observed panel history on the left, module-driven simulation on the right of the seam. Earnings ribbons thicken and fade with age; marriages link lines; children start new ones; claiming rings fire between 62 and 70; lines end when mortality fires. Line weight is survey weight — heavier lines stand for more of the population — and the hatched patch is an imputed stretch of history. The strip underneath shows the calibration step: an aggregate of the simulated cohort landing against an external reference — <em>compared, never tuned</em>.</p>
+  <div class="viz-wrap">
+    <canvas id="lifecanvas" aria-label="Animated lifepath diagram of a synthetic cohort moving from observed panel data into simulation"></canvas>
+    <div class="viz-tip" id="viztip" hidden></div>
+    <div class="viz-controls">
+      <button id="vplay" type="button" class="primary">Pause</button>
+      <button id="vreset" type="button">Restart</button>
+      <input id="vyear" type="range" min="1968" max="2055" value="1968" step="1" aria-label="Year" />
+      <span class="viz-year" id="vyearlab">1968</span>
+    </div>
+    <div class="viz-legend">
+      <span><i class="sw sw-earn"></i>earnings (darker = more)</span>
+      <span><i class="sw sw-marry"></i>marriage / birth</span>
+      <span><i class="sw sw-claim"></i>benefit claiming</span>
+      <span><i class="sw sw-death"></i>death</span>
+      <span><i class="sw sw-sim"></i>simulated years</span>
+      <span><i class="sw sw-imp"></i>imputed gap</span>
+    </div>
+    <p class="crumb" style="margin-top:0.5rem">Illustrative synthetic cohort — generated for teaching. PSID microdata is restricted and never displayed.</p>
+  </div>
 
   <h2 id="model">The model</h2>
   <p>Dynamic microsimulation is the method behind DYNASIM (Urban Institute) and MINT (Social Security Administration): start from real people's longitudinal records, age each person forward through estimated transition models — work, marriage, children, disability, death, benefit claiming — then run program rules over the projected lifepaths and add them up. It's how you answer questions that cross decades and generations: who gains from a benefit formula change in 2050, and what it does to payroll revenue on the way there.</p>
@@ -75,6 +119,25 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
     <li><strong>Projection engine:</strong> a wave-loop composing the modules year by year, certified by a pre-registered <strong>temporal holdout</strong>: fit on early waves, scored blind on held-out later years, against thresholds locked before any candidate ran. The first candidate engine failed 6 of 11 checks — published as a fail. The third passed.</li>
     <li><strong>Policy layer:</strong> benefit rules and payroll revenue over the projected lifepaths.</li>
   </ul>
+
+  <h2 id="data">Weights, imputation, and calibration</h2>
+  <p>No survey arrives ready. Three standard repairs make a panel usable, and the visualization above encodes the first two:</p>
+  <ul>
+    <li><strong>Weights.</strong> The PSID deliberately oversampled low-income families at its start, so each family carries a survey weight — in the diagram, heavier lines are people who stand for more of the population. Every aggregate the model reports is weight-aware.</li>
+    <li><strong>Imputation.</strong> Panels have holes — missed interviews, questions a wave never asked. Where a history has a gap, values are filled by models estimated from everything that <em>was</em> observed, and marked as imputed rather than passed off as data (the hatched segment in the diagram).</li>
+    <li><strong>Calibration — on the cross-sectional side.</strong> The populace program builds the calibrated national microdata: reweighting to administrative totals and imputing what surveys never ask. The division of labor is deliberate: <strong>the panel supplies transitions</strong> — who moves between work, marriage, disability, claiming — while <strong>calibrated cross-sections supply representativeness</strong>. The dynamics side never calibrates to the benchmarks it validates against; levels are checked against SSA, Trustees, and CBO series and divergences are explained on the wall.</li>
+  </ul>
+
+  <h3>How the engine earned certification</h3>
+  <p>The projection engine's gate is the clearest picture of the whole method. The loop:</p>
+  <ul>
+    <li><strong>Pre-register the gate.</strong> The temporal-holdout checks and their pass thresholds were locked before any engine candidate existed.</li>
+    <li><strong>One blind shot per candidate.</strong> A candidate gets a single scored run against the held-out years. No candidate ever iterates against the holdout — that's the line between validation and tuning.</li>
+    <li><strong>Publish the verdict either way.</strong> Candidate 1 failed 6 of 11 checks, on the record.</li>
+    <li><strong>Forensics, not fitting.</strong> Each failed check got a diagnosis ceremony — what mechanism the miss implicates — reviewed adversarially like everything else.</li>
+    <li><strong>Amend the design, re-register, repeat.</strong> Candidate 2 was built from the first round of diagnoses and re-registered; candidate 3 was built on the levers the accumulated forensics had proven out, and passed. The holdout was never touched between shots.</li>
+  </ul>
+  <p>That loop — gate first, blind scoring, published failures, diagnosed causes, amended designs — is the general recipe here, and it's what makes the passing result mean something.</p>
 
   <h2 id="discipline">The discipline</h2>
   <p>The defining commitment is that <strong>generation is cheap and verification carries the weight</strong>. Three mechanisms:</p>
@@ -157,6 +220,9 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
     ["Payroll revenue vs CBO?", "Within −1.1% to +0.2% on the shared revenue-share quantity."],
     ["What is the forecast ledger?", "Append-only public schedule forecasts (p50/p80 dates), graded when they resolve; revisions supersede, never overwrite."],
     ["The PSID annotation effort, in numbers?", "All 81 questionnaires, 1968–2023, annotated page-by-page, plus a complete classification of all 89,599 raw fields."],
+    ["What do survey weights do in the model?", "Each PSID family stands for a share of the population (the panel oversampled low-income families at its start) - every reported aggregate is weight-aware."],
+    ["How are gaps in a history handled?", "Imputed from models estimated on what was observed - and marked as imputed, never passed off as data."],
+    ["How did the engine pass its gate?", "One blind shot per candidate against pre-locked holdout thresholds: candidate 1 failed 6/11 publicly, forensics diagnosed each miss, the design was amended under review, and candidate 3 passed. The holdout was never tuned against."],
     ["Why build on PSID instead of administrative data?", "Full public reproducibility and deep family linkage — at the cost of earnings measurement error, which the wall and the correction confront directly."]
   ];
   var i = 0, back = false;
@@ -180,6 +246,175 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
     else if (e.key === "ArrowLeft") prev();
   });
   render();
+})();
+</script>
+<script>
+(function () {
+  var Y0 = 1968, Y1 = 2055, SEAM = 2023.5, HOLD0 = 2011;
+  var TEAL = "#0D9488", VIOLET = "#7C3AED", BRONZE = "#B45309", INK = "#101828",
+      MUTED = "#64748B", GRIDC = "#EDF0F3", BAND = "#E5E9EE";
+  var P = [
+    {n:"A", born:1922, entry:1968, die:1999, claim:1984, wt:0.8},
+    {n:"B", born:1926, entry:1968, die:2008, claim:1991, note:"married A before the panel began"},
+    {n:"C", born:1948, entry:1968, die:2031, claim:2013, marry:{w:1972, with:"D"}, kids:[1974, 1979], imputed:[1994, 1997], wt:1.5},
+    {n:"D", born:1950, entry:1968, claim:2012, disabled:1996, marry:{w:1972, with:"C"}},
+    {n:"E", born:1974, entry:1974, claim:2040, marry:{w:2003, with:"G"}, kids:[2006], childOf:"C & D"},
+    {n:"G", born:1976, entry:1998, claim:2043, marry:{w:2003, with:"E"}, note:"entered the panel at marriage"},
+    {n:"F", born:1979, entry:1979, claim:2049, childOf:"C & D", note:"claims late, at 70"},
+    {n:"K", born:1958, entry:1980, die:2047, claim:2024, wt:0.7},
+    {n:"L", born:1963, entry:1985, claim:2025, disabled:2019, wt:1.6},
+    {n:"H", born:2006, entry:2006, marry:{w:2032, with:"I"}, kids:[2035], childOf:"E & G"},
+    {n:"I", born:2008, entry:2032, note:"simulated entry at marriage"},
+    {n:"J", born:2035, entry:2035, childOf:"H & I", note:"born inside the simulation"}
+  ];
+  var idx = {}; P.forEach(function (p, i) { idx[p.n] = i; });
+  function seeded(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0;
+    var t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function earn(p, yr) {
+    var age = yr - p.born; if (age < 18 || (p.die && yr > p.die)) return 0;
+    if (p.claim && yr > p.claim) return 0.12;
+    if (p.disabled && yr > p.disabled) return 0.25;
+    var peak = 47, spread = 19;
+    var base = Math.exp(-((age - peak) * (age - peak)) / (2 * spread * spread));
+    var r = seeded(p.born * 37 + yr)();
+    return Math.max(0, Math.min(1, base * (0.75 + 0.5 * r)));
+  }
+  var canvas = document.getElementById("lifecanvas"), ctx = canvas.getContext("2d");
+  var tip = document.getElementById("viztip");
+  var LW = 900, LH = 470, PADL = 16, PADR = 14, ROWT = 34, ROWH = 24, VTOP = 372, VH = 82;
+  function xOf(yr) { return PADL + (yr - Y0) / (Y1 - Y0) * (LW - PADL - PADR); }
+  function fit() {
+    var dpr = window.devicePixelRatio || 1, w = canvas.clientWidth || canvas.parentNode.clientWidth;
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(w * (LH / LW) * dpr);
+    canvas.style.height = Math.round(w * (LH / LW)) + "px";
+    ctx.setTransform(canvas.width / LW, 0, 0, canvas.width / LW, 0, 0);
+  }
+  var claims = P.filter(function (p) { return p.claim; }).map(function (p) { return p.claim; }).sort(function(a,b){return a-b;});
+  function draw(year) {
+    ctx.clearRect(0, 0, LW, LH);
+    ctx.fillStyle = "#FFFFFF"; ctx.fillRect(0, 0, LW, LH);
+    var xh = xOf(HOLD0), xs = xOf(SEAM), xe = xOf(Y1);
+    ctx.fillStyle = "#F6F8FA"; ctx.fillRect(xh, ROWT - 14, xs - xh, VTOP - ROWT - 4);
+    ctx.fillStyle = "rgba(13,148,136,0.055)"; ctx.fillRect(xs, ROWT - 14, xe - xs, VTOP - ROWT - 4);
+    ctx.strokeStyle = GRIDC; ctx.lineWidth = 1;
+    for (var d = 1970; d <= 2050; d += 10) { var gx = xOf(d);
+      ctx.beginPath(); ctx.moveTo(gx, ROWT - 14); ctx.lineTo(gx, VTOP + VH - 6); ctx.stroke(); }
+    ctx.font = "10px 'JetBrains Mono', monospace"; ctx.fillStyle = MUTED; ctx.textAlign = "center";
+    for (d = 1970; d <= 2050; d += 20) ctx.fillText(String(d), xOf(d), LH - 4);
+    ctx.strokeStyle = "#B7BFC9"; ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(xs, ROWT - 14); ctx.lineTo(xs, VTOP + VH - 6); ctx.stroke(); ctx.setLineDash([]);
+    ctx.textAlign = "left"; ctx.fillStyle = MUTED;
+    ctx.fillText("observed (PSID, 1968-2023)", xOf(1969), ROWT - 18);
+    ctx.fillText("held out - blind scoring", xh + 4, ROWT - 4);
+    ctx.fillStyle = TEAL; ctx.fillText("simulated", xs + 6, ROWT - 18);
+    P.forEach(function (p, i) {
+      var y = ROWT + i * ROWH + ROWH / 2;
+      var start = Math.max(p.entry, Y0), stop = Math.min(year, p.die || Y1, Y1);
+      if (start > year) return;
+      var wt = p.wt || 1;
+      for (var yr = start; yr < stop; yr += 0.5) {
+        var e = earn(p, yr), x1 = xOf(yr), x2 = xOf(Math.min(yr + 0.5, stop));
+        var imput = p.imputed && yr >= p.imputed[0] && yr < p.imputed[1];
+        ctx.strokeStyle = imput ? "rgba(13,148,136,0.30)" : (e > 0.02 ? "rgba(13,148,136," + (0.15 + 0.75 * e) + ")" : "#CBD5E1");
+        ctx.lineWidth = (e > 0.02 ? (1.5 + 6 * e) : 1.2) * wt;
+        if (imput) ctx.setLineDash([2, 3]); else if (yr > SEAM) ctx.setLineDash([5, 3]);
+        ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke(); ctx.setLineDash([]);
+      }
+      if (p.claim && year >= p.claim) {
+        var cx = xOf(p.claim), pulse = Math.max(0, 1.4 - Math.abs(year - p.claim)) * 2.4;
+        ctx.strokeStyle = BRONZE; ctx.lineWidth = 2.4;
+        ctx.beginPath(); ctx.arc(cx, y, 5 + pulse, 0, 6.2832); ctx.stroke();
+      }
+      if (p.marry && year >= p.marry.w && idx[p.marry.with] > i) {
+        var mx = xOf(p.marry.w), y2 = ROWT + idx[p.marry.with] * ROWH + ROWH / 2;
+        ctx.strokeStyle = VIOLET; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(mx, y); ctx.lineTo(mx, y2); ctx.stroke();
+        ctx.fillStyle = VIOLET;
+        ctx.beginPath(); ctx.arc(mx, y, 3, 0, 6.2832); ctx.fill();
+        ctx.beginPath(); ctx.arc(mx, y2, 3, 0, 6.2832); ctx.fill();
+      }
+      (p.kids || []).forEach(function (ky) {
+        if (year < ky) return;
+        var kx = xOf(ky);
+        ctx.strokeStyle = VIOLET; ctx.lineWidth = 1.6; ctx.fillStyle = "#FFFFFF";
+        ctx.beginPath(); ctx.arc(kx, y, 3.4, 0, 6.2832); ctx.fill(); ctx.stroke();
+      });
+      if (p.die && year >= p.die) {
+        var dx = xOf(p.die);
+        ctx.strokeStyle = INK; ctx.lineWidth = 2.6;
+        ctx.beginPath(); ctx.moveTo(dx, y - 6); ctx.lineTo(dx, y + 6); ctx.stroke();
+      }
+      ctx.fillStyle = MUTED; ctx.font = "9.5px 'JetBrains Mono', monospace"; ctx.textAlign = "left";
+      if (year >= Math.max(p.entry, Y0)) ctx.fillText(p.n, xOf(Math.max(p.entry, Y0)) - 12, y + 3);
+    });
+    ctx.strokeStyle = "#E2E8F0"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PADL, VTOP - 10); ctx.lineTo(LW - PADR, VTOP - 10); ctx.stroke();
+    ctx.fillStyle = MUTED; ctx.font = "10px 'JetBrains Mono', monospace"; ctx.textAlign = "left";
+    ctx.fillText("calibration strip - share of cohort claimed - compared against an external reference (validation, not tuning)", PADL, VTOP + 4);
+    var by = VTOP + VH - 12, bh = 34, total = claims.length;
+    var bandLo = by - bh * 0.86, bandHi = by - bh * 0.66;
+    ctx.fillStyle = BAND; ctx.fillRect(xOf(2024), bandLo, xOf(Y1) - xOf(2024), bandHi - bandLo);
+    ctx.fillStyle = MUTED; ctx.font = "9px 'JetBrains Mono', monospace";
+    ctx.fillText("external reference band", xOf(2024.5), bandLo - 3);
+    ctx.strokeStyle = TEAL; ctx.lineWidth = 2; ctx.beginPath();
+    var startedStrip = false;
+    for (var sy = Y0; sy <= Math.min(year, Y1); sy += 0.5) {
+      var c = claims.filter(function (q) { return q <= sy; }).length / total;
+      var vy = by - c * bh, vx = xOf(sy);
+      if (!startedStrip) { ctx.moveTo(vx, vy); startedStrip = true; } else ctx.lineTo(vx, vy);
+    }
+    ctx.stroke();
+    if (year >= Y1 - 0.5) {
+      ctx.fillStyle = TEAL; ctx.font = "9.5px 'JetBrains Mono', monospace";
+      ctx.fillText("lands in band - residual gap explained on the wall", xOf(2027), by + 10);
+    }
+    var cx2 = xOf(Math.min(year, Y1));
+    ctx.strokeStyle = "rgba(16,24,40,0.55)"; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(cx2, ROWT - 14); ctx.lineTo(cx2, VTOP + VH - 6); ctx.stroke();
+  }
+  var year = Y0, playing = true, raf = null, last = null;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var play = document.getElementById("vplay"), reset = document.getElementById("vreset"),
+      slider = document.getElementById("vyear"), lab = document.getElementById("vyearlab");
+  function sync() { slider.value = Math.round(year); lab.textContent = String(Math.round(year)); }
+  function frame(ts) {
+    if (last == null) last = ts;
+    var dt = (ts - last) / 1000; last = ts;
+    if (playing) { year += dt * 7; if (year >= Y1) { year = Y1; playing = false; play.textContent = "Play"; } }
+    sync(); draw(year);
+    raf = requestAnimationFrame(frame);
+  }
+  play.addEventListener("click", function () {
+    if (year >= Y1) year = Y0;
+    playing = !playing; play.textContent = playing ? "Pause" : "Play";
+  });
+  reset.addEventListener("click", function () { year = Y0; playing = true; play.textContent = "Pause"; });
+  slider.addEventListener("input", function () {
+    year = +slider.value; playing = false; play.textContent = "Play"; lab.textContent = slider.value;
+  });
+  canvas.addEventListener("mousemove", function (ev) {
+    var r = canvas.getBoundingClientRect(), scale = LW / r.width;
+    var my = (ev.clientY - r.top) * scale, i = Math.floor((my - ROWT) / ROWH);
+    if (i < 0 || i >= P.length) { tip.hidden = true; return; }
+    var p = P[i], bits = ["Person " + p.n + " - born " + p.born + " - weight " + (p.wt || 1).toFixed(1)];
+    if (p.imputed) bits.push("history " + p.imputed[0] + "-" + p.imputed[1] + " imputed (missed waves)");
+    if (p.childOf) bits.push("child of " + p.childOf);
+    if (p.marry) bits.push("marries " + p.marry.with + " in " + p.marry.w);
+    if (p.disabled) bits.push("disability onset " + p.disabled);
+    if (p.claim) bits.push("claims at " + (p.claim - p.born) + " (" + p.claim + (p.claim > SEAM ? ", simulated" : "") + ")");
+    if (p.die) bits.push("dies " + p.die + (p.die > SEAM ? " (simulated)" : ""));
+    if (p.note) bits.push(p.note);
+    tip.textContent = bits.join(" · ");
+    tip.hidden = false;
+    tip.style.left = Math.min(ev.clientX - r.left + 14, r.width - 270) + "px";
+    tip.style.top = (ev.clientY - r.top + 14) + "px";
+  });
+  canvas.addEventListener("mouseleave", function () { tip.hidden = true; });
+  window.addEventListener("resize", function () { fit(); draw(year); });
+  fit();
+  if (reduce) { year = Y1; playing = false; play.textContent = "Play"; sync(); draw(year); }
+  raf = requestAnimationFrame(frame);
 })();
 </script>
 </body>
