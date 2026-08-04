@@ -120,6 +120,20 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
     <li><strong>Policy layer:</strong> benefit rules and payroll revenue over the projected lifepaths.</li>
   </ul>
 
+  <h3>Inside the annual loop</h3>
+  <p>Each projection year runs the modules in a fixed order, and each module reads only the prior year's panel plus the current-year state already resolved above it — the order is a directed acyclic graph, not a convention:</p>
+  <ol>
+    <li><strong>Mortality.</strong> Death draws from hazards that anchor NCHS period life tables and apply differentials estimated from the PSID's own 1968–2023 death file, by age band and sex. Decedents leave the risk set before anything else happens that year.</li>
+    <li><strong>Aging.</strong> Ages advance; indexing series and the wage base roll forward.</li>
+    <li><strong>Marriage — one core.</strong> A single certified hazard state machine covers first marriage, divorce, remarriage, and widowhood, plus the spousal age gap. A gated modifier reweights <em>who</em> marries first by career-earnings tercile without changing <em>how many</em> marry. Every downstream module reads this one marital state; nothing re-simulates it.</li>
+    <li><strong>Fertility.</strong> Births draw from the fertility component; paternal attribution reads the married state; new children enter the panel as people.</li>
+    <li><strong>Disability.</strong> A forward Markov model over the PSID's self-reported work-limitation panel — incidence and recovery by age band and sex — with the statutory DI-to-retirement conversion applied at full retirement age.</li>
+    <li><strong>Earnings.</strong> A chained quantile-regression-forest generator: each year's draw conditions on age and a person-level permanent component, with ranks mapped to dollars through a wage-indexed age profile. Fitted only on data through 2014 — the leakage cutoff the holdout gate enforces.</li>
+    <li><strong>Claiming.</strong> Claim ages draw from the SSA Statistical Supplement's observed claim-age distribution by sex and entitlement year, vintage-frozen to the cutoff. Calibrated, not behavioral — it reproduces current-law claiming patterns; a behavioral claiming model is on the roadmap.</li>
+    <li><strong>Household composition.</strong> A reconciliation pass — cohabitation, parental-home exits, multigenerational households, household size — consuming the marital state read-only.</li>
+  </ol>
+  <p>Every random draw comes from a per-(draw, module, year, person) stream registry, so a run reproduces exactly and no module can perturb another's randomness.</p>
+
   <h2 id="data">Weights, imputation, and calibration</h2>
   <p>No survey arrives ready. Three standard repairs make a panel usable, and the visualization above encodes the first two:</p>
   <ul>
