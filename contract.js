@@ -7,7 +7,7 @@
 // Fetch strategy, in order:
 //   1) raw.githubusercontent.com at the build sha embedded in the release id
 //      (e.g. ...-75d5add-<timestamp>), where the manifest is a source file at
-//      packages/populace-build/src/populace/build/us/release_input_coverage_manifest.json.
+//      packages/microcosm-build/src/microcosm/build/us/release_input_coverage_manifest.json.
 //      It is present at every build's commit, so this renders today and the counts
 //      update automatically as each new release pins a newer sha — no code change.
 //   2) fall back to an in-release copy, if a future build publishes
@@ -17,10 +17,10 @@
 (async () => {
   const HF =
     "https://huggingface.co/datasets/policyengine/populace-us/resolve/main/";
-  const RAW = "https://raw.githubusercontent.com/PolicyEngine/populace/";
-  const GH_BLOB = "https://github.com/PolicyEngine/populace/blob/";
+  const RAW = "https://raw.githubusercontent.com/PolicyEngine/microcosm/";
+  const GH_BLOB = "https://github.com/PolicyEngine/microcosm/blob/";
   const COV_PATH =
-    "packages/populace-build/src/populace/build/us/release_input_coverage_manifest.json";
+    "packages/microcosm-build/src/microcosm/build/us/release_input_coverage_manifest.json";
   const COV_FILE = "release_input_coverage_manifest.json";
 
   const live = document.getElementById("contract-live");
@@ -44,7 +44,7 @@
   };
 
   const issueUrl = (ref) => {
-    // "PolicyEngine/populace#38" -> repo issue URL + "#38" label
+    // "PolicyEngine/microcosm#38" -> repo issue URL + "#38" label
     const m = String(ref || "").match(/^([\w.-]+\/[\w.-]+)#(\d+)$/);
     if (!m) return null;
     return { href: `https://github.com/${m[1]}/issues/${m[2]}`, label: `#${m[2]}` };

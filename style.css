@@ -1,5 +1,5 @@
 :root {
-  /* populace.dev consumes the PolicyEngine design system: @policyengine/ui-kit
+  /* microcosm.institute consumes the PolicyEngine design system: @policyengine/ui-kit
      tokens.css is loaded via CDN in the page <head> (light theme — PE default,
      no .dark class). The site's original local var names are aliased onto the
      PE semantic tokens here, so the existing component CSS keeps working. */

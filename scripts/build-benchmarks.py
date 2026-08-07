@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Render /dynamics/benchmarks from the populace-dynamics harness artifacts.
+"""Render /dynamics/benchmarks from the microcosm-dynamics harness artifacts.
 
 Reads benchmarks/registry.json and benchmarks/history.jsonl from a local
-populace-dynamics checkout and emits dynamics/benchmarks/index.html. Rerun
+microcosm-dynamics checkout and emits dynamics/benchmarks/index.html. Rerun
 after every merged harness evaluation, then commit the regenerated page.
 """
 
@@ -158,8 +158,8 @@ page = f"""<!doctype html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benchmarks — dynamics — populace</title>
-<meta name="description" content="The benchmark wall: every populace-dynamics estimate compared against SSA, Trustees, CBO, DYNASIM, and MINT published values, with every gap classified and explained. Gaps closing over certified runs is the progress record." />
+<title>Benchmarks — dynamics — microcosm</title>
+<meta name="description" content="The benchmark wall: every microcosm-dynamics estimate compared against SSA, Trustees, CBO, DYNASIM, and MINT published values, with every gap classified and explained. Gaps closing over certified runs is the progress record." />
 <link rel="icon" type="image/svg+xml" href="/assets/policyengine-mark.svg" />
 <meta name="theme-color" content="#FFFFFF" />
 <link rel="stylesheet" href="/vendor/fonts/fonts.css" />
@@ -193,11 +193,11 @@ tr.row-unverified td {{ opacity: .55; }}
 <div class="grain" aria-hidden="true"></div>
 
 <header class="nav">
-  <a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>populace</a>
+  <a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>microcosm</a>
   <nav class="nav-links">
     <a href="/dynamics">dynamics</a>
     <a href="/dynamics/paper">paper</a>
-    <a href="https://github.com/PolicyEngine/populace-dynamics/tree/master/benchmarks">source</a>
+    <a href="https://github.com/PolicyEngine/microcosm-dynamics/tree/master/benchmarks">source</a>
   </nav>
 </header>
 
@@ -205,7 +205,7 @@ tr.row-unverified td {{ opacity: .55; }}
   <p class="strategy-crumb"><a href="/dynamics">dynamics</a> / benchmarks</p>
   <h1>The benchmark wall.</h1>
   <p class="strategy-lede">
-    Every populace-dynamics estimate that an external model or agency also
+    Every microcosm-dynamics estimate that an external model or agency also
     publishes, side by side, with the gap measured and classified. Large gaps
     are fine; unexplained gaps fail the build. As modules land and
     calibration activates, the gaps shrink on the record — this page is the
@@ -234,8 +234,8 @@ tr.row-unverified td {{ opacity: .55; }}
     </table></div>
   </section>
   <p class="tier-blurb" style="margin-top:2.5rem">
-    Canonical data: <a href="https://github.com/PolicyEngine/populace-dynamics/tree/master/benchmarks">benchmarks/</a>
-    in the populace-dynamics repository — registry, append-only evaluation
+    Canonical data: <a href="https://github.com/PolicyEngine/microcosm-dynamics/tree/master/benchmarks">benchmarks/</a>
+    in the microcosm-dynamics repository — registry, append-only evaluation
     history, and the generated wall, each pinned by reproduction tests.
   </p>
 </main>

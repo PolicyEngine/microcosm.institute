@@ -467,7 +467,7 @@ practice fits models to survey records while ignoring their design
 weights, which biases imputed conditionals toward the sample rather than
 the population and plants extreme low-weight donor values that a later
 reweighting can amplify. We present the imputation operator of <span
-class="smallcaps">Populace</span>, <span
+class="smallcaps">Microcosm</span>, <span
 class="smallcaps">PolicyEngine</span>’s open-source microdata stack: a
 regime-gated, sequentially-chained, weighted-bootstrap
 quantile-regression-forest estimator whose interface makes an unweighted
@@ -488,7 +488,7 @@ class="smallcaps">SCF</span>-onto-<span class="smallcaps">CPS</span>
 population synthesis, zero-inflated <span class="smallcaps">CPS</span>
 income components, and six cross-domain datasets. Ablations attribute
 performance to each design choice, and the experiment runs at two
-scopes: a minimal six-predictor instantiation and a populace-scale one
+scopes: a minimal six-predictor instantiation and a microcosm-scale one
 (ten shared predictors, a four-component chained balance sheet, three
 pooled receiver vintages). Where the survey design is informative,
 weighting dominates: the identical estimator fit unweighted is six times
@@ -504,7 +504,7 @@ sheet fitting targets independently costs 5.8 points of two-sample AUC —
 the classifier detects balance sheets that do not add up. Hot-deck
 matching is a genuine near-peer on the population view; marginal metrics
 alone rank an unconditional weighted draw at or near the top throughout,
-and at populace scale the classifier separates it almost perfectly (AUC
+and at microcosm scale the classifier separates it almost perfectly (AUC
 0.97 versus the candidate’s 0.76). A closed-form reweighting stress test
 shows every tail-capable method matching the held-out truth’s own
 concentration while Gaussian-residual imputation understates it by
@@ -513,7 +513,7 @@ what makes asset-tested programs such as Supplemental Security Income
 simulable on the <span class="smallcaps">CPS</span> at all, and the
 population-view results identify which methods preserve the
 demographics–wealth joint that such simulation depends on. The estimator
-is available as <code>populace-fit</code>, installable independently of
+is available as <code>microcosm-fit</code>, installable independently of
 the rest of the stack.</p>
 <p><strong>Keywords:</strong> microsimulation, imputation, survey
 weights, quantile regression forests, statistical matching</p>
@@ -621,9 +621,9 @@ data-reference-type="ref" data-reference="sec:results-cps">5.2</a>,
 Table <a href="#tab:fragility" data-reference-type="ref"
 data-reference="tab:fragility">3</a>).</p>
 <p>This paper presents and evaluates the imputation operator of <span
-class="smallcaps">Populace</span>, <span
+class="smallcaps">Microcosm</span>, <span
 class="smallcaps">PolicyEngine</span>’s open-source microdata stack
-<span class="citation" data-cites="populace2026">(PolicyEngine
+<span class="citation" data-cites="microcosm2026">(PolicyEngine
 2026)</span>. The estimator combines three design choices, each
 motivated by one of the failure modes above: a <em>weighted
 bootstrap</em> that materializes survey weights into the training data
@@ -644,9 +644,9 @@ unweighted fit must be requested explicitly.</p>
 <ol>
 <li><p><strong>A weight-aware imputation estimator, available
 standalone.</strong> We describe the estimator and its interface
-contract, and release it as <code>populace-fit</code>, installable and
+contract, and release it as <code>microcosm-fit</code>, installable and
 usable on plain data frames independently of the rest of the <span
-class="smallcaps">Populace</span> stack.</p></li>
+class="smallcaps">Microcosm</span> stack.</p></li>
 <li><p><strong>The population-view harness.</strong> We formalize the
 evaluation question as one latent population observed through survey
 <em>views</em> — variable subsets, designs, measurement idioms — and
@@ -818,7 +818,7 @@ to our knowledge, new.</p>
 <h1>Methodology</h1>
 <section id="sec:estimator" class="level2">
 <h2>The estimator</h2>
-<p><code>populace-fit</code> models <span
+<p><code>microcosm-fit</code> models <span
 class="math inline">\(P(\text{targets} \mid \text{predictors})\)</span>
 with a quantile-regression-forest estimator <span class="citation"
 data-cites="meinshausen2006quantile zillow2024quantile">(Meinshausen
@@ -828,7 +828,7 @@ data-cites="meinshausen2006quantile zillow2024quantile">(Meinshausen
 <p>Random forests cannot honor a per-record <code>sample_weight</code>
 in their predictive distribution: a fully grown leaf holds individual
 training rows, and weighting the impurity criterion does not change
-which values a quantile query reads out. <code>populace-fit</code>
+which values a quantile query reads out. <code>microcosm-fit</code>
 therefore materializes weights into the data: before each forest is
 grown, training rows are resampled with replacement with probability
 proportional to weight, so leaf distributions reflect the weighted
@@ -844,7 +844,7 @@ regressor over a zero-inflated or sign-mixed target either drops a tail
 or interpolates across the empty gap at zero; hurdle-style two-part
 models are the classical remedy <span class="citation"
 data-cites="mullahy1986specification lambert1992zero">(Mullahy 1986;
-Lambert 1992)</span>. <code>populace-fit</code> fits a classifier that
+Lambert 1992)</span>. <code>microcosm-fit</code> fits a classifier that
 gates each row into a sign class and a separate magnitude forest within
 each nonzero sign. Regime detection is structural (it reads the
 unweighted support, since which signs <em>exist</em> is a fact about the
@@ -864,7 +864,7 @@ among imputed variables survives.</p>
 </section>
 <section id="interface-contract." class="level4">
 <h4>Interface contract.</h4>
-<p>Fitting over a <span class="smallcaps">Populace</span> frame reads
+<p>Fitting over a <span class="smallcaps">Microcosm</span> frame reads
 the frame’s typed survey weights by default; fitting over a plain data
 frame — the standalone path — requires the weights explicitly (a weight
 column name, a weight vector, or the literal <code>"none"</code>), and
@@ -1020,7 +1020,7 @@ PolicyEngine processing. The experiment runs in two profiles. The
 of Section <a href="#sec:task-scf" data-reference-type="ref"
 data-reference="sec:task-scf">4.1</a>, a single receiver vintage (ASEC
 2025) — is the controlled instantiation in which every mechanism is
-legible. The <em>populace-scale</em> profile mirrors the production
+legible. The <em>microcosm-scale</em> profile mirrors the production
 stack’s shape: the shared predictor set widens to everything the two
 surveys genuinely share (ten variables, adding education class, race,
 homeownership, and labor-force status, each mapping verified against
@@ -1059,7 +1059,7 @@ a processed or enhanced artifact, which would embed the production
 imputations this paper is about — we impute interest and dividend income
 for adults from age, sex, and employment income, under the ASEC person
 supplement weights. (Survey files publish per-person design weights;
-<span class="smallcaps">Populace</span>’s production convention
+<span class="smallcaps">Microcosm</span>’s production convention
 deliberately carries calibrated <em>household</em> weights onto persons,
 since its calibration operates at household grain. The task fixes the
 survey’s own published weights, and because every method shares whatever
@@ -1134,7 +1134,7 @@ class="math inline">\(W_1\)</span></th>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">populace-fit</td>
+<td style="text-align: left;">microcosm-fit</td>
 <td style="text-align: right;">49,201 (2,637)</td>
 <td style="text-align: right;"><strong>13,001</strong> (6,285)</td>
 <td style="text-align: right;">0.020 (0.012)</td>
@@ -1253,7 +1253,7 @@ seeds.</caption>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">populace-fit</td>
+<td style="text-align: left;">microcosm-fit</td>
 <td style="text-align: right;">1,491 (63.58)</td>
 <td style="text-align: right;">0.013 (0.011)</td>
 <td style="text-align: right;">320.68 (45.26)</td>
@@ -1331,7 +1331,7 @@ plants landmines.</caption>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">populace-fit</td>
+<td style="text-align: left;">microcosm-fit</td>
 <td style="text-align: right;">0.384 (0.051)</td>
 <td style="text-align: right;">0.372 (0.043)</td>
 <td style="text-align: right;">0.675 (0.100)</td>
@@ -1584,7 +1584,7 @@ mean rank across datasets.</caption>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">populace-fit</td>
+<td style="text-align: left;">microcosm-fit</td>
 <td style="text-align: right;">0.254</td>
 <td style="text-align: right;">166.64</td>
 <td style="text-align: right;">0.000</td>
@@ -1716,7 +1716,7 @@ class="math inline">\(W_1\)</span>/sd</th>
 <td style="text-align: right;">1.10 (0.202)</td>
 </tr>
 <tr>
-<td style="text-align: left;">populace-fit</td>
+<td style="text-align: left;">microcosm-fit</td>
 <td style="text-align: right;"><strong>0.139</strong> (0.026)</td>
 <td style="text-align: right;">0.960 (0.014)</td>
 <td style="text-align: right;">0.732 (0.013)</td>
@@ -1784,7 +1784,7 @@ class="math inline">\(W_1\)</span>/sd</th>
 </div>
 <div id="tab:harness-scale">
 <table>
-<caption>The population-view experiment, <em>populace-scale</em> profile
+<caption>The population-view experiment, <em>microcosm-scale</em> profile
 (ten shared predictors, four chain-ordered balance-sheet targets, pooled
 ASEC 2023–2025 receiver). Columns as in Table <a href="#tab:harness"
 data-reference-type="ref" data-reference="tab:harness">6</a>.</caption>
@@ -1809,7 +1809,7 @@ class="math inline">\(W_1\)</span>/sd</th>
 <td style="text-align: right;">1.10 (0.202)</td>
 </tr>
 <tr>
-<td style="text-align: left;">populace-fit</td>
+<td style="text-align: left;">microcosm-fit</td>
 <td style="text-align: right;"><strong>0.118</strong> (0.024)</td>
 <td style="text-align: right;">0.969 (0.009)</td>
 <td style="text-align: right;">0.761 (0.026)</td>
@@ -1888,7 +1888,7 @@ findings follow.</p>
 block sees it</em>. The unweighted ablation ties the candidate on energy
 distance, coverage, and the C2ST in both profiles — and its imputed
 net-worth q99 is 1.93 times the holdout’s in the minimal profile and
-2.25 times at populace scale, with tail <span
+2.25 times at microcosm scale, with tail <span
 class="math inline">\(W_1\)</span>/sd five times the candidate’s (0.159
 vs. 0.031 minimal; 0.133 vs. 0.027 at scale). Fitting the <span
 class="smallcaps">SCF</span> unweighted learns the wealthy oversample’s
@@ -1900,7 +1900,7 @@ heavy-tailed economic variables, or it will certify files whose top
 percentile is wrong by a factor of two.</p>
 <p>Second, <em>chaining is a joint property, and it binds at scale</em>.
 In the minimal profile (two targets) the unchained ablation is
-indistinguishable from the candidate. At populace scale, where the four
+indistinguishable from the candidate. At microcosm scale, where the four
 targets satisfy the accounting identity networth = fin + nfin <span
 class="math inline">\(-\)</span> debt exactly in the donor, fitting them
 independently costs 5.8 points of C2ST AUC (0.819 vs. 0.761) while
@@ -1911,7 +1911,7 @@ metric can. The same pattern holds for gating: the ungated forest loses
 <p>Third, <em>conditioning richness makes the omnibus test
 decisive</em>. The unconditional weighted marginal draw — which ties or
 beats every method on marginal metrics throughout this paper — moves
-from AUC 0.848 in the minimal profile to 0.968 at populace scale, while
+from AUC 0.848 in the minimal profile to 0.968 at microcosm scale, while
 the candidate stays closest to the floor (0.732 and 0.761). With ten
 shared predictors and a four-component wealth block, a classifier finds
 the missing demographics–wealth coupling almost perfectly. This is the
@@ -1955,7 +1955,7 @@ free. An estimator cannot know in advance which regime it is in, which
 is the argument for weighting by construction rather than by option.
 <em>Gating carries the zero-inflation surface</em> (0.6 versus 4.4
 percentage points of dividend zero-share error against the same forest
-ungated, and 5.6 AUC points on the populace-scale population view).
+ungated, and 5.6 AUC points on the microcosm-scale population view).
 <em>Chaining is a joint property that binds at scale</em>: invisible
 with two targets, it is worth 5.8 AUC points when the four imputed
 components must satisfy a balance-sheet identity — and only the omnibus
@@ -1967,7 +1967,7 @@ and one of them corrected this paper’s own harness. Marginal metrics
 saturate: with weak predictors, an unconditional weighted draw from the
 donor marginal ties or beats every conditional method on pinball loss
 and Wasserstein distance — on the OpenML suite it attains the best mean
-rank — while carrying no conditional structure at all; at populace scale
+rank — while carrying no conditional structure at all; at microcosm scale
 the classifier separates it almost perfectly (AUC 0.968 against 0.761).
 But the joint metrics have their own blind spot: capped pairwise
 geometry tied the unweighted ablation with the candidate while its
@@ -2033,12 +2033,12 @@ imputed 99th percentile by a factor of 1.9 to 2.3 — a failure that
 capped joint geometry certifies and only the tail block catches, which
 is itself the paper’s central lesson about evaluating imputed files.
 Chaining binds where targets are jointly constrained (5.8 AUC points on
-a balance-sheet identity at populace scale), gating carries
+a balance-sheet identity at microcosm scale), gating carries
 zero-inflated components that plain forests and linear quantile models
 miss by 4 to 27 percentage points of zero mass, and marginal metrics —
 the field’s default — rank an unconditional marginal draw at or near the
 top throughout while the harness separates it decisively. The estimator
-is available standalone as <code>populace-fit</code>; the harness, task
+is available standalone as <code>microcosm-fit</code>; the harness, task
 configurations, and every number in this paper regenerate from the
 accompanying repository.</p>
 </section>
@@ -2046,8 +2046,8 @@ accompanying repository.</p>
 <h1 class="unnumbered">Conflict of interest</h1>
 <p>All authors are affiliated with <span
 class="smallcaps">PolicyEngine</span>, the nonprofit organization that
-develops <span class="smallcaps">Populace</span>,
-<code>populace-fit</code>, and <code>microimpute</code>, the software
+develops <span class="smallcaps">Microcosm</span>,
+<code>microcosm-fit</code>, and <code>microimpute</code>, the software
 evaluated in this paper. The authors have no other competing
 interests.</p>
 </section>
@@ -2062,17 +2062,17 @@ href="https://github.com/PolicyEngine/imputation-paper"
 class="uri">https://github.com/PolicyEngine/imputation-paper</a>; every
 results table regenerates from committed run configurations via the
 repository’s command line. The estimator is implemented in
-<code>populace-fit</code>, part of <span
-class="smallcaps">Populace</span>, open source at <a
-href="https://github.com/PolicyEngine/populace"
-class="uri">https://github.com/PolicyEngine/populace</a>. Baseline
+<code>microcosm-fit</code>, part of <span
+class="smallcaps">Microcosm</span>, open source at <a
+href="https://github.com/PolicyEngine/microcosm"
+class="uri">https://github.com/PolicyEngine/microcosm</a>. Baseline
 implementations are <code>microimpute</code> (<a
 href="https://github.com/PolicyEngine/microimpute"
 class="uri">https://github.com/PolicyEngine/microimpute</a>) and
 <code>py-statmatch</code> (<a
 href="https://github.com/CosilicoAI/py-statmatch"
 class="uri">https://github.com/CosilicoAI/py-statmatch</a>). The
-reported sweeps ran against <code>populace-fit</code> at populace commit
+reported sweeps ran against <code>microcosm-fit</code> at microcosm commit
 <code>71b5a83</code>, <code>microimpute</code> 1.1.2, and
 <code>py-statmatch</code> at commit <code>094a242</code>; the <span
 class="smallcaps">SCF</span> 2022 summary extract from the Federal
@@ -2200,10 +2200,10 @@ role="listitem">
 PolicyEngine. 2025. <em>Microimpute Documentation</em>. <a
 href="https://policyengine.github.io/microimpute/">https://policyengine.github.io/microimpute/</a>.
 </div>
-<div id="ref-populace2026" class="csl-entry" role="listitem">
-PolicyEngine. 2026. <em>Populace: A Microsimulation Dataset Construction
+<div id="ref-microcosm2026" class="csl-entry" role="listitem">
+PolicyEngine. 2026. <em>Microcosm: A Microsimulation Dataset Construction
 Pipeline</em>. <a
-href="https://github.com/PolicyEngine/populace">https://github.com/PolicyEngine/populace</a>.
+href="https://github.com/PolicyEngine/microcosm">https://github.com/PolicyEngine/microcosm</a>.
 </div>
 <div id="ref-raghunathan2003multiple" class="csl-entry" role="listitem">
 Raghunathan, Trivellore E, Jerome P Reiter, and Donald B Rubin. 2003.

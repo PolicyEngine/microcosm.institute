@@ -1,9 +1,9 @@
-# populace.dev
+# microcosm.institute
 
-Landing site for **populace** — an open-source stack for building weighted
+Landing site for **microcosm** — an open-source stack for building weighted
 synthetic populations from survey and administrative data.
 
-- The stack: https://github.com/PolicyEngine/populace
+- The stack: https://github.com/PolicyEngine/microcosm
 - The site: a single static page (`index.html` + `style.css` + `field.js`),
   no build step.
 

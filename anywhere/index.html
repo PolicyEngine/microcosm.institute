@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Anywhere — populace</title>
-<meta name="description" content="Most countries' household microdata is restricted. populace's open US support recalibrated to a new geography's published totals — validated in the UK against held-out survey microdata, deployed in Belgium where none exists." />
-<meta property="og:title" content="Anywhere — populace" />
+<title>Anywhere — microcosm</title>
+<meta name="description" content="Most countries' household microdata is restricted. microcosm's open US support recalibrated to a new geography's published totals — validated in the UK against held-out survey microdata, deployed in Belgium where none exists." />
+<meta property="og:title" content="Anywhere — microcosm" />
 <meta property="og:description" content="One operation, three domain distances: a congressional district, the UK, and Belgium. Rules engines are no longer the bottleneck. Data access is." />
 <meta property="og:type" content="article" />
 <link rel="icon" type="image/svg+xml" href="/assets/policyengine-mark.svg" />
@@ -54,28 +54,28 @@
 
 <header class="nav">
   <a class="brand" href="/">
-    <span class="brand-dot" aria-hidden="true"></span>populace
+    <span class="brand-dot" aria-hidden="true"></span>microcosm
   </a>
   <nav class="nav-links">
     <a href="/#idea">the idea</a>
     <a href="/#stack">the stack</a>
     <a href="/#result">evidence</a>
     <a href="/papers">papers</a>
-    <a class="nav-gh" href="https://github.com/PolicyEngine/populace" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"/></svg></a>
+    <a class="nav-gh" href="https://github.com/PolicyEngine/microcosm" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"/></svg></a>
   </nav>
 </header>
 
 <main class="strategy-main">
   <section class="strategy-hero anywhere-hero">
     <div class="strategy-hero-inner">
-      <p class="strategy-crumb reveal" style="--d:0"><a href="/">populace</a> / an application, not a strategy</p>
+      <p class="strategy-crumb reveal" style="--d:0"><a href="/">microcosm</a> / an application, not a strategy</p>
       <p class="eyebrow reveal" style="--d:0">applied · open microsimulation anywhere</p>
       <h1 class="reveal" style="--d:1">Anywhere.</h1>
       <p class="strategy-lede reveal" style="--d:2">
         Most countries' household microdata is restricted. Rules engines are
         no longer the bottleneck to modeling their tax and benefit systems —
-        data access is. This page is one application built on populace's six
-        strategies: recalibrating populace's openly redistributable US
+        data access is. This page is one application built on microcosm's six
+        strategies: recalibrating microcosm's openly redistributable US
         support to another geography's published totals, producing
         microsimulation inputs there — validated where ground truth exists,
         deployed where it doesn't.
@@ -100,7 +100,7 @@
         adaptation: every household stays exactly as observed; only its
         influence on the aggregate changes. Importance weighting of a fixed
         sample is the zero-parameter-update case of adapting a generative
-        model — the same operation populace already runs to hit a
+        model — the same operation microcosm already runs to hit a
         congressional district's targets, run again at a larger domain
         distance.
       </p>
@@ -124,7 +124,7 @@
     </div>
     <div class="prose">
       <p>
-        populace's local-area method already reweights one national file to a
+        microcosm's local-area method already reweights one national file to a
         US congressional district's published totals — same country, same
         institutions, the smallest domain shift the operator runs on. Moving
         the same operator to the UK and to Belgium does not change what it
@@ -135,7 +135,7 @@
     <figure class="diagram-figure">
       <svg viewBox="0 0 860 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="anywhere-distance-title anywhere-distance-desc">
         <title id="anywhere-distance-title">One reweighting operator at three domain distances</title>
-        <desc id="anywhere-distance-desc">A horizontal domain-distance axis from small to large. Three stops sit on it. The first, a US congressional district, reweights one national file to a sub-national geography inside the same institutions — the smallest shift, an established and shipped populace method. The second, the United Kingdom, reweights the US support to UK published totals and is the held-out validation leg: it is scored against native UK survey microdata (the Family Resources Survey). Its first, version-one, evaluation ran three of four survey views clearly distinct from the native file; a repaired version-1.1 rerun moved in two directions at once — the pre-registered headline improved to two of four views clearly distinct, while the same feed upgrade nearly doubled one view's continuous energy-distance gap to its floor; a version-1.2 rerun then applied a single declared mapping fix on top of that repair and closed almost all of that same gap, from twelve and a half times the sampling-noise floor to one and a half times it, while the pre-registered headline held exactly where it was. The third, Belgium, reweights the same US support to Belgian published totals with no comparable native microdata to validate against; it is the zero-shot deployment leg, cross-checked instead against an independent tax-benefit engine, EUROMOD, on an identical population. All three stops are the same operator — reweighting a frozen support to a new geography's totals — differing only in how far the target sits from the source.</desc>
+        <desc id="anywhere-distance-desc">A horizontal domain-distance axis from small to large. Three stops sit on it. The first, a US congressional district, reweights one national file to a sub-national geography inside the same institutions — the smallest shift, an established and shipped microcosm method. The second, the United Kingdom, reweights the US support to UK published totals and is the held-out validation leg: it is scored against native UK survey microdata (the Family Resources Survey). Its first, version-one, evaluation ran three of four survey views clearly distinct from the native file; a repaired version-1.1 rerun moved in two directions at once — the pre-registered headline improved to two of four views clearly distinct, while the same feed upgrade nearly doubled one view's continuous energy-distance gap to its floor; a version-1.2 rerun then applied a single declared mapping fix on top of that repair and closed almost all of that same gap, from twelve and a half times the sampling-noise floor to one and a half times it, while the pre-registered headline held exactly where it was. The third, Belgium, reweights the same US support to Belgian published totals with no comparable native microdata to validate against; it is the zero-shot deployment leg, cross-checked instead against an independent tax-benefit engine, EUROMOD, on an identical population. All three stops are the same operator — reweighting a frozen support to a new geography's totals — differing only in how far the target sits from the source.</desc>
 
         <!-- axis -->
         <line class="dg-gridline" x1="60" y1="200" x2="800" y2="200"/>
@@ -183,7 +183,7 @@
         <path class="dg-edge" d="M 720 207 C 720 240, 460 240, 460 256"/>
       </svg>
       <figcaption>
-        Three actual runs of the same reweighting operator, placed by domain distance. The congressional-district leg (populace's local-area method), the UK leg (v1.2 measured against the held-out FRS, below), and the Belgium leg (measured below) all sit on solid ground. The UK leg's held-out verdict — two of four survey views clearly distinct from native microdata, down from three of four on the as-found file and unchanged since the repaired feed — is the paper's thesis made quantitative; the same repair nearly doubled a different view's continuous energy-distance gap to its floor, and a further declared mapping fix then closed nearly all of that gap while the verdict itself never moved — results reported alongside each other, not one in place of the last. <strong>Same operator, increasing distance</strong> — small and same-institutions at the congressional-district end, large and different-institutions at the Belgium end.
+        Three actual runs of the same reweighting operator, placed by domain distance. The congressional-district leg (microcosm's local-area method), the UK leg (v1.2 measured against the held-out FRS, below), and the Belgium leg (measured below) all sit on solid ground. The UK leg's held-out verdict — two of four survey views clearly distinct from native microdata, down from three of four on the as-found file and unchanged since the repaired feed — is the paper's thesis made quantitative; the same repair nearly doubled a different view's continuous energy-distance gap to its floor, and a further declared mapping fix then closed nearly all of that gap while the verdict itself never moved — results reported alongside each other, not one in place of the last. <strong>Same operator, increasing distance</strong> — small and same-institutions at the congressional-district end, large and different-institutions at the Belgium end.
       </figcaption>
     </figure>
     <div class="distance-rail">
@@ -192,7 +192,7 @@
         <h4>Congressional district</h4>
         <p>
           Described on the <a href="/sparsity">sparsity strategy page</a> and
-          used throughout populace's US releases: one national file reweighted
+          used throughout microcosm's US releases: one national file reweighted
           to sub-national published totals. Same country, same tax-benefit
           institutions, the smallest domain shift this page discusses —
           referenced here descriptively, not re-validated on this page.
@@ -254,7 +254,7 @@
         the joint distribution underneath them — measures something
         reweighting cannot touch: the joint structure the recalibrated file
         inherited from the US support it started from. That gap is the
-        quantitative test of the populace thesis stated on the
+        quantitative test of the microcosm thesis stated on the
         <a href="/support">support strategy page</a>: everything downstream
         can reweight the support; nothing downstream can repair it. The UK
         benchmark turns that sentence into a number.
@@ -574,7 +574,7 @@
       leaves), on 35 of which native's imperfect real estimate is better than
       the transfer's hard cap. Every residual gap that is not an artifact of
       one of these two floors is inherited joint structure that reweighting to
-      marginal totals could not repair — the populace thesis, measured. The
+      marginal totals could not repair — the microcosm thesis, measured. The
       failure concentrates in the tax-and-benefit view, whose classifier
       separates candidate from native at 0.996–0.998 AUC across all three runs, unchanged
       since v1.1. One finding cut at the mapping itself, widened under the v1.1 repair,
@@ -725,7 +725,7 @@
 
 <footer class="foot">
   <div class="foot-row">
-    <a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>populace</a>
+    <a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>microcosm</a>
     <a class="foot-pe" href="https://policyengine.org" aria-label="PolicyEngine"><img src="/assets/policyengine.svg" alt="PolicyEngine" /></a>
   </div>
   <p class="mono foot-fine">

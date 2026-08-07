@@ -1,4 +1,4 @@
-/* Provenance diagram for the homepage — where every layer of populace comes
+/* Provenance diagram for the homepage — where every layer of microcosm comes
    from. Data-driven from data/calibration.json (variable counts per donor
    source); no hand-typed numbers. Lifted from the retired observatory so the
    one piece of it not covered by the calibration dashboard survives. */

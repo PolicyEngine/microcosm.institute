@@ -1,4 +1,4 @@
-"""Generate data/calibration.json for the populace.dev dashboard.
+"""Generate data/calibration.json for the microcosm.institute dashboard.
 
 Every number on the dashboard is computed here from the build artifacts —
 the raw PE-native target surface, the shipped (bounded) weights, and the
@@ -7,7 +7,7 @@ exists. Nothing is hand-typed into the page.
 
 Run with any python that has numpy + h5py:
 
-    /tmp/populace-build-venv/bin/python scripts/build_dashboard_data.py
+    /tmp/microcosm-build-venv/bin/python scripts/build_dashboard_data.py
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ from pathlib import Path
 import numpy as np
 
 ART = Path("/Users/maxghenis/.claude-worktrees/microplex-spec-build/artifacts")
-SCORE_JSON = Path.home() / "populace-score-work" / "score_out" / (
+SCORE_JSON = Path.home() / "microcosm-score-work" / "score_out" / (
     "sound_ecps_replacement_comparison.json"
 )
 RELEASE = "populace-us-2024-5da5a95-20260611"
@@ -151,7 +151,7 @@ def build_source_map() -> dict[str, str]:
     import re
 
     driver = (WORKTREE / "scripts" / "build_us_candidate.py").read_text()
-    donor = (Path.home() / "PolicyEngine/populace/packages/populace-build/src/populace/build/us/sources.py").read_text()
+    donor = (Path.home() / "PolicyEngine/microcosm/packages/microcosm-build/src/microcosm/build/us/sources.py").read_text()
     src_map: dict[str, str] = {}
     # CPS-derived: p["..."] assignments in _derive_person_columns + tenure map.
     body = driver.split("def _derive_person_columns", 1)[-1].split("\ndef ", 1)[0]
@@ -204,7 +204,7 @@ def _profile_flat(path):
 
 
 def build_lineage():
-    """Variable-level lineage: populace vs eCPS fill and weighted totals."""
+    """Variable-level lineage: microcosm vs eCPS fill and weighted totals."""
     pop = _profile_flat(POP_TP)
     ecps = _profile_flat(ECPS)
     sources = build_source_map()
@@ -437,7 +437,7 @@ def main() -> None:
                 "key": "publish",
                 "title": "publish",
                 "status": "pending",
-                "note": "Hugging Face artifact + populace.data registry entry",
+                "note": "Hugging Face artifact + microcosm.data registry entry",
             },
         ],
     }
