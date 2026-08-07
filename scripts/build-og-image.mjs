@@ -22,8 +22,10 @@
 //   for covers. One hue; tone comes from size, never a second color.
 // - Type: STIX Two Text for the display line, IBM Plex Mono for labels,
 //   Urbanist for the wordmark only (tokens/microcosm.css).
-// - Copy: the site's own hero (index.html) and og:description; tagline is the
-//   site <title>'s.
+// - Copy: the site hero's construction, broadened to the identity's scope
+//   triple — people, households, and firms (the rename exists because the
+//   miniature is not only households); tagline is the site <title>'s. The
+//   fine print says "microdata", which carries no unit-type claim.
 //
 // Fonts are vendored latin subsets (vendor/fonts/*.woff2, all SIL OFL),
 // embedded as data URIs so the SVG is self-contained. Provenance: the
@@ -156,15 +158,16 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
   ${wordmark}
   <text x="86" y="192" class="mono" font-size="16" letter-spacing="0.4" fill="${TERTIARY}">the economy in miniature</text>
 
-  <g class="serif" font-size="44" fill="${INK}">
-    <text x="84" y="338">A nation is <tspan font-style="italic">millions</tspan> of households.</text>
-    <text x="84" y="395">We build a synthetic one</text>
-    <text x="84" y="452">that stands in for them all.</text>
+  <g class="serif" font-size="42" fill="${INK}">
+    <text x="84" y="312">A nation is millions of</text>
+    <text x="84" y="367" font-style="italic">people, households, and firms.</text>
+    <text x="84" y="422">We build a synthetic one</text>
+    <text x="84" y="477">that stands in for them all.</text>
   </g>
 
   <line x1="84" y1="548.5" x2="1116" y2="548.5" stroke="${BORDER_SOFT}" stroke-width="1.5"/>
   <text x="84" y="586" class="mono" font-size="16" font-weight="500" fill="${VERDIGRIS_STRONG}">microcosm.institute</text>
-  <text x="1116" y="586" class="mono" font-size="13" fill="${TERTIARY}" text-anchor="end">a weighted synthetic population, built in the open · a PolicyEngine project</text>
+  <text x="1116" y="586" class="mono" font-size="13" fill="${TERTIARY}" text-anchor="end">calibrated synthetic microdata, built in the open · a PolicyEngine project</text>
 </svg>
 `;
 
