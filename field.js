@@ -9,7 +9,7 @@
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   let w, h, dpr, points, raf;
-  const TEAL = [49, 151, 149]; // PolicyEngine teal (--chart-1)
+  const VERDIGRIS = [62, 122, 94]; // Microcosm verdigris (--accent)
 
   // Deterministic-ish PRNG so the layout is stable across resizes within a load.
   let seed = 20260610;
@@ -83,14 +83,14 @@
       // glow for the heaviest records
       if (p.r > 2.4 * dpr) {
         const g = ctx.createRadialGradient(x, y, 0, x, y, p.r * 4);
-        g.addColorStop(0, `rgba(${TEAL[0]},${TEAL[1]},${TEAL[2]},${a * 0.5})`);
-        g.addColorStop(1, "rgba(49,151,149,0)");
+        g.addColorStop(0, `rgba(${VERDIGRIS[0]},${VERDIGRIS[1]},${VERDIGRIS[2]},${a * 0.5})`);
+        g.addColorStop(1, "rgba(62,122,94,0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(x, y, p.r * 4, 0, Math.PI * 2);
         ctx.fill();
       }
-      ctx.fillStyle = `rgba(${TEAL[0]},${TEAL[1]},${TEAL[2]},${a})`;
+      ctx.fillStyle = `rgba(${VERDIGRIS[0]},${VERDIGRIS[1]},${VERDIGRIS[2]},${a})`;
       ctx.beginPath();
       ctx.arc(x, y, p.r, 0, Math.PI * 2);
       ctx.fill();
@@ -102,7 +102,7 @@
     ctx.clearRect(0, 0, w, h);
     for (let i = 0; i < points.length; i++) {
       const p = points[i];
-      ctx.fillStyle = `rgba(${TEAL[0]},${TEAL[1]},${TEAL[2]},${p.base})`;
+      ctx.fillStyle = `rgba(${VERDIGRIS[0]},${VERDIGRIS[1]},${VERDIGRIS[2]},${p.base})`;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fill();

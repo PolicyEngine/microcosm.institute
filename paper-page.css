@@ -8,7 +8,9 @@
 }
 
 .paper-title {
-  max-width: 12ch;
+  /* was 12ch in the Inter cut; STIX wants room for its long words
+     ("microsimulation" is 15ch) so titles set 2–3 words per line. */
+  max-width: 16ch;
 }
 
 .paper-title sub {

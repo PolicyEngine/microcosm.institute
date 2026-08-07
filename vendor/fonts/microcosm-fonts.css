@@ -1,0 +1,102 @@
+/* Microcosm faces, vendored from Google Fonts css2 (all SIL OFL):
+ * https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&family=Urbanist:wght@400&display=swap
+ * (fetched with a current desktop Chrome UA; STIX Two Text arrives as variable
+ * files spanning the full 400-700 range, IBM Plex Mono as static 400/500,
+ * Urbanist as a variable file used at 400). Latin and latin-ext subsets only,
+ * matching this repo's vendoring convention (see fonts.css history).
+ * Faces per constellation-design/tokens/microcosm.css: STIX Two Text is the
+ * display and body face, IBM Plex Mono the mono face, Urbanist the wordmark
+ * face only. Refresh by re-fetching the URL above and re-extracting the
+ * latin/latin-ext blocks.
+ * sha256 stix-two-text-latin.woff2:             889d958dfc639d2b89fc1873ad3cf74e00c86551f133227c79357e829d4058c9
+ * sha256 stix-two-text-latin-ext.woff2:         22cbe1d46c5c9de19c80d2d2b6eda896e3489a0013add5c1904cc61d013911e0
+ * sha256 stix-two-text-italic-latin.woff2:      c0ed908ab0671fce3f822a3b5f60d96565a3822a752bb38597acd28f185ca208
+ * sha256 stix-two-text-italic-latin-ext.woff2:  f054dce68f72ffc85348f7c92ef3dfb1f21f0cab1b043a719e6cde7f45fbd487
+ * sha256 ibm-plex-mono-400-latin.woff2:         c36f509c0a8f9f85f29cb44bc8701d8a9e0b14c499e77a884f789ead7093a7ac
+ * sha256 ibm-plex-mono-400-latin-ext.woff2:     f1050dc5317b43434c0aeda599d4624c774ffc162e87a8cf204b949b6a85816d
+ * sha256 ibm-plex-mono-500-latin.woff2:         a76f53ca6612e7b3828eec2311098675b7f9849ae4169a8bcef6302aec02a6c0
+ * sha256 ibm-plex-mono-500-latin-ext.woff2:     77f03e26f981c582bdba3a7abed4baa2d3149211c01366bb3ab3ba7622ec4ae5
+ * sha256 urbanist-latin.woff2:                  720c96ccf77cd5d053b6e973d8be7d4942904ccf65fa808a8dea9de385f82284
+ * sha256 urbanist-latin-ext.woff2:              861dc93d0119a3f372afe15cc59ffe65dc34d10b850cce522d47a092430692c9
+ */
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/vendor/fonts/ibm-plex-mono-400-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/vendor/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/vendor/fonts/ibm-plex-mono-500-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/vendor/fonts/ibm-plex-mono-500-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'STIX Two Text';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/vendor/fonts/stix-two-text-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'STIX Two Text';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/vendor/fonts/stix-two-text-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'STIX Two Text';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/vendor/fonts/stix-two-text-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'STIX Two Text';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/vendor/fonts/stix-two-text-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Urbanist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/vendor/fonts/urbanist-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Urbanist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/vendor/fonts/urbanist-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}

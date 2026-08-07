@@ -1,0 +1,107 @@
+/* Microcosm — design tokens for microcosm.institute.
+ * Native tokens vendored from constellation-design/tokens/microcosm.css
+ * (constructed 2026-08-02). The economy in miniature. Verdigris: the patina
+ * that grows on bronze. Light-native; opt-in dark via [data-theme="dark"].
+ *
+ * The compat block below defines every @policyengine/ui-kit semantic token
+ * this site's pages still reference (the site wore the PE design system from
+ * PR #5 until 2026-08-07), valued from the Microcosm palette so those
+ * references resolve in-identity. Pages migrate off the compat names over
+ * time; new styling should use the native tokens.
+ *
+ * NOTE: style.css re-purposes --paper as its primary-TEXT alias (a holdover
+ * from the site's dark-native first cut), which shadows the native surface
+ * token below on every page that loads both files. Compat values that need
+ * the paper surface therefore use the literal #FCFEFC, never var(--paper).
+ */
+:root {
+  /* ---------- native: surfaces ---------- */
+  --canvas: #F6FAF7;
+  --paper: #FCFEFC;
+  --section: #EAF3EC;
+  /* ---------- native: borders ---------- */
+  --border-soft: #D5E4DA;
+  --border-strong: #B5CCBE;
+  /* ---------- native: text ---------- */
+  --text-primary: #17251D;
+  --text-secondary: #44584C;
+  --text-tertiary: #6E7F74;
+  /* ---------- native: accent — verdigris ---------- */
+  --accent: #3E7A5E;
+  --accent-strong: #2C5A45;
+  --accent-subtle: #E4F0E9;
+  /* ---------- native: type ---------- */
+  --font-display: "STIX Two Text", Georgia, serif;
+  --font-body: "STIX Two Text", Georgia, serif;
+  --font-wordmark: "Urbanist", "Avenir Next", "Century Gothic", Futura, sans-serif; /* wordmark only */
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---------- ui-kit compat (roles preserved, Microcosm palette) ---------- */
+  --background: var(--canvas);
+  --background-secondary: var(--section);
+  --background-tertiary: var(--section);
+  --foreground: var(--text-primary);
+  --card: #FCFEFC;
+  --card-foreground: var(--text-primary);
+  --popover: #FCFEFC;
+  --popover-foreground: var(--text-primary);
+  --primary: var(--accent);
+  --primary-foreground: #FCFEFC;
+  --primary-alpha-40: rgba(62, 122, 94, 0.4);
+  --primary-alpha-50: rgba(62, 122, 94, 0.5);
+  --primary-alpha-60: rgba(62, 122, 94, 0.6);
+  --secondary: var(--section);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--section);
+  --muted-foreground: var(--text-secondary);
+  --accent-foreground: #FCFEFC;
+  --destructive: #DC2626; /* functional, not brand */
+  --destructive-foreground: #FFFFFF;
+  --border: var(--border-soft);
+  --border-light: color-mix(in srgb, var(--border-soft) 55%, var(--canvas));
+  --border-medium: var(--border-soft);
+  --border-dark: var(--border-strong);
+  --input: var(--border-soft);
+  --ring: var(--accent);
+  --radius: 6px;
+  --radius-sm: calc(var(--radius) - 2px);
+  /* one hue: chart series differ by tone, never a second color */
+  --chart-1: var(--accent);
+  --chart-2: #44584C;
+  --chart-3: #6FA58C;
+  --chart-4: #98C0AC;
+  --chart-5: #6E7F74;
+  --diverging-gray-blue-1: #44584C;
+  --diverging-gray-blue-2: #9FAFA5;
+  --diverging-gray-blue-3: #D5E4DA;
+  --diverging-gray-blue-4: #98C0AC;
+  --diverging-gray-blue-5: #3E7A5E;
+  --diverging-gray-teal-1: #44584C;
+  --diverging-gray-teal-2: #9FAFA5;
+  --diverging-gray-teal-3: #D5E4DA;
+  --diverging-gray-teal-4: #98C0AC;
+  --diverging-gray-teal-5: #3E7A5E;
+  --font-sans: "STIX Two Text", Georgia, serif; /* the identity is serif-native */
+  --text-error: #B91C1C; /* functional */
+  --text-success: #2C5A45;
+  --text-warning: #C2410C; /* functional */
+  --warm-neutral: var(--section);
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #0E1613;
+  --paper: #121B17;
+  --section: #18251F;
+  --border-soft: #23342B;
+  --border-strong: #33493D;
+  --text-primary: #E6EFE9;
+  --text-secondary: #A3B5AA;
+  --text-tertiary: #748578;
+  --accent: #5FA588;
+  --accent-strong: #7FBFA3;
+  --accent-subtle: #16251D;
+  --card: #121B17;
+  --popover: #121B17;
+  --primary-foreground: #0E1613;
+  --accent-foreground: #0E1613;
+}

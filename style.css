@@ -1,23 +1,20 @@
 :root {
-  /* microcosm.institute consumes the PolicyEngine design system: @policyengine/ui-kit
-     tokens.css is loaded via CDN in the page <head> (light theme — PE default,
-     no .dark class). The site's original local var names are aliased onto the
-     PE semantic tokens here, so the existing component CSS keeps working. */
-  --ink: var(--background); /* page background */
-  --ink-2: var(--muted); /* raised surface (cards) */
-  --paper: var(--foreground); /* primary text */
-  --paper-dim: var(--muted-foreground);
+  /* microcosm.institute wears the Microcosm identity: tokens vendored from
+     constellation-design/tokens/microcosm.css (vendor/microcosm-tokens.css,
+     loaded in each page <head>). The site's original local var names map onto
+     the identity's tokens here, so the component CSS below keeps working. */
+  --ink: var(--canvas); /* page background */
+  --ink-2: var(--section); /* raised/inset surface (cards, chips, code) */
+  --paper: var(--text-primary); /* primary text */
+  --paper-dim: var(--text-secondary);
   --paper-faint: var(--text-tertiary);
-  --amber: var(--primary); /* accent → PolicyEngine teal */
-  --amber-soft: var(--chart-1); /* brighter teal for emphasis/hover */
-  --line: var(--border);
+  --amber: var(--accent); /* accent → verdigris */
+  --amber-soft: var(--accent-strong); /* deeper verdigris for emphasis/hover */
+  --line: var(--border-soft);
   --line-soft: var(--border-light);
-  /* PE ships its font families in the Tailwind @theme layer (not :root), which a
-     no-build static page can't read; the families below mirror ui-kit tokens.css
-     and resolve to --font-sans/--font-mono if a build ever exposes them. */
-  --display: var(--font-sans, "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
-  --body: var(--font-sans, "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
-  --mono: var(--font-mono, "JetBrains Mono", "Fira Code", Consolas, monospace);
+  --display: var(--font-display, "STIX Two Text", Georgia, serif);
+  --body: var(--font-body, "STIX Two Text", Georgia, serif);
+  --mono: var(--font-mono, "IBM Plex Mono", ui-monospace, monospace);
   --max: 1140px;
 }
 
@@ -81,23 +78,16 @@ body::before {
 }
 
 .brand {
-  font-family: var(--mono);
-  font-size: 16px;
-  letter-spacing: 0.02em;
   color: var(--paper);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 9px;
 }
-.brand-dot {
-  width: 9px; height: 9px;
-  border-radius: 50%;
-  background: var(--amber);
-  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--primary) 55%, transparent);
-  animation: pulse 3.4s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+/* The wordmark (constellation-design/identities/microcosm/wordmark.svg),
+   inlined in the markup; fill comes from currentColor, the world-point from
+   var(--accent). Below 96 px width the wordmark yields to the standalone
+   operator — 152 px here keeps it comfortably above that floor. */
+.brand .wm { height: 21px; width: auto; display: block; }
 
 .nav-links {
   display: flex;
@@ -142,8 +132,10 @@ body::before {
 h1 {
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(2.5rem, 6.6vw, 5rem);
-  line-height: 1.02;
+  /* STIX sets wider than the Inter it replaced; the smaller clamp keeps the
+     hero block inside a 900px-tall viewport with the eyebrow visible. */
+  font-size: clamp(2.3rem, 5vw, 3.5rem);
+  line-height: 1.06;
   letter-spacing: -0.015em;
   font-optical-sizing: auto;
   margin-bottom: 30px;
@@ -393,9 +385,8 @@ h2 {
 .foot-row { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; margin-bottom: 14px; }
 .foot-meta { font-size: 13px; color: var(--paper-faint); }
 .foot-fine { font-size: 13px; color: var(--paper-faint); }
-.foot-pe { display: inline-flex; align-items: center; }
-.foot-pe img { height: 20px; width: auto; display: block; opacity: 0.82; transition: opacity 0.2s; }
-.foot-pe:hover img { opacity: 1; }
+.foot-fine a { color: inherit; text-underline-offset: 0.18em; }
+.foot-fine a:hover { color: var(--amber-soft); }
 
 /* ---------- reveal ---------- */
 .reveal {
@@ -493,10 +484,10 @@ h2 {
 .strategy-hero h1 {
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(2.1rem, 5.4vw, 3.8rem);
-  line-height: 1.05;
+  font-size: clamp(2rem, 4.4vw, 3.1rem);
+  line-height: 1.08;
   letter-spacing: -0.015em;
-  max-width: 22ch;
+  max-width: 24ch;
   margin-bottom: 24px;
 }
 

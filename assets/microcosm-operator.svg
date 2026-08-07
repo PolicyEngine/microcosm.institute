@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-286 -300 572 600" role="img" aria-label="Microcosm operator">
+  <title>Microcosm operator</title>
+  <desc>The standalone operator: the wordmark's measured o — an ellipse 500 by 527 with a uniform stroke of 70 — plus the verdigris world-point, diameter 154. Per the identity, the drawn form exists only where there is no word to mark.</desc>
+  <style>
+    .op-ring { stroke: #17251D }
+    .op-world { fill: #3E7A5E }
+    @media (prefers-color-scheme: dark) {
+      .op-ring { stroke: #E6EFE9 }
+      .op-world { fill: #5FA588 }
+    }
+  </style>
+  <ellipse class="op-ring" cx="0" cy="0" rx="215" ry="228.5" fill="none" stroke-width="70"/>
+  <circle class="op-world" cx="0" cy="0" r="77"/>
+</svg>
