@@ -485,7 +485,7 @@ bound how large individual weights can grow. Because the optimization
 that selects records also calibrates them, the reduced dataset continues
 to match its targets.</p>
 <p>We implement the method within <span
-class="smallcaps">Populace</span>, PolicyEngine’s microsimulation data
+class="smallcaps">Microcosm</span>, PolicyEngine’s microsimulation data
 pipeline, and present a proof of concept on its current full United
 States target surface. The run starts from 37<span>,</span>053 Ledger
 facts and scores 32<span>,</span>633 materialized calibration targets,
@@ -495,12 +495,12 @@ support file. Holding the candidate universe, target surface, and
 optimizer budget fixed, we vary how records are chosen across
 target-informed <span class="math inline">\(L_0\)</span> selection,
 dense no-<span class="math inline">\(L_0\)</span> calibration, and
-matched sampling baselines, all scored by the same Populace capped
+matched sampling baselines, all scored by the same Microcosm capped
 weighted calibration loss. A normalized <span
 class="math inline">\(L_0\)</span> penalty retaining 57<span>,</span>240
 records produces a sparse support whose raw gated weights score poorly,
 but an ordinary post-<span class="math inline">\(L_0\)</span> refit on
-that support lowers the Populace loss to 4.74%. The
+that support lowers the Microcosm loss to 4.74%. The
 1<span>,</span>500-epoch dense no-<span
 class="math inline">\(L_0\)</span> calibration reaches 5.07%, a random
 subset followed by the same reweighting reaches 7.55%, and a random
@@ -569,9 +569,9 @@ engines</a></li>
 <li><a href="#sec:data" id="toc-sec:data"><span
 class="toc-section-number">3</span> Data</a>
 <ul>
-<li><a href="#populace-as-a-construction-pipeline"
-id="toc-populace-as-a-construction-pipeline"><span
-class="toc-section-number">3.1</span> Populace as a construction
+<li><a href="#microcosm-as-a-construction-pipeline"
+id="toc-microcosm-as-a-construction-pipeline"><span
+class="toc-section-number">3.1</span> Microcosm as a construction
 pipeline</a></li>
 <li><a href="#base-microdata" id="toc-base-microdata"><span
 class="toc-section-number">3.2</span> Base microdata</a>
@@ -738,11 +738,11 @@ hard per-record cap) limit how concentrated the fitted weights can
 become. In practical terms, one framework can target a compact national
 dataset or a larger subnational dataset, at a chosen record budget, with
 weights kept inside a usable range.</p>
-<p>We situate this work in <span class="smallcaps">Populace</span> <span
-class="citation" data-cites="populace2026">(<a href="#ref-populace2026"
+<p>We situate this work in <span class="smallcaps">Microcosm</span> <span
+class="citation" data-cites="microcosm2026">(<a href="#ref-microcosm2026"
 role="doc-biblioref">PolicyEngine 2026b</a>)</span>, PolicyEngine’s
 pipeline for microsimulation dataset construction. <span
-class="smallcaps">Populace</span> passes a single weighted data
+class="smallcaps">Microcosm</span> passes a single weighted data
 structure through a sequence of modular stages—source loading,
 imputation, geographic assignment, target construction, and
 calibration—each implemented as a separate package operating on that
@@ -753,17 +753,17 @@ calibration step studied here is one such component. The paper describes
 the pipeline at the level needed to follow the calibration step, and
 then describes the configuration used here.</p>
 <p>This paper is a proof of concept on <span
-class="smallcaps">Populace</span>’s current full target surface: it asks
+class="smallcaps">Microcosm</span>’s current full target surface: it asks
 whether <span class="math inline">\(L_0\)</span> selection with Hard
 Concrete gates can produce a sparse, calibrated dataset on the targets
-<span class="smallcaps">Populace</span> assembles today, including the
+<span class="smallcaps">Microcosm</span> assembles today, including the
 congressional-district surface that motivates the build-big, then-prune
 workflow. Local-area and subnational calibration are therefore part of
 the target surface being fit, while full production release engineering
 remains outside the scope of the proof of concept.</p>
 <p>The empirical question is whether informed selection earns its added
 complexity. We ask three things. First, on the actual <span
-class="smallcaps">Populace</span> loss over the full target surface,
+class="smallcaps">Microcosm</span> loss over the full target surface,
 does informed <span class="math inline">\(L_0\)</span> selection or its
 post-<span class="math inline">\(L_0\)</span> refit reproduce the
 targets more accurately than dense calibration and sampling baselines
@@ -784,7 +784,7 @@ data-reference="sec:background">2</a> places the work in the literature
 on spatial microsimulation, survey calibration, and sparse selection.
 Section <a href="#sec:data" data-reference-type="ref"
 data-reference="sec:data">3</a> describes the base microdata, the <span
-class="smallcaps">Populace</span> pipeline, and the administrative
+class="smallcaps">Microcosm</span> pipeline, and the administrative
 targets. Section <a href="#sec:methodology" data-reference-type="ref"
 data-reference="sec:methodology">4</a> presents the calibration method
 and the sampling experiment design. Section <a href="#sec:results"
@@ -1246,7 +1246,7 @@ calibration but replaces dropout with the <span
 class="math inline">\(L_0\)</span> and Hard Concrete gates of the
 previous subsection, so that record selection becomes explicit and the
 fitted weights are exactly sparse. It also runs within <span
-class="smallcaps">Populace</span>, a pipeline that expresses dataset
+class="smallcaps">Microcosm</span>, a pipeline that expresses dataset
 construction as a sequence of modular stages over a shared data
 structure. The data sources, the imputation model, the geographic
 assignment, and the calibration method are interchangeable components
@@ -1260,14 +1260,14 @@ class="header-section-number">3</span> Data</h1>
 <p>The calibration problem is defined by two inputs: the household
 microdata that form the candidate universe, and the administrative
 targets the calibrated dataset must reproduce. This section describes
-how <span class="smallcaps">Populace</span> assembles the candidate
+how <span class="smallcaps">Microcosm</span> assembles the candidate
 microdata and how this study selects its targets. The pipeline is the
 harness that produces the calibration problem; it is not itself the
 object of evaluation.</p>
-<h2 data-number="3.1" id="populace-as-a-construction-pipeline"><span
-class="header-section-number">3.1</span> Populace as a construction
+<h2 data-number="3.1" id="microcosm-as-a-construction-pipeline"><span
+class="header-section-number">3.1</span> Microcosm as a construction
 pipeline</h2>
-<p><span class="smallcaps">Populace</span> builds a microsimulation
+<p><span class="smallcaps">Microcosm</span> builds a microsimulation
 dataset by passing a single weighted data structure—a sampling frame
 holding the records, their weights, and provenance—through a sequence of
 stages. Each stage is a separate package that reads and writes that
@@ -1282,12 +1282,12 @@ supports.</p>
 configuration rather than an accident of the code: the source-loading
 and imputation stages set what information each record carries, and
 calibration sets which records survive and at what weight. <span
-class="smallcaps">Populace</span> follows a generate-then-prune design,
+class="smallcaps">Microcosm</span> follows a generate-then-prune design,
 assembling the candidate universe once and pruning it to a deployable
 budget at the calibration stage.</p>
 <figure id="fig:pipeline" data-latex-placement="H">
 
-<figcaption><span class="smallcaps">Populace</span> pipeline for the
+<figcaption><span class="smallcaps">Microcosm</span> pipeline for the
 configuration used in this paper: load and combine the source surveys,
 impute missing variables, assign geography, construct the calibration
 targets, and calibrate. The calibration stage is the focus of this
@@ -1297,7 +1297,7 @@ paper.</figcaption>
 support file for period 2024 (constructed as described below):
 337<span>,</span>704 household records, one row per candidate household
 placement. We pin the exact build for reproducibility: <span
-class="smallcaps">Populace</span> commit <code>558e46c1</code>, base H5
+class="smallcaps">Microcosm</span> commit <code>558e46c1</code>, base H5
 SHA-256 beginning <code>ec290055</code>, Ledger facts SHA-256 beginning
 <code>82cd9e87</code>, and target-registry version
 <code>5a22295b02b6</code>. The run resets household weights to a uniform
@@ -1317,7 +1317,7 @@ demographic structure, household relationships, labour income, transfer
 income, and reported participation in programmes such as SNAP, Medicaid,
 SSI, and TANF.</p>
 <p>The candidate universe is not a single survey year. To widen the
-support before pruning, <span class="smallcaps">Populace</span> pools
+support before pruning, <span class="smallcaps">Microcosm</span> pools
 the three most recently published CPS ASEC files—one per survey year—and
 ages the two earlier vintages forward to the latest year, so all three
 are expressed at a common period, 2024 for this build. Pooling three
@@ -1367,7 +1367,7 @@ household.</p>
 <div id="tab:donors">
 <table>
 <caption>Donor sources imputed onto the CPS base for this build, from
-the <span class="smallcaps">Populace</span>-US release stage manifest.
+the <span class="smallcaps">Microcosm</span>-US release stage manifest.
 The stages run in a fixed order, each conditioning on the variables
 already imputed.</caption>
 <thead>
@@ -1420,12 +1420,12 @@ ratio</td>
 <h3 data-number="3.2.3" id="geography"><span
 class="header-section-number">3.2.3</span> Geography</h3>
 <p>Each household carries a geographic identity. The CPS ASEC reports
-the household’s state, and <span class="smallcaps">Populace</span>
+the household’s state, and <span class="smallcaps">Microcosm</span>
 attaches congressional-district identifiers so the same frame can be
 calibrated against national, state, and district targets. The current
 support file intentionally contains many more candidate household
 placements than the final deployable file should retain. That is the
-build-big, then-prune setting: <span class="smallcaps">Populace</span>
+build-big, then-prune setting: <span class="smallcaps">Microcosm</span>
 creates a support rich enough to cover the target surface, and the
 calibration method decides which records survive.</p>
 <h2 data-number="3.3" id="calibration-targets"><span
@@ -1433,7 +1433,7 @@ class="header-section-number">3.3</span> Calibration targets</h2>
 <p>The target system combines aggregates from several administrative
 sources at the national, state, and congressional-district levels. The
 headline experiment uses the full materialized target surface compiled
-from the current <span class="smallcaps">Populace</span> US fiscal
+from the current <span class="smallcaps">Microcosm</span> US fiscal
 registry: 37<span>,</span>053 Ledger facts produce 32<span>,</span>633
 targets after materialization against the candidate frame. Appendix <a
 href="#app:targets" data-reference-type="ref"
@@ -1442,7 +1442,7 @@ sources. The exact counts come from the run registry rather than from a
 pipeline-wide inventory.</p>
 <div id="tab:target_subset">
 <table>
-<caption>Full materialized Populace target surface used in the matched
+<caption>Full materialized Microcosm target surface used in the matched
 full-surface probe, by family and geographic level. The surface contains
 24<span>,</span>340 congressional-district targets, 7<span>,</span>815
 state targets, and 478 national targets.</caption>
@@ -1560,7 +1560,7 @@ class="math display">\[\begin{equation}
 \end{equation}\]</span></p>
 <p>The methods compared in this study fit weights with the same
 calibrator, the <code>calibrate</code> routine in <span
-class="smallcaps">Populace</span>. It minimizes a capped, weighted mean
+class="smallcaps">Microcosm</span>. It minimizes a capped, weighted mean
 absolute percentage error (capped weighted MAPE) of the estimates
 against the targets, <span class="math display">\[\begin{equation}
     \mathcal{L}_{\mathrm{cal}}(\mathbf{w}) =
@@ -1594,7 +1594,7 @@ reweight use it unchanged on different supports; informed <span
 class="math inline">\(L_0\)</span> extends it with a selection term.</p>
 <p>The per-target weights <span class="math inline">\(\omega_j\)</span>
 in the runs reported here follow <span
-class="smallcaps">Populace</span>’s production US-fiscal weighting,
+class="smallcaps">Microcosm</span>’s production US-fiscal weighting,
 computed through the same code path the production US build uses rather
 than a separate reimplementation. The weighting is built in four steps.
 Each target is first assigned to one of two value bases from its measure
@@ -1764,7 +1764,7 @@ combinatorial optimisation are irrelevant in general. They remain the
 reference methods for simpler margin surfaces, classical calibration,
 target-balanced survey designs, and discrete synthetic-population
 construction. The empirical comparison below focuses on the methods that
-can be applied to the full Populace target surface under the same
+can be applied to the full Microcosm target surface under the same
 scoring loss and that were run in the real-data probe.</p>
 <p>Holding the candidate universe and the target set fixed isolates the
 effect of how records are chosen. Every method starts from the same
@@ -1784,7 +1784,7 @@ panel rather than part of the headline evidence here.</p>
 <h2 data-number="4.5" id="sec:oos"><span
 class="header-section-number">4.5</span> Full-surface scoring</h2>
 <p>The production motivation is to construct a deployable dataset that
-fits the full target surface <span class="smallcaps">Populace</span>
+fits the full target surface <span class="smallcaps">Microcosm</span>
 currently assembles. The headline experiment therefore fits and scores
 every materialized target, including validation-only families and
 congressional-district targets. In the run reported here,
@@ -1798,7 +1798,7 @@ retained weights and excluding the <span
 class="math inline">\(L_0\)</span> and <span
 class="math inline">\(L_2\)</span> penalties. This is the frontier an
 analyst would use when choosing a publishable record budget for the
-actual <span class="smallcaps">Populace</span> build.</p>
+actual <span class="smallcaps">Microcosm</span> build.</p>
 <p>Generalization to structurally different targets is a separate
 question this proof of concept does not test. A meaningful holdout here
 would withhold whole target families rather than random target rows,
@@ -1817,7 +1817,7 @@ representativeness measures, which ask at what cost in weight
 concentration and compute that accuracy is bought.</p>
 <div id="tab:metrics">
 <table>
-<caption>Metrics reported for each run. Accuracy is led by the Populace
+<caption>Metrics reported for each run. Accuracy is led by the Microcosm
 objective loss, with raw ARE metrics reported as supplemental
 diagnostics; effective sample size measures the weight concentration
 that accuracy is achieved at.</caption>
@@ -1830,7 +1830,7 @@ that accuracy is achieved at.</caption>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">Populace objective loss</td>
+<td style="text-align: left;">Microcosm objective loss</td>
 <td style="text-align: left;">Equation <a href="#eq:loss_cal"
 data-reference-type="ref"
 data-reference="eq:loss_cal">[eq:loss_cal]</a>: capped, target-weighted
@@ -1902,9 +1902,9 @@ class="header-section-number">5</span> Results</h1>
 <p>The results answer the production question directly: with the
 candidate universe, target surface, and record budget fixed, which
 retained weight vector best fits the current <span
-class="smallcaps">Populace</span> target surface? All methods are scored
+class="smallcaps">Microcosm</span> target surface? All methods are scored
 on the full set of 32<span>,</span>633 materialized targets, using the
-penalty-free Populace objective loss in Equation <a href="#eq:loss_cal"
+penalty-free Microcosm objective loss in Equation <a href="#eq:loss_cal"
 data-reference-type="ref"
 data-reference="eq:loss_cal">[eq:loss_cal]</a>. The run reported here is
 a matched full-surface probe rather than a full budget frontier: a
@@ -1925,7 +1925,7 @@ class="math inline">\(L_0\)</span> penalty selects 57<span>,</span>240
 of 337<span>,</span>704 candidate households, or 17.0% of the candidate
 universe. The raw gated <span class="math inline">\(L_0\)</span> weights
 are not the right publication weights: scored after thresholding, they
-reach a Populace objective loss of 9.86%. Removing the gates and
+reach a Microcosm objective loss of 9.86%. Removing the gates and
 refitting ordinary calibration weights on exactly the selected records
 lowers that loss to 4.74%. A dense no-<span
 class="math inline">\(L_0\)</span> calibration using all
@@ -1953,7 +1953,7 @@ the next sweep needs to trace the normalized penalty across multiple
 retained counts and concentration settings.</p>
 <figure id="fig:objective_frontier" data-latex-placement="H">
 <img src="/sparsity/web/figures/f0_objective_frontier.png" style="width:96.0%" />
-<figcaption>Full-surface Populace objective loss in the matched probe.
+<figcaption>Full-surface Microcosm objective loss in the matched probe.
 The objective is the capped, target-weighted calibration loss in
 Equation <a href="#eq:loss_cal" data-reference-type="ref"
 data-reference="eq:loss_cal">[eq:loss_cal]</a>, evaluated on each
@@ -1969,12 +1969,12 @@ reports the same comparison with raw ARE and weight diagnostics. The
 median ARE gives a different view from the capped objective: dense
 no-<span class="math inline">\(L_0\)</span> has the lowest median ARE
 (0.56%), while the post-<span class="math inline">\(L_0\)</span> refit
-is close (0.89%) and has the lowest capped Populace loss. Random +
+is close (0.89%) and has the lowest capped Microcosm loss. Random +
 reweight has 6.70% median ARE, raw gated <span
 class="math inline">\(L_0\)</span> has 11.66%, and the dense random
 scaled sample has 55.24%. The mean ARE remains much larger because a
 small tail of difficult IRS targets can have very large relative misses
-even when the capped Populace loss is low.</p>
+even when the capped Microcosm loss is low.</p>
 <p><span> </span></p>
 <p><span>The <span class="math inline">\(L_0\)</span> run uses
 normalized penalty share 0.8, equivalent to raw <span
@@ -1987,7 +1987,7 @@ data-reference="tab:paired_comparison">[tab:paired_comparison]</a>
 expresses the comparison on the headline loss scale. Relative to dense
 no-<span class="math inline">\(L_0\)</span>, the post-<span
 class="math inline">\(L_0\)</span> refit lowers the completed-run
-Populace objective by 6.4%. Relative to random + reweight, it lowers the
+Microcosm objective by 6.4%. Relative to random + reweight, it lowers the
 objective by 37.2%. Relative to the raw gated <span
 class="math inline">\(L_0\)</span> weights, it lowers the objective by
 51.9%. The comparison isolates the value of the support and the refit:
@@ -2047,7 +2047,7 @@ The fit is strongest at the state level, where median ARE is 0.31%,
 followed by national targets at 1.30% and district targets at 1.48%.
 District targets are the intended stress test for the method: they are
 the largest part of the target surface, and they are the reason <span
-class="smallcaps">Populace</span> needs to build a large candidate
+class="smallcaps">Microcosm</span> needs to build a large candidate
 universe before pruning it.</p>
 <div id="tab:calibration_accuracy">
 <table>
@@ -2099,11 +2099,11 @@ and maximum are tail-sensitive diagnostics.</caption>
 </div>
 <p><span>Raw ARE is undefined for 26 IRS SOI national targets where both
 target and achieved values are zero; those rows are included in the
-target count and the Populace loss but omitted from the raw ARE
+target count and the Microcosm loss but omitted from the raw ARE
 summary.</span></p>
 <h2 data-number="5.4" id="sec:results-degenerate"><span
 class="header-section-number">5.4</span> Raw-error tails</h2>
-<p>The Populace objective is the headline score because it is capped and
+<p>The Microcosm objective is the headline score because it is capped and
 target weighted; raw ARE summaries are supplemental. In the matched
 probe, raw ARE is defined for 32<span>,</span>607 of the
 32<span>,</span>633 scored targets. The remaining 26 rows are IRS SOI
@@ -2112,7 +2112,7 @@ they are omitted from raw relative-error summaries but do not affect the
 capped loss. Among the defined rows, the post-<span
 class="math inline">\(L_0\)</span> refit has a 0.89% median ARE and an
 84.64% mean ARE. The gap between the median and the mean is the reason
-the paper leads with the Populace loss and reports raw ARE only as a
+the paper leads with the Microcosm loss and reports raw ARE only as a
 diagnostic.</p>
 <h2 data-number="5.5" id="cost"><span
 class="header-section-number">5.5</span> Cost</h2>
@@ -2144,7 +2144,7 @@ establishes</h2>
 qualification. If the claim is that the raw gated weights returned by
 the joint <span class="math inline">\(L_0\)</span> optimization should
 be the final publication weights, the evidence does not support it: the
-thresholded gated weights have a 9.86% Populace loss. If the claim is
+thresholded gated weights have a 9.86% Microcosm loss. If the claim is
 instead that target-informed gates can select a useful support for
 ordinary calibration, the evidence is positive. After the gates choose
 57<span>,</span>240 records, an ordinary calibration refit on that
@@ -2159,7 +2159,7 @@ calibration refit rather than by directly publishing the stochastic-gate
 weights. This is also consistent with how the method would be used
 operationally: choose a sparsity penalty, use <span
 class="math inline">\(L_0\)</span> to prune a deliberately overbuilt
-support, then run the standard Populace calibrator on the retained
+support, then run the standard Microcosm calibrator on the retained
 records. The slight edge over dense no-<span
 class="math inline">\(L_0\)</span> at 1<span>,</span>500 epochs should
 be read as a finite-optimization result: the dense run is still
@@ -2205,7 +2205,7 @@ finite-budget edge over dense no-<span
 class="math inline">\(L_0\)</span>.</p>
 <h3 data-number="6.3.2" id="target-surface"><span
 class="header-section-number">6.3.2</span> Target surface</h3>
-<p>The target set is the current materialized Populace surface, not a
+<p>The target set is the current materialized Microcosm surface, not a
 hand-pruned paper subset. It is still conditional on what the source
 facts and current PolicyEngine variables can materialize, and the
 empirical claims are tied to the exact targets in each run’s manifest. A
@@ -2227,9 +2227,9 @@ the literature and classical calibration comparators on target subsets
 where they are well-defined.</p>
 <h3 data-number="6.3.4" id="raw-error-metrics"><span
 class="header-section-number">6.3.4</span> Raw error metrics</h3>
-<p>The raw mean ARE remains tail-sensitive even when the Populace loss
+<p>The raw mean ARE remains tail-sensitive even when the Microcosm loss
 is low. The paper therefore leads with the capped, target-weighted
-Populace objective loss and reports median/mean ARE as supplemental
+Microcosm objective loss and reports median/mean ARE as supplemental
 diagnostics. The raw median is useful for typical target fit; the raw
 mean is useful for finding the tail.</p>
 <h3 data-number="6.3.5" id="computational-cost"><span
@@ -2259,7 +2259,7 @@ baselines at the same retained count.</p>
 <h1 data-number="7" id="sec:future_work"><span
 class="header-section-number">7</span> Future work</h1>
 <p>This study moves the proof of concept onto <span
-class="smallcaps">Populace</span>’s current full target surface,
+class="smallcaps">Microcosm</span>’s current full target surface,
 including congressional-district targets. The next empirical step is to
 turn the matched probe into a frontier by sweeping the normalized
 sparsity share across retained counts. Holdout panels should remain
@@ -2313,7 +2313,7 @@ assumptions hold cleanly, in the spirit of <span class="citation"
 data-cites="tanton2014co">Tanton et al. (<a href="#ref-tanton2014co"
 role="doc-biblioref">2014</a>)</span>’s comparison of generalized
 regression with combinatorial optimisation for small-area reweighting,
-while the production frontier continues to use the Populace loss over
+while the production frontier continues to use the Microcosm loss over
 the complete surface.</p>
 <h1 data-number="8" id="sec:conclusion"><span
 class="header-section-number">8</span> Conclusion</h1>
@@ -2327,12 +2327,12 @@ and the paper treats it as one.</p>
 <p>The method uses Hard Concrete gates to select records and fit their
 weights in one optimization, with selection driven by the calibration
 targets. The current full-surface probe shows that the gates are most
-useful as a support selector. On the full Populace target surface, a
+useful as a support selector. On the full Microcosm target surface, a
 normalized <span class="math inline">\(L_0\)</span> penalty retained
 57<span>,</span>240 of 337<span>,</span>704 candidate household records.
 Publishing the raw gated weights would leave too much loss, but
 refitting ordinary calibration weights on the selected support reduced
-the Populace objective to 4.74%. The same 1<span>,</span>500-epoch
+the Microcosm objective to 4.74%. The same 1<span>,</span>500-epoch
 budget gives 5.07% for dense no-<span class="math inline">\(L_0\)</span>
 calibration, 7.55% for a matched random support followed by the same
 reweighting, and 24.24% for a random sample of dense calibrated weights
@@ -2345,13 +2345,13 @@ calibration comparators from the literature added where they are
 appropriate. The contribution is therefore twofold: a target-informed
 sampling method that can select a sparse support with lower
 completed-run loss than the current random and dense baselines, and an
-open <span class="smallcaps">Populace</span> pipeline that makes such
+open <span class="smallcaps">Microcosm</span> pipeline that makes such
 support-selection experiments reproducible on the real production target
 surface.</p>
 <h1 class="unnumbered" id="conflict-of-interest">Conflict of
 interest</h1>
 <p>All authors are affiliated with PolicyEngine, the nonprofit
-organization that develops <span class="smallcaps">Populace</span> and
+organization that develops <span class="smallcaps">Microcosm</span> and
 the <code>l0-python</code> package evaluated in this paper. The authors
 have no other competing interests.</p>
 <h1 class="unnumbered" id="funding">Funding</h1>
@@ -2362,9 +2362,9 @@ availability</h1>
 href="https://github.com/PolicyEngine/l0-paper"
 class="uri">https://github.com/PolicyEngine/l0-paper</a>. The
 construction and calibration pipeline is implemented in <span
-class="smallcaps">Populace</span>, PolicyEngine’s microsimulation data
-stack, open source at <a href="https://github.com/PolicyEngine/populace"
-class="uri">https://github.com/PolicyEngine/populace</a>; earlier
+class="smallcaps">Microcosm</span>, PolicyEngine’s microsimulation data
+stack, open source at <a href="https://github.com/PolicyEngine/microcosm"
+class="uri">https://github.com/PolicyEngine/microcosm</a>; earlier
 prototype code in the archived <code>microplex</code> and
 <code>microplex-us</code> repositories is retained only as a migration
 reference. The administrative targets are source-backed facts from
@@ -2376,7 +2376,7 @@ optimizer is available at <a
 href="https://github.com/PolicyEngine/l0-python"
 class="uri">https://github.com/PolicyEngine/l0-python</a>. The candidate
 universe used here is a generated three-year pooled ASEC support
-artifact from <span class="smallcaps">Populace</span> commit
+artifact from <span class="smallcaps">Microcosm</span> commit
 <code>558e46c1</code>, with base H5 SHA-256 beginning
 <code>ec290055</code>; the target facts have SHA-256 beginning
 <code>82cd9e87</code>. The current reproduction workflow relies on
@@ -2389,13 +2389,13 @@ and analysis were designed and validated by the authors.</p>
 <h1 data-number="9" id="app:targets"><span
 class="header-section-number">9</span> Calibration targets</h1>
 <p>This study calibrates to the full materialized target surface <span
-class="smallcaps">Populace</span> currently constructs for the US fiscal
+class="smallcaps">Microcosm</span> currently constructs for the US fiscal
 build. Every target is a source-backed fact from PolicyEngine Ledger
 <span class="citation" data-cites="ledger2026">(<a
 href="#ref-ledger2026" role="doc-biblioref">PolicyEngine
 2026a</a>)</span>, the <code>arch-data</code> fact store that holds the
 source publications and preserves the provenance of each published
-value; Populace composes calibration targets from those facts. The
+value; Microcosm composes calibration targets from those facts. The
 surface combines national, state, and congressional-district aggregates
 across the major tax and transfer families (Table <a
 href="#tab:target_sources" data-reference-type="ref"
@@ -2530,7 +2530,7 @@ class="math inline">\(L_0\)</span> optimization. Gate parameters follow
 <span class="citation" data-cites="louizos2018">Louizos et al. (<a
 href="#ref-louizos2018" role="doc-biblioref">2018</a>)</span>. Source:
 the <code>l0-python</code> Hard Concrete implementation used by <span
-class="smallcaps">Populace</span>.</caption>
+class="smallcaps">Microcosm</span>.</caption>
 <thead>
 <tr>
 <th style="text-align: left;">Parameter</th>
@@ -2595,7 +2595,7 @@ class="math inline">\(c\)</span></td>
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">Caps a single target’s contribution to
 <span class="math inline">\(\mathcal{L}_{\text{cal}}\)</span>; the runs
-reported here use Populace’s production US-fiscal value <span
+reported here use Microcosm’s production US-fiscal value <span
 class="math inline">\(c=1\)</span></td>
 </tr>
 <tr>
@@ -2897,10 +2897,10 @@ PolicyEngine. 2026a. <em>PolicyEngine Ledger: A Source-Backed Fact Store
 for Social Simulation</em>. <a
 href="https://github.com/PolicyEngine/arch-data">https://github.com/PolicyEngine/arch-data</a>.
 </div>
-<div id="ref-populace2026" class="csl-entry" role="listitem">
-PolicyEngine. 2026b. <em>Populace: A Microsimulation Dataset
+<div id="ref-microcosm2026" class="csl-entry" role="listitem">
+PolicyEngine. 2026b. <em>Microcosm: A Microsimulation Dataset
 Construction Pipeline</em>. <a
-href="https://github.com/PolicyEngine/populace">https://github.com/PolicyEngine/populace</a>.
+href="https://github.com/PolicyEngine/microcosm">https://github.com/PolicyEngine/microcosm</a>.
 </div>
 <div id="ref-pritchard2012" class="csl-entry" role="listitem">
 Pritchard, David R., and Eric J. Miller. 2012. <span>“Advances in

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Learn — dynamics — populace</title>
-<meta name="description" content="How the populace-dynamics Social Security microsimulation works, how it is validated, and how to read the benchmark wall — with a self-test drill." />
+<title>Learn — dynamics — microcosm</title>
+<meta name="description" content="How the microcosm-dynamics Social Security microsimulation works, how it is validated, and how to read the benchmark wall — with a self-test drill." />
 <link rel="icon" type="image/svg+xml" href="/assets/policyengine-mark.svg" />
 <meta name="theme-color" content="#FFFFFF" />
 <link rel="stylesheet" href="/vendor/fonts/fonts.css" />
@@ -75,7 +75,7 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
 <main class="learn-main">
   <p class="crumb"><a href="/dynamics">dynamics</a> / learn</p>
   <h1>How the model works — and how to check it</h1>
-  <p class="learn-lede">populace-dynamics is a dynamic microsimulation of Social Security built on the PSID panel. This page explains the machine, the validation discipline around it, and how to read the <a href="/dynamics/benchmarks">benchmark wall</a> — then lets you quiz yourself.</p>
+  <p class="learn-lede">microcosm-dynamics is a dynamic microsimulation of Social Security built on the PSID panel. This page explains the machine, the validation discipline around it, and how to read the <a href="/dynamics/benchmarks">benchmark wall</a> — then lets you quiz yourself.</p>
   <nav class="learn-toc">
     <a href="#watch">watch it work</a>
     <a href="#model">the model</a>
@@ -111,7 +111,7 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
 
   <h2 id="model">The model</h2>
   <p>Dynamic microsimulation is the method behind DYNASIM (Urban Institute) and MINT (Social Security Administration): start from real people's longitudinal records, age each person forward through estimated transition models — work, marriage, children, disability, death, benefit claiming — then run program rules over the projected lifepaths and add them up. It's how you answer questions that cross decades and generations: who gains from a benefit formula change in 2050, and what it does to payroll revenue on the way there.</p>
-  <p>populace-dynamics builds on the <strong>Panel Study of Income Dynamics</strong> — the longest-running household panel in the world, following the same families since 1968. The choice trades the administrative earnings precision of MINT's matched frame for something the field has never had: a Social Security microsimulation whose data, code, and validation record are <strong>fully public and reproducible end to end</strong>.</p>
+  <p>microcosm-dynamics builds on the <strong>Panel Study of Income Dynamics</strong> — the longest-running household panel in the world, following the same families since 1968. The choice trades the administrative earnings precision of MINT's matched frame for something the field has never had: a Social Security microsimulation whose data, code, and validation record are <strong>fully public and reproducible end to end</strong>.</p>
   <h3>The pipeline</h3>
   <ul>
     <li><strong>Histories:</strong> PSID individual and family records, 1968–2023 — marriage, fertility, and earnings histories read directly from the panel.</li>
@@ -137,9 +137,9 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
   <h2 id="data">Weights, imputation, and calibration</h2>
   <p>No survey arrives ready. Three standard repairs make a panel usable, and the visualization above encodes the first two:</p>
   <ul>
-    <li><strong>Weights — two systems, two jobs.</strong> The PSID deliberately oversampled low-income families at its start, so each family carries a survey weight — in the diagram, heavier lines are people who stand for more of the population. PSID weights do two things: they make the fitted transition <em>rates</em> representative (every model is estimated weighted), and they weight the published survey-frame estimates (children inherit the mother's weight). The national projection is a different run: there the units are the populace frame's people and the weights are the frame's calibrated weights, carried forward under a pinned rule — PSID contributes laws, not people, to that run. In short: PSID weights make the rates representative; frame weights make the people representative.</li>
+    <li><strong>Weights — two systems, two jobs.</strong> The PSID deliberately oversampled low-income families at its start, so each family carries a survey weight — in the diagram, heavier lines are people who stand for more of the population. PSID weights do two things: they make the fitted transition <em>rates</em> representative (every model is estimated weighted), and they weight the published survey-frame estimates (children inherit the mother's weight). The national projection is a different run: there the units are the microcosm frame's people and the weights are the frame's calibrated weights, carried forward under a pinned rule — PSID contributes laws, not people, to that run. In short: PSID weights make the rates representative; frame weights make the people representative.</li>
     <li><strong>Imputation.</strong> Panels have holes — missed interviews, questions a wave never asked. Where a history has a gap, values are filled by models estimated from everything that <em>was</em> observed, and marked as imputed rather than passed off as data (the hatched segment in the diagram).</li>
-    <li><strong>Calibration — on the cross-sectional side.</strong> The populace program builds the calibrated national microdata: reweighting to administrative totals and imputing what surveys never ask. The division of labor is deliberate: <strong>the panel supplies transitions</strong> — who moves between work, marriage, disability, claiming — while <strong>calibrated cross-sections supply representativeness</strong>. The dynamics side never calibrates to the benchmarks it validates against; levels are checked against SSA, Trustees, and CBO series and divergences are explained on the wall.</li>
+    <li><strong>Calibration — on the cross-sectional side.</strong> The microcosm program builds the calibrated national microdata: reweighting to administrative totals and imputing what surveys never ask. The division of labor is deliberate: <strong>the panel supplies transitions</strong> — who moves between work, marriage, disability, claiming — while <strong>calibrated cross-sections supply representativeness</strong>. The dynamics side never calibrates to the benchmarks it validates against; levels are checked against SSA, Trustees, and CBO series and divergences are explained on the wall.</li>
   </ul>
 
   <h3 id="seam">How the panel and the cross-section fit together</h3>
@@ -159,15 +159,15 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
     .seam-note { font-size: 0.8rem; opacity: 0.75; margin-top: 0.5rem; }
     @media (max-width: 560px) { .seam-fig .cols { grid-template-columns: 1fr; } }
   </style>
-  <figure class="seam-fig" aria-label="How the PSID panel and the populace cross-section combine">
+  <figure class="seam-fig" aria-label="How the PSID panel and the microcosm cross-section combine">
     <div class="cols">
       <div class="seam-box seam-panel">
-        <span class="tag">The panel — populace-dynamics</span>
+        <span class="tag">The panel — microcosm-dynamics</span>
         <p><strong>PSID: the same families, 1968–2023.</strong> Supplies <em>transitions</em> — the estimated modules of the annual loop (mortality, marriage, disability, earnings, claiming), each certified on a temporal holdout.</p>
         <p>Knows <em>how lives change</em>. Its sample is small and its weights are survey weights.</p>
       </div>
       <div class="seam-box seam-xsec">
-        <span class="tag">The cross-section — populace</span>
+        <span class="tag">The cross-section — microcosm</span>
         <p><strong>Calibrated national microdata (CPS frame).</strong> Reweighted to administrative totals, with imputations for what surveys never ask.</p>
         <p>Knows <em>who the country is</em> in one year — but not what happens to anyone next year.</p>
       </div>
@@ -274,7 +274,7 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
 <script>
 (function () {
   var cards = [
-    ["What kind of model is populace-dynamics?", "A dynamic microsimulation: real PSID histories, aged person-by-person through estimated transitions, with Social Security rules run over projected lifepaths."],
+    ["What kind of model is microcosm-dynamics?", "A dynamic microsimulation: real PSID histories, aged person-by-person through estimated transitions, with Social Security rules run over projected lifepaths."],
     ["Claiming-age shares vs published DYNASIM3?", "Within ±0.4 percentage points in every earnings quintile."],
     ["How many benchmark rows, and the tier split?", "101 rows: 18 admin-truth, 82 model-triangulation, 1 statutory parameter."],
     ["How many unexplained gaps are allowed?", "Zero — every divergence carries a class and a written explanation, enforced in CI."],

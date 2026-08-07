@@ -4,12 +4,12 @@
   "redirects": [
     {
       "source": "/dashboard",
-      "destination": "/calibration/dashboard/populace",
+      "destination": "/calibration/dashboard/microcosm",
       "permanent": false
     },
     {
       "source": "/calibration/dashboard",
-      "destination": "/calibration/dashboard/populace",
+      "destination": "/calibration/dashboard/microcosm",
       "permanent": false
     },
     {
