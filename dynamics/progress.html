@@ -16,6 +16,12 @@
 <link rel="stylesheet" href="/style.css" />
 <style>
   .progress-main { max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
+  .progress-main a {
+    color: var(--accent-strong);
+    text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    text-underline-offset: 0.18em;
+  }
+  .progress-main a:hover { color: var(--accent); }
   .progress-hero { padding: 72px 0 8px; }
   .asof { font-family: var(--font-mono); font-size: 13px; color: var(--text-tertiary); margin-top: 10px; }
   .asof .live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 6px; vertical-align: baseline; }
