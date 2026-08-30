@@ -8,6 +8,11 @@
       "permanent": false
     },
     {
+      "source": "/progress",
+      "destination": "/dynamics/progress",
+      "permanent": false
+    },
+    {
       "source": "/calibration/dashboard",
       "destination": "/calibration/dashboard/microcosm",
       "permanent": false
