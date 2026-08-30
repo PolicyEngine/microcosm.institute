@@ -47,6 +47,20 @@
   .links-list { list-style: none; padding: 0; margin: 16px 0 0; font-size: 15px; }
   .links-list li { padding: 5px 0; }
   .progress-lede { font-size: 17px; line-height: 1.6; color: var(--text-secondary); max-width: 720px; }
+  .score-table-wrap { overflow-x: auto; margin: 18px 0 10px; }
+  .score-table { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 640px; }
+  .score-table th, .score-table td { text-align: left; padding: 9px 11px; border-bottom: 1px solid var(--border-soft); vertical-align: top; line-height: 1.45; }
+  .score-table th { font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; color: var(--text-tertiary); letter-spacing: 0.04em; }
+  .score-table td.gate-name { font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+  .score-table td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .bench-list { list-style: none; padding: 0; margin: 14px 0 0; }
+  .bench-list li { padding: 8px 0; border-bottom: 1px solid var(--border-soft); font-size: 15px; line-height: 1.5; color: var(--text-secondary); }
+  .bench-status { font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-strong); }
+  details.drill { margin: 10px 0; border: 1px solid var(--border-soft); border-radius: 4px; background: var(--paper); }
+  details.drill summary { cursor: pointer; padding: 12px 16px; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  details.drill summary:hover { color: var(--accent-strong); }
+  details.drill .drill-body { padding: 0 16px 14px; }
+  .drill-unit { font-size: 13.5px; color: var(--text-tertiary); line-height: 1.5; margin: 4px 0 10px; }
   @media (max-width: 560px) { .milestone-feed li { grid-template-columns: 1fr; gap: 2px; } }
 </style>
 </head>
@@ -91,6 +105,42 @@
   <section class="progress-section">
     <h2>Verification arms</h2>
     <div id="arms"></div>
+  </section>
+
+  <section class="progress-section" id="drill-section" hidden>
+    <h2>Inside the numbers</h2>
+    <p class="forecast-note">Row-by-row decomposition of each arm's progress bar — every row extracted from the campaign's evidence archive and independently re-verified.</p>
+    <details class="drill"><summary>Purpose census, document by document</summary>
+      <div class="drill-body"><p class="drill-unit" id="drill-purpose-unit"></p>
+      <div class="score-table-wrap"><table class="score-table"><thead><tr><th>document</th><th>ranks</th><th>count</th><th>status</th><th>dispositions</th><th>audit</th></tr></thead><tbody id="drill-purpose-rows"></tbody></table></div></div>
+    </details>
+    <details class="drill"><summary>A3 classification, block by block</summary>
+      <div class="drill-body"><p class="drill-unit" id="drill-a3-unit"></p>
+      <div class="score-table-wrap"><table class="score-table"><thead><tr><th>block</th><th>final census</th><th>audit</th><th>status</th></tr></thead><tbody id="drill-a3-rows"></tbody></table></div></div>
+    </details>
+    <details class="drill"><summary>Q5 annotation, sealed documents</summary>
+      <div class="drill-body"><p class="drill-unit" id="drill-q5-unit"></p>
+      <div class="score-table-wrap"><table class="score-table"><thead><tr><th>document</th><th>rows sealed</th><th>verdict</th><th>sealed</th></tr></thead><tbody id="drill-q5-rows"></tbody></table></div></div>
+    </details>
+  </section>
+
+  <section class="progress-section" id="scorecard-section" hidden>
+    <h2>Development scorecard</h2>
+    <p class="forecast-note" id="scorecard-headline"></p>
+    <p class="forecast-note">Every candidate model is registered before its single scored run, and every run — pass or fail — is committed. The failures are part of the record.</p>
+    <div class="score-table-wrap"><table class="score-table">
+      <thead><tr><th>gate</th><th>what it tests</th><th>candidates</th><th>first pass</th></tr></thead>
+      <tbody id="gate-rows"></tbody>
+    </table></div>
+    <h3 style="font-size:19px;margin:34px 0 6px;">Comparisons against the incumbent models</h3>
+    <p class="forecast-note" id="bench-intro"></p>
+    <ul class="bench-list" id="bench-items"></ul>
+    <h3 style="font-size:19px;margin:34px 0 6px;">Capability scorecard vs DYNASIM</h3>
+    <p class="forecast-note" id="cap-intro"></p>
+    <div class="score-table-wrap"><table class="score-table">
+      <thead><tr><th>component</th><th>DYNASIM</th><th>this project</th></tr></thead>
+      <tbody id="cap-rows"></tbody>
+    </table></div>
   </section>
 
   <section class="progress-section">
@@ -158,14 +208,14 @@
         label: "Prompt-purpose census",
         description:
           "Establishing what each of the ~21,000 remaining items in the PSID's 1968–2023 questionnaires and codebooks is actually asking, so the model only uses variables whose meaning has been adjudicated rather than assumed. Each block runs a full pass, an independent dense audit, and a correction sweep before its entries are adopted into the governing ledger.",
-        done: 11260, total: 20815,
-        unit: "prompts adopted (contiguous R1–R11260)"
+        done: 11576, total: 20815,
+        unit: "prompts adopted (contiguous R1–R11576)"
       },
       {
         label: "A3 classification arm",
         description:
           "Deciding how zeros and missing readings in the source data should be interpreted — a true zero, a question that was never asked, or an inapplicable route — across a 41,103-row queue of PSID variable readings, in 800-row blocks with 20% independent audits and correction sweeps.",
-        done: 34400, total: 41103,
+        done: 35200, total: 41103,
         unit: "queue rows final-adopted"
       },
       {
@@ -206,6 +256,8 @@
       { text: "The Populace dynamics paper", href: "/dynamics/paper" }
     ]
   };
+
+  var BAKED_SCORECARD = {"headline": "Eight pre-registered gates; all seven locked gates have a registered first pass; 48 one-shot candidate runs on the public record.", "gates": [{"id": "gate_1", "name": "Earnings-history credibility", "tests": "The backcast earnings process scores against held-out PSID panel moments and geometry blocks, judged against the same-panel noise floor.", "locked": "2026-07-05", "candidates": 13, "first_pass": "Candidate 13 (rank_knn_v5, 2026-07-07): 5/5 seeds geometry, 4/5 battery, C2ST 0.523 ≤ 0.53 — after 12 committed failing runs."}, {"id": "gate_2", "name": "Family transitions (marital and fertility)", "tests": "Marriage, divorce, remarriage, widowhood, occupancy, cohort nuptiality, and fertility transitions scored against the PSID marital and childbirth history files.", "locked": "2026-07-08", "candidates": 16, "first_pass": "Candidate 16 (hazard_v16, 2026-07-09): 4/5 seeds across all 46 gated cells — after 15 committed failing runs."}, {"id": "gate_2b", "name": "Household composition", "tests": "Who lives with whom: coresidence stocks and wave-to-wave transitions from the PSID relationship matrix — spouse/partner, parent, child, grandchild, household size, multigenerational entry and exit.", "locked": "2026-07-10", "candidates": 9, "first_pass": "Candidate 9 (hazard_v9, 2026-07-11): 4/5 seeds — after 8 committed failing runs."}, {"id": "gate_2c", "name": "Marriage × earnings joint", "tests": "Who marries whom by earnings — assortative mating, earnings-conditional marriage hazards, and couple shared-earnings shape, on which spousal and survivor benefit levels depend.", "locked": "2026-07-10", "candidates": 2, "first_pass": "Candidate 2 (hazard_v2, 2026-07-12): 4/5 seeds."}, {"id": "gate_m4", "name": "Disability", "tests": "Work-limitation incidence and recovery hazards, disabled-occupancy prevalence, and near-retirement disability exit, anchored against SSA Disability Annual Statistical Report tables.", "locked": "2026-07-12", "candidates": 1, "first_pass": "Candidate 1 (2026-07-12): 5/5 seeds, all 12 gated cells — passed on the first attempt."}, {"id": "gate_w1", "name": "Representative-frame transport", "tests": "The PSID-estimated generators transported onto the certified CPS representative frame: 44 gated cross-sectional cells plus SSA administrative margins.", "locked": "2026-07-12", "candidates": 4, "first_pass": "Candidate 4 (2026-07-13): 43/43 cells in-band on 5/5 seeds — after 3 failing candidates."}, {"id": "gate_m6", "name": "Temporal-holdout projection drift", "tests": "The projection engine fits on data through 2014 only, then projects and is scored on the held-out 2015–2022 window — a genuine out-of-time test.", "locked": "2026-07-13", "candidates": 3, "first_pass": "Candidate 3 (2026-07-24): 4/5 seeds across the 11 gated cells."}, {"id": "gate_3", "name": "Forward projection", "tests": "Near-term components resolve against future administrative publications on named resolution rules — scored when the numbers come out.", "locked": null, "candidates": 0, "first_pass": null}], "incumbent_benchmarks": {"intro": "Direct number-for-number comparisons against the incumbent models are registered as a benchmark inventory that fills in as modules land — shown here before launch, deliberately.", "items": [{"name": "MINT / CBO / SSA benchmark inventory (tranche 2)", "status": "2 of 60 rows computable", "detail": "60 registered comparison rows against published MINT (19), CBO (30), and SSA Statistical Supplement (11) figures; 58 rows await the modules that compute them. Each row is pinned to the captured source file by hash.", "href": "https://github.com/PolicyEngine/microcosm-dynamics/blob/master/runs/benchmark_tranche2_evaluation_v1.json"}, {"name": "Cross-sectional incumbent replacement (Enhanced CPS)", "status": "candidate beats incumbent", "detail": "Archived scorecard: a Microcosm-US candidate against the certified Enhanced CPS 2024 production incumbent on 3,704 calibration targets — candidate loss 0.228 vs incumbent 1.405 (holdout 0.038 vs 0.317). Publication pending in microcosm-benchmarks.", "href": "https://github.com/PolicyEngine/microcosm-benchmarks"}, {"name": "DYNASIM output comparisons", "status": "not yet", "detail": "No quantitative DYNASIM-output rows exist yet; today's DYNASIM comparison is the capability table below. Quantitative rows begin at the projection and benefit stages.", "href": null}]}, "capabilities": {"intro": "Component-by-component against DYNASIM, the main non-governmental dynamic benchmark (from the public record; full matrix in the design book).", "rows": [{"component": "Historical earnings", "dynasim": "Lifetime histories from survey plus linked administrative inputs", "ours": "PSID 1968–2022 panel; gate 1 passed (13th candidate)"}, {"component": "Family structure", "dynasim": "Marriage, divorce, and family in the annual simulation", "ours": "Gates 2, 2b, 2c passed across three tranches"}, {"component": "Disability", "dynasim": "Documented health and work-limitation modules", "ours": "Gate m4 passed, anchored to SSA administrative tables"}, {"component": "Base population", "dynasim": "SIPP-based starting sample", "ours": "Certified CPS synthetic frame; transport gate w1 passed"}, {"component": "Forward projection", "dynasim": "Annual updating and alignment", "ours": "Temporal-holdout gate m6 passed; forward gate pre-lock"}, {"component": "Social Security rule engine", "dynasim": "Rule-based, code not public", "ours": "Open PolicyEngine-US engine plus AIME/PIA oracle (built, not gated)"}, {"component": "Claiming behavior", "dynasim": "Retirement-and-timing model", "ours": "Reduced-form claim-age distribution (built, reported, not gated)"}, {"component": "Auxiliary benefits", "dynasim": "Spouse and survivor analysis in natural domain", "ours": "Spousal, survivor, widow incl. dual-entitlement logic (built, not gated)"}, {"component": "Wealth, assets, and LTSS", "dynasim": "Major documented strength", "ours": "Design-only — a later extension track"}]}};
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -308,7 +360,94 @@
     });
   }
 
+  function renderScorecard(sc) {
+    document.getElementById("scorecard-section").hidden = false;
+    document.getElementById("scorecard-headline").textContent = sc.headline;
+    var gr = document.getElementById("gate-rows");
+    gr.textContent = "";
+    sc.gates.forEach(function (g) {
+      var tr = el("tr");
+      var n = el("td", "gate-name", g.name); tr.appendChild(n);
+      tr.appendChild(el("td", null, g.tests));
+      tr.appendChild(el("td", "num", g.candidates ? String(g.candidates) : "—"));
+      tr.appendChild(el("td", null, g.first_pass || (g.locked ? "—" : "— (thresholds not yet locked)")));
+      gr.appendChild(tr);
+    });
+    document.getElementById("bench-intro").textContent = sc.incumbent_benchmarks.intro;
+    var bl = document.getElementById("bench-items");
+    bl.textContent = "";
+    sc.incumbent_benchmarks.items.forEach(function (it) {
+      var li = el("li");
+      var b = el("strong", null, it.name + " — ");
+      li.appendChild(b);
+      li.appendChild(el("span", "bench-status", it.status + ". "));
+      li.appendChild(document.createTextNode(it.detail + " "));
+      if (it.href) { var a = el("a", null, "source"); a.href = it.href; li.appendChild(a); }
+      bl.appendChild(li);
+    });
+    document.getElementById("cap-intro").textContent = sc.capabilities.intro;
+    var cr = document.getElementById("cap-rows");
+    cr.textContent = "";
+    sc.capabilities.rows.forEach(function (r) {
+      var tr = el("tr");
+      var c = el("td", "gate-name", r.component); tr.appendChild(c);
+      tr.appendChild(el("td", null, r.dynasim));
+      tr.appendChild(el("td", null, r.ours));
+      cr.appendChild(tr);
+    });
+  }
+
   render(BAKED, false);
+  try { renderScorecard(BAKED_SCORECARD); } catch (e) {}
+
+  function renderDrill(det) {
+    document.getElementById("drill-section").hidden = false;
+    document.getElementById("drill-purpose-unit").textContent = det.purpose.unit;
+    var pb = document.getElementById("drill-purpose-rows");
+    pb.textContent = "";
+    det.purpose.rows.forEach(function (r) {
+      var tr = el("tr");
+      tr.appendChild(el("td", "gate-name", r.document));
+      tr.appendChild(el("td", "num", "R" + r.rank_start.toLocaleString() + "\u2013R" + r.rank_end.toLocaleString()));
+      tr.appendChild(el("td", "num", r.ranks.toLocaleString()));
+      tr.appendChild(el("td", null, r.status));
+      tr.appendChild(el("td", null, r.dispositions || "\u2014"));
+      tr.appendChild(el("td", null, r.audit || "\u2014"));
+      pb.appendChild(tr);
+    });
+    document.getElementById("drill-a3-unit").textContent = det.a3.unit;
+    var ab = document.getElementById("drill-a3-rows");
+    ab.textContent = "";
+    det.a3.rows.forEach(function (r) {
+      var tr = el("tr");
+      tr.appendChild(el("td", "num", r.rank_start.toLocaleString() + "\u2013" + r.rank_end.toLocaleString()));
+      tr.appendChild(el("td", null, r.final || "\u2014"));
+      tr.appendChild(el("td", null, r.audit || "\u2014"));
+      tr.appendChild(el("td", null, r.status));
+      ab.appendChild(tr);
+    });
+    document.getElementById("drill-q5-unit").textContent = det.q5.unit;
+    var qb = document.getElementById("drill-q5-rows");
+    qb.textContent = "";
+    det.q5.rows.forEach(function (r) {
+      var tr = el("tr");
+      tr.appendChild(el("td", null, r.label));
+      tr.appendChild(el("td", "num", r.rows_sealed == null ? "\u2014" : r.rows_sealed.toLocaleString()));
+      tr.appendChild(el("td", null, r.verdict || "\u2014"));
+      tr.appendChild(el("td", "num", r.sealed_on || "\u2014"));
+      qb.appendChild(tr);
+    });
+  }
+
+  fetch("https://raw.githubusercontent.com/PolicyEngine/microcosm-dynamics/master/docs/progress/detail.json", { cache: "no-store" })
+    .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+    .then(function (d) { if (d && d.purpose && d.a3 && d.q5) renderDrill(d); })
+    .catch(function () { /* section stays hidden */ });
+
+  fetch("https://raw.githubusercontent.com/PolicyEngine/microcosm-dynamics/master/docs/progress/scorecard.json", { cache: "no-store" })
+    .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+    .then(function (d) { if (d && d.gates) renderScorecard(d); })
+    .catch(function () { /* baked scorecard stays */ });
 
   fetch(DATA_URL, { cache: "no-store" })
     .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
