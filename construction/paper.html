@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Constructing representative microdata — microcosm</title>
+<meta name="description" content="Working paper: the two-stage Microcosm pipeline — weight-aware machine-learning imputation and target-informed sparse optimization — that builds representative microdata with sub-national weights." />
+<meta property="og:title" content="Constructing representative microdata with sub-national weights" />
+<meta property="og:description" content="The two-stage pipeline behind the certified Microcosm US release: fill with weighted, gated, chained imputation; represent with target-informed L0 selection and calibration." />
+<meta property="og:type" content="article" />
+<link rel="icon" type="image/svg+xml" href="/assets/microcosm-operator.svg" />
+<meta name="theme-color" content="#F6FAF7" />
+
+<link rel="stylesheet" href="/vendor/fonts/microcosm-fonts.css" />
+<link rel="stylesheet" href="/vendor/microcosm-tokens.css" />
+<link rel="stylesheet" href="/style.css" />
+<link rel="stylesheet" href="/paper-page.css" />
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="/">
+    <svg class="wm" viewBox="-16 -690 5245 726" role="img" aria-label="microcosm"><g text-anchor="middle" font-family="Urbanist,'Avenir Next','Century Gothic',Futura,sans-serif" font-size="1000" font-weight="400" fill="currentColor"><text x="444.25" y="0" fill-opacity=".75">m</text><text x="1023.5" y="0" fill-opacity=".83">i</text><text x="1413.25" y="0" fill-opacity=".9">c</text><text x="1886.75" y="0" fill-opacity=".96">r</text><text x="2385.5" y="0">o</text><text x="2960.25" y="0" fill-opacity=".96">c</text><text x="3535" y="0" fill-opacity=".9">o</text><text x="4069.75" y="0" fill-opacity=".83">s</text><text x="4768.75" y="0" fill-opacity=".75">m</text></g><circle cx="2385.5" cy="-251" r="77" fill="var(--accent)"/></svg>
+  </a>
+  <nav class="nav-links">
+    <a href="/#idea">the idea</a>
+    <a href="/#stack">the stack</a>
+    <a href="/#result">evidence</a>
+    <a href="/papers">papers</a>
+    <a href="/papers">all papers</a>
+    <a class="nav-gh" href="https://github.com/PolicyEngine/imputation-paper" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"/></svg></a>
+  </nav>
+</header>
+
+<main class="paper-main">
+  <p class="strategy-crumb reveal" style="--d:0"><a href="/papers">papers</a> / construction / paper</p>
+  <section class="paper-hero">
+    <p class="eyebrow reveal" style="--d:0">working paper · revised after the 39th IARIW General Conference</p>
+    <h1 class="paper-title reveal" style="--d:1">
+      Constructing representative microdata with sub-national weights
+    </h1>
+    <p class="paper-lede reveal" style="--d:2">
+      The two-stage pipeline behind the certified Microcosm U.S. release: fill the file with
+      weighted, regime-gated, chained quantile-regression-forest imputation; represent the
+      population with target-informed L<sub>0</sub> selection and calibration against 32,633
+      administrative targets. Ghenis, Juaristi, Woodruff &amp; Ogorek.
+    </p>
+    <div class="hero-cta reveal" style="--d:3">
+      <a class="btn btn-primary" href="/construction/constructing-representative-microdata.pdf">Read the paper (PDF)</a>
+      <a class="btn btn-ghost" href="https://github.com/PolicyEngine/imputation-paper">Paper &amp; experiment code</a>
+      <a class="btn btn-ghost" href="/calibration/dashboard">Live calibration dashboard</a>
+    </div>
+    <dl class="paper-facts reveal" style="--d:4">
+      <div>
+        <dt class="mono">stage one</dt>
+        <dd>Weighting where the design is informative is first-order: the identical estimator fit unweighted is 6&times; worse on net-worth fit, its 99th percentile 1.9&ndash;2.3&times; the holdout&rsquo;s.</dd>
+      </div>
+      <div>
+        <dt class="mono">stage two</dt>
+        <dd>Gates select 57,240 of 337,704 candidate records; refit publication weights reach a 4.74% loss against 5.07% dense and 7.55% random.</dd>
+      </div>
+      <div>
+        <dt class="mono">deployed</dt>
+        <dd>The support ships as the certified Microcosm U.S. release and scores the One Big Beautiful Bill Act at national, state, and district level.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section id="web" class="paper-viewer" aria-labelledby="web-paper-title">
+    <div class="paper-viewer-head">
+      <div>
+        <span class="kicker mono">paper</span>
+        <h2 id="web-paper-title">Read here</h2>
+      </div>
+      <a class="btn btn-ghost" href="/construction/constructing-representative-microdata.pdf">Open the PDF</a>
+    </div>
+    <iframe class="paper-frame" src="/construction/constructing-representative-microdata.pdf" title="Constructing representative microdata with sub-national weights"></iframe>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-row">
+    <a class="brand" href="/"><svg class="wm" viewBox="-16 -690 5245 726" role="img" aria-label="microcosm"><g text-anchor="middle" font-family="Urbanist,'Avenir Next','Century Gothic',Futura,sans-serif" font-size="1000" font-weight="400" fill="currentColor"><text x="444.25" y="0" fill-opacity=".75">m</text><text x="1023.5" y="0" fill-opacity=".83">i</text><text x="1413.25" y="0" fill-opacity=".9">c</text><text x="1886.75" y="0" fill-opacity=".96">r</text><text x="2385.5" y="0">o</text><text x="2960.25" y="0" fill-opacity=".96">c</text><text x="3535" y="0" fill-opacity=".9">o</text><text x="4069.75" y="0" fill-opacity=".83">s</text><text x="4768.75" y="0" fill-opacity=".75">m</text></g><circle cx="2385.5" cy="-251" r="77" fill="var(--accent)"/></svg></a>
+  </div>
+  <p class="mono foot-fine">
+    Calibrated synthetic microdata for public policy. Open source · MIT · <a href="https://policyengine.org">a PolicyEngine project</a>.
+  </p>
+</footer>
+  <script src="/reveal.js" defer></script>
+</body>
+</html>
