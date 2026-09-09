@@ -38,6 +38,13 @@
     "puf_clone": "combined_survey_frame_integration_pending",
     "puf_source_ingestion": {
       "count_fields": 1,
+      "count_v3_followup": {
+        "count_fields": 7,
+        "ordinary_rows": 207692,
+        "release_eligible": false,
+        "scope": "Publisher count identities and capped return-size proxy; not a true person count, donor fit or target-year growth.",
+        "source_receipt_sha256": "b4234ed2a8c7382f29a9735b7de371710c8c74ac15b43ea34c35935aa540c2a9"
+      },
       "date": "2026-09-09",
       "demographic_missing_ordinary_rows": 88017,
       "description": "Source ingestion and typed serialization only; not an enriched population or calibrated release.",
@@ -53,7 +60,22 @@
       "source_receipt_sha256": "e4378b940d03ec8fc4f5f30a120ccb50852be43b166d314f5a31c7b3e53347ab",
       "target_year_growth": false
     },
-    "scf": "initial_source_preparation_refused_signed_wage_assumption_under_investigation"
+    "scf": {
+      "complete_loan_inputs": "pending",
+      "correction": "Preserve raw wage values; map only the identified publisher zero-wage code to zero for modeling.",
+      "release_eligible": false,
+      "rows": 22975,
+      "runtime_receipt_sha256": "a3877e7b918a8772ace00578521cc73fbb3a335d06605c54d2e5f269411b6386",
+      "scope": "Source preparation plus small/full same-source model mechanism; not held-out fit quality or combined-population enrichment.",
+      "status": "corrected_source_and_same_source_mechanism_passed"
+    },
+    "survey_successor_replay": {
+      "cpu_limit_seconds": 7200,
+      "last_stage": "persisted_artifact_verification",
+      "release_eligible": false,
+      "remaining": "Qualify identity-encoding optimization on small controls before repeating the genuine build.",
+      "status": "failed_cpu_limit"
+    }
   },
   "intended_analysis_scope": [
     "national",
