@@ -1,5 +1,6 @@
 {
   "as_of": "2026-09-09",
+  "as_of_utc": "2026-09-09T20:19:37.720763+00:00",
   "integration": {
     "canonical_donor_v2": {
       "codec_version": 2,
@@ -34,6 +35,23 @@
       "source_resource_model_postcheck_passed": true,
       "status": "passed",
       "wall_seconds": 58.28413141699275
+    },
+    "current_social_security_source": {
+      "invented_original_source_issuance_cases": 2,
+      "native_component_model": "pending",
+      "numerical_and_literal_cases": 50,
+      "peak_rss_bytes": 428916736,
+      "puf55_integration": "pending",
+      "receipt_sha256": "2b9d8e45cec11a6ebda2ccc01c5f12374e794ec0c006ba6525f082fd6454049b",
+      "release_eligible": false,
+      "scope": "Source-report totals, question-universe unknownness, current source period, reason/allocation literals and defensive live requalification on invented inputs. No individual beneficiary assignment or native component model.",
+      "source_commit": "4aaaeb9ab527d6089e84cb86aa2f6ee3c8c1923e",
+      "source_resource_model_postcheck_passed": true,
+      "status": "passed",
+      "tests_passed": 52,
+      "tests_skipped": 0,
+      "unexpected_access_refusals": 0,
+      "wall_seconds": 67.62704470800236
     },
     "current_source_controls": {
       "peak_rss_bytes": 738738176,
@@ -82,6 +100,24 @@
     },
     "full_candidate_calibration": "pending",
     "national_and_cd_release_verification": "pending",
+    "puf55_survey_social_security": {
+      "historical_profile_tests_passed": 128,
+      "integrated_component_tests_passed": 225,
+      "integrated_peak_rss_bytes": 687751168,
+      "integrated_receipt_sha256": "63ef0ad0602a66d40f0736490d4c1e29f57723ba938c58d317802b387f947a87",
+      "integrated_wall_seconds": 205.5707042500144,
+      "native_component_model": "pending",
+      "native_donor_recipient_total_binding": "pending",
+      "new_profile_tests_passed": 11,
+      "outputs": 55,
+      "predictors": 9,
+      "release_eligible": false,
+      "scope": "Real QRF fits, finalization and required replay on invented inputs; preserves survey SS incumbent values and requires a separate conditioning total. Shared geography, SS source and historical PUF controls pass together.",
+      "source_commit": "4bdc97253c6e986f6a5e4a53c1c8a3487415de4b",
+      "source_resource_model_postcheck_passed": true,
+      "status": "component_controls_passed",
+      "whole_population_puf55_attachment": "pending"
+    },
     "puf_clone": "combined_survey_frame_integration_pending",
     "puf_source_ingestion": {
       "count_fields": 1,
