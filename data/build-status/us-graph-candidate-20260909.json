@@ -1,6 +1,42 @@
 {
   "as_of": "2026-09-09",
   "integration": {
+    "canonical_donor_v2": {
+      "codec_version": 2,
+      "ordinary_returns": 207692,
+      "outputs": 59,
+      "peak_rss_bytes": 1946402816,
+      "receipt_sha256": "6b334ca8df6c6ba721b60f84d28c43151a1e1b54e097616a3c0fa208daeb8cba",
+      "release_eligible": false,
+      "scope": "Genuine donor construction only; survey transfer and calibration remain pending.",
+      "selected_row_and_serialization_replay_passed": true,
+      "wall_seconds": 24.365039
+    },
+    "current_age_development_controls": {
+      "peak_rss_bytes": 541949952,
+      "receipt_sha256": "5849dd42e914e4d8304a5d290ff451da45910e7ac9a61e76fff36468949ffe3a",
+      "release_eligible": false,
+      "scope": "Invented seven-node age development and late target/successor mutation refusals after strict diagnostic-option reconstruction correction.",
+      "source_commit": "a9895d8a50886470f6dfe4b2b9d20c352c9871cf",
+      "source_resource_model_postcheck_passed": true,
+      "tests_passed": 16,
+      "tests_skipped": 0,
+      "unexpected_access_refusals": 0,
+      "wall_seconds": 170.33351116700214
+    },
+    "current_source_controls": {
+      "peak_rss_bytes": 738738176,
+      "receipt_sha256": "d940913f918af4455dab2b9e680d55f9efc7bb922f72ff3d8fe26b0530b070f7",
+      "release_eligible": false,
+      "scope": "Invented integration, replay, metadata copying, canonical/growth wrappers and byte-preserving frame identity controls. No full population certification.",
+      "source_commit": "8b076b1fa8672725c6f41a801b0ef68aa8af005e",
+      "source_resource_model_postcheck_passed": true,
+      "synthetic_issuance_cases_explicitly_excluded": 7,
+      "tests_passed": 314,
+      "tests_skipped": 0,
+      "unexpected_access_refusals": 0,
+      "wall_seconds": 253.4782890409988
+    },
     "dashboard_acceptance_on_final_file": "pending",
     "enrichment_replay": {
       "cold_and_required_replay_complete_population": true,
@@ -73,7 +109,7 @@
       "cpu_limit_seconds": 7200,
       "last_stage": "persisted_artifact_verification",
       "release_eligible": false,
-      "remaining": "Qualify identity-encoding optimization on small controls before repeating the genuine build.",
+      "remaining": "Small current-source identity and seven-node checks passed; repeat and verify the genuine build without increasing the dataset size first.",
       "status": "failed_cpu_limit"
     }
   },
