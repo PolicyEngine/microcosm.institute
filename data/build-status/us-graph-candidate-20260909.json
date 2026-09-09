@@ -24,6 +24,17 @@
       "unexpected_access_refusals": 0,
       "wall_seconds": 170.33351116700214
     },
+    "current_asec_attachment_reconstruction": {
+      "independent_exact_byte_verification": true,
+      "native_source_inputs_unchanged": true,
+      "peak_rss_bytes": 5496504320,
+      "receipt_sha256": "e1ef39e825136e518416ffaef4ab7ff82ba8277b5a5cdd281347ae0a5f2b60c8",
+      "release_eligible": false,
+      "scope": "Derived ASEC person-income attachment rebuilt under current source; no population calibration or release acceptance.",
+      "source_resource_model_postcheck_passed": true,
+      "status": "passed",
+      "wall_seconds": 58.28413141699275
+    },
     "current_source_controls": {
       "peak_rss_bytes": 738738176,
       "receipt_sha256": "d940913f918af4455dab2b9e680d55f9efc7bb922f72ff3d8fe26b0530b070f7",
@@ -105,12 +116,44 @@
       "scope": "Source preparation plus small/full same-source model mechanism; not held-out fit quality or combined-population enrichment.",
       "status": "corrected_source_and_same_source_mechanism_passed"
     },
-    "survey_successor_replay": {
-      "cpu_limit_seconds": 7200,
-      "last_stage": "persisted_artifact_verification",
+    "shared_atomic_geography": {
+      "receipt_sha256": "b20cc7777eef62c9ebcd06a45708822f9c87ccf0d991de026f0e67e1589b4749",
       "release_eligible": false,
-      "remaining": "Small current-source identity and seven-node checks passed; repeat and verify the genuine build without increasing the dataset size first.",
-      "status": "failed_cpu_limit"
+      "scope": "Invented shared-operator and real graph executor controls; country configuration and native support integration pending.",
+      "source_commit": "ebb8db8c1e9f2f0422ef5f4cf5a0954bb99a4e4b",
+      "source_resource_model_postcheck_passed": true,
+      "tests_passed": 34,
+      "tests_skipped": 0
+    },
+    "survey_successor_replay": {
+      "as_of_utc": "2026-09-09T19:23:47.230312+00:00",
+      "cpu_limit_seconds": 7200,
+      "fraction": [
+        1,
+        1000
+      ],
+      "prior_attempts": [
+        {
+          "cpu_limit_seconds": 7200,
+          "last_stage": "persisted_artifact_verification",
+          "release_eligible": false,
+          "remaining": "Small current-source identity and seven-node checks passed; repeat and verify the genuine build without increasing the dataset size first.",
+          "status": "failed_cpu_limit"
+        },
+        {
+          "peak_rss_bytes": 8160870400,
+          "reason": "RESTORATION_CANONICAL_BYTES",
+          "receipt_sha256": "8aabdebce513867f8533e64938f930fa4b267a2badf7e4c145ebb5f8c1299ae2",
+          "scope": "Stopped during ASEC verification; no accepted population.",
+          "source_pins_unchanged": true,
+          "status": "failed",
+          "wall_seconds": 680.9031908329925
+        }
+      ],
+      "release_eligible": false,
+      "remaining": "Verify the genuine seven-node run with the independently rebuilt attachment, then complete enrichment, atomic geography, calibration and release gates.",
+      "status": "running_after_attachment_reconstruction",
+      "wall_limit_seconds": 10800
     }
   },
   "intended_analysis_scope": [
@@ -144,11 +187,12 @@
   "pipeline_order": [
     "harmonize_ACS_and_CPS_ASEC",
     "assemble_combined_survey_multispine",
+    "assign_atomic_geography_and_derive_larger_areas",
     "apply_PUF_clone_and_donor_operators_to_combined_frame",
-    "assign_supported_joint_geography",
     "evaluate_rules_and_calibrate",
     "verify_full_and_pruned_exports"
   ],
+  "pipeline_order_scope": "Intended target architecture; native atomic geography integration is pending.",
   "schema_version": "microcosm.us-candidate-method-status.v1",
   "sources": {
     "cd119_bef": {
