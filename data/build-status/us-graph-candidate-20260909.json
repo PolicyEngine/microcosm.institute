@@ -1,6 +1,6 @@
 {
   "as_of": "2026-09-09",
-  "as_of_utc": "2026-09-09T20:19:37.720763+00:00",
+  "as_of_utc": "2026-09-09T20:39:15.898183+00:00",
   "integration": {
     "canonical_donor_v2": {
       "codec_version": 2,
@@ -118,7 +118,7 @@
       "status": "component_controls_passed",
       "whole_population_puf55_attachment": "pending"
     },
-    "puf_clone": "combined_survey_frame_integration_pending",
+    "puf_clone": "native_combined_survey_support_clone_verified_enrichment_pending",
     "puf_source_ingestion": {
       "count_fields": 1,
       "count_v3_followup": {
@@ -162,12 +162,40 @@
       "tests_skipped": 0
     },
     "survey_successor_replay": {
-      "as_of_utc": "2026-09-09T19:23:47.230312+00:00",
+      "as_of_utc": "2026-09-09T20:39:15.898183+00:00",
       "cpu_limit_seconds": 7200,
+      "cpu_seconds": 4115.737018,
+      "entity_rows": {
+        "current": {
+          "household": 3168,
+          "person": 6928
+        },
+        "prepared": {
+          "household": 1584,
+          "person": 3464
+        },
+        "previous": {
+          "household": 3168,
+          "person": 6928
+        }
+      },
+      "export_and_final_owner_target_verification": "passed",
       "fraction": [
         1,
         1000
       ],
+      "manifest_sha256": "2bdb68de84635c6cc2e0c25555887693304792e25d40052cd77996774cb7f669",
+      "native_counts": {
+        "acs": {
+          "households": 1529,
+          "persons": 3324
+        },
+        "asec": {
+          "households": 55,
+          "persons": 140
+        }
+      },
+      "peak_rss_bytes": 8260485120,
       "prior_attempts": [
         {
           "cpu_limit_seconds": 7200,
@@ -186,10 +214,16 @@
           "wall_seconds": 680.9031908329925
         }
       ],
+      "receipt_sha256": "2aa76b5daca7bb0df1ac85d4db23d6b5482073d31d437418d46442ef01b002ca",
       "release_eligible": false,
-      "remaining": "Verify the genuine seven-node run with the independently rebuilt attachment, then complete enrichment, atomic geography, calibration and release gates.",
-      "status": "running_after_attachment_reconstruction",
-      "wall_limit_seconds": 10800
+      "remaining": "Integrate the subsequent survey Social Security, PUF55 and atomic geography changes; complete national/CD calibration, holdouts and release export checks.",
+      "scope": "Genuine seven-node survey age-development only, before subsequent SS/PUF55/geography integration; not a launchable dataset.",
+      "source_commit": "a9895d8a50886470f6dfe4b2b9d20c352c9871cf",
+      "source_resource_postcheck_passed": true,
+      "status": "small_native_age_development_passed",
+      "unexpected_access_refusals": 0,
+      "wall_limit_seconds": 10800,
+      "wall_seconds": 4268.8438986669935
     }
   },
   "intended_analysis_scope": [
