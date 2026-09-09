@@ -1,7 +1,41 @@
 {
   "as_of": "2026-09-09",
-  "as_of_utc": "2026-09-09T22:07:21.051077+00:00",
+  "as_of_utc": "2026-09-09T22:55:40.020981+00:00",
   "integration": {
+    "atomic_age_calibration": {
+      "code_resources": 12,
+      "configured_resource_limits": {
+        "cpu_seconds": 600,
+        "wall_seconds": 900
+      },
+      "cpu_seconds": 601.979524,
+      "frozen_before_after_current_equal": true,
+      "model_source_files": 5983,
+      "native_payloads_read": 0,
+      "peak_rss_bytes": 506183680,
+      "publisher_provenance_established": false,
+      "receipt_sha256": "fc77f8ead3a5b8f2f611aa8d1d20d4c19ab6b315322be17241c0b9ec5c12bbdf",
+      "release_eligible": false,
+      "resource_observation": "The configured limits were unchanged. Reported cumulative CPU was 601.979524 seconds; the guarded process returned zero after all checks.",
+      "result": 0,
+      "scope": "Actual thirteen-node cold and required replay age calibration over invented original sources and block support. Invented data only; no native or publisher admission, no release.",
+      "source_and_owned_files": 492,
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 1
+      },
+      "tested_source_changes": {
+        "packages/microcosm-build/src/microcosm/build/us_runtime/survey_age_calibration.py": "a10b9f3552c84563d845675c772130073b925b5835d6730ffb9afc0e93170777",
+        "packages/microcosm-build/src/microcosm/build/us_runtime/survey_origin_budget.py": "c0667ad329af2f58901b0fd2f333489ad2366b83e2bac8ded95b51088d9e5d5e",
+        "packages/microcosm-build/tests/test_us_survey_age_calibration_atomic_geography.py": "25a414517974d345541bcec6152b61151b09ccc476a5350a36015c4b33dcd70e",
+        "packages/microcosm-build/tests/test_us_survey_origin_budget_atomic_geography.py": "d130335f5fb8d66e3e032984c326e1077b0a889162da8d97324f85866095905d",
+        "packages/microcosm-build/tests/test_us_survey_origin_budget_predictor_compatibility.py": "d81a82b9aedecd26d62831e93355c233093dc8fc3adec1e702d8c7f138fd8bbd"
+      },
+      "unexpected_refusals": {},
+      "wall_seconds": 613.9018378330511
+    },
     "atomic_before_clone": {
       "all_location_columns_inherited": "passed",
       "before_after_current_frozen_and_maintained_source_equal": true,
@@ -34,6 +68,147 @@
       },
       "unexpected_refusals": {},
       "wall_seconds": 6.214872374985134
+    },
+    "atomic_block_byte_sources": {
+      "code_resources": 12,
+      "cpu_seconds": 2.88845,
+      "frozen_before_after_current_equal": true,
+      "model_source_files": 5983,
+      "native_payloads_read": 0,
+      "peak_rss_bytes": 350126080,
+      "publisher_provenance_established": false,
+      "receipt_sha256": "a64003994a3f3823d06a22cbf7376ae8bcb3714d1a25110782cc72e83bfcf1cd",
+      "release_eligible": false,
+      "result": 0,
+      "scope": "36 invented source-byte adapter controls through actual PL/CD/PUMA parsers and atomic normalization: exact source/ZIP/CRC/bounds/roster/population/mapping checks, retained byte snapshots, output codec cap. Whole native PL acquisition remains excluded; no native/publisher/release acceptance.",
+      "source_and_owned_files": 494,
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 36
+      },
+      "tested_source_changes": {
+        "packages/microcosm-build/src/microcosm/build/us_runtime/atomic_block_sources.py": "b5be0b06085f0037206836a16625bb4be5dfe6dc6a12659f207e871aea53340b",
+        "packages/microcosm-build/tests/test_us_atomic_block_sources.py": "5b9a9fc74b14e354ec63b237b33736434a7b66f89135e798d222c32cc7ad788c"
+      },
+      "unexpected_refusals": {},
+      "wall_seconds": 3.594141000008676
+    },
+    "atomic_budget_replay": {
+      "code_resources": 12,
+      "cpu_seconds": 313.261743,
+      "frozen_before_after_current_equal": true,
+      "model_source_files": 5983,
+      "native_payloads_read": 0,
+      "peak_rss_bytes": 447545344,
+      "publisher_provenance_established": false,
+      "receipt_sha256": "76a132f01c33bd71af65eb0c17bb2187d9b15dfefc6e7e61ad5f935ea14f59bb",
+      "release_eligible": false,
+      "result": 0,
+      "scope": "Corrected semantic budget replay identity and FIFO/owner/mutation refusals. Invented data only; no native or publisher admission, no release.",
+      "source_and_owned_files": 492,
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 8
+      },
+      "tested_source_changes": {
+        "packages/microcosm-build/src/microcosm/build/us_runtime/survey_age_calibration.py": "a10b9f3552c84563d845675c772130073b925b5835d6730ffb9afc0e93170777",
+        "packages/microcosm-build/src/microcosm/build/us_runtime/survey_origin_budget.py": "c0667ad329af2f58901b0fd2f333489ad2366b83e2bac8ded95b51088d9e5d5e",
+        "packages/microcosm-build/tests/test_us_survey_age_calibration_atomic_geography.py": "25a414517974d345541bcec6152b61151b09ccc476a5350a36015c4b33dcd70e",
+        "packages/microcosm-build/tests/test_us_survey_origin_budget_atomic_geography.py": "d130335f5fb8d66e3e032984c326e1077b0a889162da8d97324f85866095905d",
+        "packages/microcosm-build/tests/test_us_survey_origin_budget_predictor_compatibility.py": "d81a82b9aedecd26d62831e93355c233093dc8fc3adec1e702d8c7f138fd8bbd"
+      },
+      "unexpected_refusals": {},
+      "wall_seconds": 321.5954028330161
+    },
+    "atomic_population_api_sources": {
+      "code_resources": 12,
+      "cpu_seconds": 2.923694,
+      "frozen_before_after_current_equal": true,
+      "model_source_files": 5983,
+      "native_payloads_read": 0,
+      "peak_rss_bytes": 349110272,
+      "publisher_provenance_established": false,
+      "receipt_sha256": "e76a4373281f38f98d794c89265cedbaf50744e63c60f5256dbbdb7905a3a586",
+      "release_eligible": false,
+      "result": 0,
+      "scope": "35 invented population-only Census API source controls through actual CD/PUMA parsers and atomic normalization. Exact response header, row/code types, source hashes, state/block totals, retained byte snapshots and mapping completeness; no queries, credentials, native inputs, publisher admission or release.",
+      "source_and_owned_files": 496,
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 35
+      },
+      "tested_source_changes": {
+        "packages/microcosm-build/src/microcosm/build/us_runtime/atomic_block_api_sources.py": "4bb9f58364e75846d4cbb19c3e0254468089481e28caacb67ae17eb87d802235",
+        "packages/microcosm-build/tests/test_us_atomic_block_api_sources.py": "69821ca1b81c47647d4a6a7faaf0bf9279889ef409368ed20b84779613ab5241"
+      },
+      "unexpected_refusals": {},
+      "wall_seconds": 4.598902583005838
+    },
+    "atomic_survey_prefix": {
+      "before_after_current_frozen_source_equal": true,
+      "code_resources": 12,
+      "cpu_seconds": 306.843367,
+      "model_source_files": 5983,
+      "native_geography_acceptance": false,
+      "native_payloads_read": 0,
+      "peak_rss_bytes": 440320000,
+      "pending_followups": [
+        "Nonblocking support-file open correction and its FIFO control are tested separately.",
+        "Geography-aware calibration budget and age-runner integration are tested separately.",
+        "Publisher-qualified native block support and a native calibrated build remain pending."
+      ],
+      "publisher_provenance_established": false,
+      "receipt_sha256": "025bc482224c63c06020acd537c603235b0c612dc805d3b86deccc683624993e",
+      "release_eligible": false,
+      "result": 0,
+      "scope": "Complete survey atomic-geography wrapper on invented original source files: cold and required replay, raw/enriched allocation separation, geography-before-clone ordering, full Frame/owner/weight/design inheritance and late mutation refusals.",
+      "source_and_owned_files": 489,
+      "test_source_sha256": "762c386d5333514ef1cd12c1573c2e97970573ae519f6faedff8f9e736f094b9",
+      "tested_reconstruction_source_sha256": "6c707c55e9c6a1b67241f86807700856a6438e98428b8f5704f22ae175e40f89",
+      "tests": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 5
+      },
+      "unexpected_refusals": {},
+      "wall_seconds": 315.1505964579992,
+      "wrapper_source_sha256": "794789a80298b9d239d707ba4cae605b61265846ad6dbc39330d0e1a28c2d1fc"
+    },
+    "budget_predictor_compatibility": {
+      "code_resources": 12,
+      "cpu_seconds": 35.759673,
+      "frozen_before_after_current_equal": true,
+      "model_source_files": 5983,
+      "native_payloads_read": 0,
+      "peak_rss_bytes": 519110656,
+      "publisher_provenance_established": false,
+      "receipt_sha256": "de102101abef2cb6238092df3cf2d8c87e885efec91349d130031919a5eabd4b",
+      "release_eligible": false,
+      "result": 0,
+      "scope": "Historical pair-return compatibility through both actual existing current-survey financial qualifiers; no model fitting. Invented data only; no native or publisher admission, no release.",
+      "source_and_owned_files": 492,
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 1
+      },
+      "tested_source_changes": {
+        "packages/microcosm-build/src/microcosm/build/us_runtime/survey_age_calibration.py": "a10b9f3552c84563d845675c772130073b925b5835d6730ffb9afc0e93170777",
+        "packages/microcosm-build/src/microcosm/build/us_runtime/survey_origin_budget.py": "c0667ad329af2f58901b0fd2f333489ad2366b83e2bac8ded95b51088d9e5d5e",
+        "packages/microcosm-build/tests/test_us_survey_age_calibration_atomic_geography.py": "25a414517974d345541bcec6152b61151b09ccc476a5350a36015c4b33dcd70e",
+        "packages/microcosm-build/tests/test_us_survey_origin_budget_atomic_geography.py": "d130335f5fb8d66e3e032984c326e1077b0a889162da8d97324f85866095905d",
+        "packages/microcosm-build/tests/test_us_survey_origin_budget_predictor_compatibility.py": "d81a82b9aedecd26d62831e93355c233093dc8fc3adec1e702d8c7f138fd8bbd"
+      },
+      "unexpected_refusals": {},
+      "wall_seconds": 38.938349917007145
     },
     "canonical_donor_v2": {
       "codec_version": 2,
