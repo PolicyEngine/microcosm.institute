@@ -1,6 +1,6 @@
 {
   "as_of": "2026-09-10",
-  "as_of_utc": "2026-09-10T19:17:46.275802+00:00",
+  "as_of_utc": "2026-09-10T20:48:24.096117+00:00",
   "geography_order_correction": {
     "decided_on": "2026-09-10",
     "distinct_clones_may_receive_distinct_areas": true,
@@ -5987,6 +5987,16 @@
       "unexpected_refusals": {},
       "wall_seconds": 182.49943441699725
     },
+    "postclone_budget_replay_fence": {
+      "native_acceptance": false,
+      "receipt_sha256": "24d783cac659a3a76a166259d61ecdf83a4bfb95ee85da0101f5415ba9412fa2",
+      "release_acceptance": false,
+      "root_postcheck_sha256": "301c7b2812f030fbd329641ae4ec90c32e91f7117fec2eb2b9387e17a6b3ddc9",
+      "scope": "Three actual producer-code replacement refusals and the stricter original preclone-value counterexample, retaining valid postclone owners.",
+      "source_commit": "151166377036a6f4703ed8effdcb328c7699e416",
+      "tests_failed": 0,
+      "tests_passed": 4
+    },
     "postclone_financial_reader": {
       "native_acceptance": false,
       "receipt_sha256": "5ed603cf6a521140f8f7a9224ef2de68559cb6b775ac88d40d3a5e0ccdb80ec6",
@@ -6326,6 +6336,32 @@
       "unexpected_refusals": {},
       "wall_seconds": 20.73042149998946
     },
+    "puf55_postclone_host_two_controls": {
+      "apply_nodes": 110,
+      "cold_extension_nodes": 245,
+      "cold_extension_upstream_hits": 19,
+      "cpu_seconds": 1188.669517,
+      "fit_nodes": 110,
+      "host_sha256": "cb8cc18a214535e085428757ed93300c722bf752f188a4ccd31217e18dba1275",
+      "model_sources": 0,
+      "native_acceptance": false,
+      "ordinary_donor_returns": 64,
+      "peak_rss_bytes": 697843712,
+      "receipt_sha256": "b60f913c3af17bf7872a1e558b2cd5e028f620d9dd4359ca2ea581635da24b14",
+      "release_acceptance": false,
+      "remaining_host_negative_cases": 18,
+      "required_replay_hits": 245,
+      "resources": 12,
+      "root_postcheck_sha256": "00322ef0f5dedbd217da246f44537ee8923e3d6d75cff10efcceb4406eede385",
+      "scope": "Actual postclone19 upstream plus245-node PUF extension, invented source-backed donors, both nonempty Social Security matching routes, direct whole-cohort comparison of all55 outputs and complete required replay. Original fixture teardowns and full non-owned storage comparisons pass.",
+      "source_and_owned_files": 515,
+      "source_map_sha256": "1fa9f9c4862fa1a3f7cd6939dc2623b1d841884222599096af638908174929fc",
+      "tests_failed": 0,
+      "tests_passed": 2,
+      "trees": 2,
+      "unexpected_refusals": 0,
+      "wall_seconds": 1220.5148538329522
+    },
     "puf55_public_recipient_controls": {
       "actual_original_source_issuer_comparisons": true,
       "actual_twenty_two_node_cold_and_required_replay": true,
@@ -6644,7 +6680,7 @@
       "receipt_sha256": "9f02300483c4a4320816c4401188d01ee602b9304ebd0159bdbb8d04c424a719",
       "release_acceptance": false,
       "root_postcheck_sha256": "bf7ed80cb442cc5356aca5950ce9bdb01042387b7bc801a2ae94aaf8964e6c04",
-      "scope": "Proposed host supplied-manifest replay checks on tiny actual two-CREATE runs and detached negatives. Complete245 host remains pending.",
+      "scope": "28 focused supplied-manifest replay checks on tiny actual two-CREATE runs and detached negatives. Separate full245 positive integration is recorded in puf55_postclone_host_two_controls; native transfer remains pending.",
       "tests_failed": 0,
       "tests_passed": 28,
       "unexpected_refusals": 0
@@ -6793,7 +6829,7 @@
     "evaluate_rules_and_calibrate",
     "verify_full_and_pruned_exports"
   ],
-  "pipeline_order_scope": "Corrected post-clone architecture passes scoped invented controls; native cold pilot is running. Earlier native cold/replay evidence uses pre-clone assignment. Complete PUF enrichment, other input coverage, national/CD calibration and release remain pending.",
+  "pipeline_order_scope": "Corrected post-clone architecture passes scoped invented controls, including the full245 PUF positive integration. Native cold pilot remains in progress; earlier native cold/replay evidence uses pre-clone assignment. Native PUF enrichment, remaining input coverage, national/CD calibration and release remain pending.",
   "release_path": "https://github.com/PolicyEngine/microcosm/blob/1cebe3547543bf2917a7af7362bfbb22a05bf964/docs/us-uk-release-path.md",
   "schema_version": "microcosm.us-candidate-method-status.v1",
   "sources": {
