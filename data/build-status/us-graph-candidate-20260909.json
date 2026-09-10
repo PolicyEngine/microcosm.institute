@@ -1,6 +1,6 @@
 {
   "as_of": "2026-09-10",
-  "as_of_utc": "2026-09-10T07:23:03.817676+00:00",
+  "as_of_utc": "2026-09-10T08:17:04.311244+00:00",
   "integration": {
     "acs_compilation_cache_adoption": {
       "control_postcheck_sha256": "58f10a538ad6db8efa30a4029a6eefaa4b0451c1bbb325e21d13a4bd2cc39cd7",
@@ -102,6 +102,23 @@
         "source_and_owned": 500
       },
       "wall_seconds": 4.932328291994054
+    },
+    "acs_frame_fingerprint_controls": {
+      "cpu_seconds": 7.857461,
+      "late_mutation_branches": 6,
+      "native_acceptance": false,
+      "optimization_adopted": false,
+      "owner_sha256": "237ed70be98f431d14c50e9d57698e488f6822f8ba511caf5252b594d4bafb38",
+      "release_acceptance": false,
+      "root_postcheck_sha256": "3cb3fbd3ef16941bd46049da20d21db856ced321602b019e6b5f8ab5774c1182",
+      "status": "four_controls_accepted_paired_timing_pending",
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 4
+      },
+      "wall_seconds": 8.942856749985367
     },
     "acs_one_call_profile": {
       "accepted_diagnostic": true,
@@ -4885,6 +4902,45 @@
       "wall_seconds": 315.1505964579992,
       "wrapper_source_sha256": "794789a80298b9d239d707ba4cae605b61265846ad6dbc39330d0e1a28c2d1fc"
     },
+    "budget_detached_view_correction": {
+      "adopted": true,
+      "behavior": "Move detached checked-view construction after last borrowed I/O; seal fresh document and complete maintained GroupedUpperBounds state, including stable-ID buckets, canonical digest and immutable storage, against issued payload and pure owner state.",
+      "budget_owner_sha256": "e1faffa1b133878b3607e888fe0c1fe0503f23d46be52eeddc054cf6c28a1c2c",
+      "callback_branches": {
+        "new_detached_values": 7,
+        "old_population_mutations": 2
+      },
+      "cpu_seconds": 540.759706,
+      "guard_sha256": "8c0b29efd7dc6c272b94463c996a9a6d35bb81c16857046bc75f95d11fb69087",
+      "historical_original_eight": {
+        "budget_owner_sha256": "80418528db45266e7322a8984cc63f9414f6fa3c084119cd9d0f558f4a0e0260",
+        "positive_postcheck_sha256": "8698b43174b17faa1bcc4123ae1b7c7c1ea65bba94f5d41f207c259dc3c951e8",
+        "remaining_postcheck_sha256": "423a6cd3ae1537bfe372b7d735ad3a907e6fcc6837257e6c65d538db18e13486"
+      },
+      "native_acceptance": false,
+      "new_test_sha256": "4a8078e93d95cd6c807218fe021128614ce0567490ef216b7c83555a25b65a0e",
+      "peak_rss_bytes": 452624384,
+      "performance_claim": false,
+      "public_recipient_pilot_uses_original_frozen_budget": true,
+      "release_acceptance": false,
+      "root_postcheck_sha256": "2f94929c903c86633c199d3570625dbfda29fe57a84dab9b52502b25fe1236ed",
+      "scope": "Original eight financial-successor controls and four corrected budget-view controls are separate versioned runs; this is not whole-tree or native certification.",
+      "source_candidate_peer_sha256": "5f4ef9c2ecb9b19803b3439ec26b0bfdd92b19acc09e1579a6cc216240d35801",
+      "source_map_sha256": "9f5858b3bd7aceb9e9ee5ca0a2b5b4033ab9356a845364e9b07a11373de75b5f",
+      "status": "adopted_after_exact_component_verification",
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 4
+      },
+      "verified_current": {
+        "code_resources": 12,
+        "model_source": 5983,
+        "source_and_owned": 501
+      },
+      "wall_seconds": 543.4429369170102
+    },
     "budget_predictor_compatibility": {
       "code_resources": 12,
       "cpu_seconds": 35.759673,
@@ -5593,9 +5649,11 @@
       "source_map_sha256": "44d9306d0964a4b72490a07895a080b129b83c251866c2aeac06c74deb4ca762",
       "status": "seven_remaining_controls_accepted",
       "subsequent_source_review": {
+        "correction_evidence": "us-budget-detached-view-correction-20260910.json",
+        "correction_root_postcheck_sha256": "2f94929c903c86633c199d3570625dbfda29fe57a84dab9b52502b25fe1236ed",
         "covered_by_these_eight_controls": false,
         "finding": "Budget and weight-only checked views were constructed before the last support I/O, exposing returned detached values to callbacks.",
-        "status": "additional_gap_under_correction"
+        "status": "corrected_in_separate_four_case_run"
       },
       "test_counts": {
         "errors": 0,
@@ -5751,6 +5809,54 @@
       },
       "unexpected_refusals": {},
       "wall_seconds": 20.73042149998946
+    },
+    "puf55_public_recipient_positives": {
+      "accepted_compilation_cache_overlay_sha256": "534042fdd4f2af5a238b556882d3b75c5495d9909e240bb07201ec48bd2bb4da",
+      "actual_issued_recipient_positive": true,
+      "actual_twenty_two_node_cold_required_replay": true,
+      "cpu_seconds": 331.268576,
+      "fable_strengthened_issuer_comparisons_included": false,
+      "frozen_budget_owner_sha256": "80418528db45266e7322a8984cc63f9414f6fa3c084119cd9d0f558f4a0e0260",
+      "guard_sha256": "45e7faf460d74210613e2898c4471d226a2b8d2e9f241d4c6945fcb7ec7cdb09",
+      "head": "640c1db49e6a70d47d58cea194e44df26c0762e5",
+      "junit_case_seconds": {
+        "test_actual_issued_financial_run_retains_source_reports_and_current_money": "104.759",
+        "test_actual_twenty_two_node_cold_required_replay_keeps_complete_population": "223.518"
+      },
+      "junit_sha256": "de2befa8fe7f3878a681f4de9e4c81ad467d51fa7d75c33494258b0fc8c46d60",
+      "junit_timing_scope": "pytest per-case durations include assigned fixture setup/teardown; not isolated issuer or graph compute timings",
+      "model_source_map_sha256": "018d739504f5919c65104ad44a46c1df045d0bf71002622e66e8b68c3192b035",
+      "native_acceptance": false,
+      "original_fixture_teardowns_passed": true,
+      "original_twenty_node_cold_hit_assertion_present": false,
+      "peak_rss_bytes": 541048832,
+      "receipt_sha256": "ae02970da176ad92efacd831de8cf78e18ea1d96a811c124f2d268e6c5da71e4",
+      "release_acceptance": false,
+      "remaining_public_cases_executed": 0,
+      "remaining_public_controls": 24,
+      "resource_map_sha256": "c7e4193c952bd0d28d81db4371b51b51462870326fe59d5d26c13e4617f3e5b7",
+      "root_postcheck_sha256": "465b347efcc12e5f717a846207f2db1703b3c31648abefbe355d4274c0c61eab",
+      "scope": "2_invented_actual_public_puf55_recipient_issuer_and_graph_controls",
+      "scope_note": "Actual issuers and graph over invented survey originals; no native donor fitting, whole-cohort PUF finalization or enriched calibration.",
+      "selected_test_cases": [
+        "test_us_puf55_recipients_public_positive.py::test_actual_issued_financial_run_retains_source_reports_and_current_money",
+        "test_us_puf55_recipients_public_positive.py::test_actual_twenty_two_node_cold_required_replay_keeps_complete_population"
+      ],
+      "source_count": 498,
+      "source_map_sha256": "504e045e6551895fabf8bc377fdfce1c69da9e70aa17989d2b771d5b66176c4b",
+      "status": "two_original_public_positives_accepted",
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 2
+      },
+      "verified_current": {
+        "code_resources": 12,
+        "model_source": 5983,
+        "source_and_owned": 506
+      },
+      "wall_seconds": 333.96333820803557
     },
     "puf55_ss_measurement": {
       "code_resources": 12,
