@@ -1,7 +1,387 @@
 {
   "as_of": "2026-09-10",
-  "as_of_utc": "2026-09-10T04:57:12.307510+00:00",
+  "as_of_utc": "2026-09-10T06:59:23.085602+00:00",
   "integration": {
+    "acs_compilation_cache_controls": {
+      "cpu_seconds": 3.938932,
+      "guard_sha256": "c5d117b1ee5db0d314f82a9f929e86410e8365fa92f97eb8dbc58732488ccc10",
+      "native_acceptance": false,
+      "optimization_adopted": false,
+      "paired_profile": "running",
+      "peak_rss_bytes": 386039808,
+      "postcheck_sha256": "58f10a538ad6db8efa30a4029a6eefaa4b0451c1bbb325e21d13a4bd2cc39cd7",
+      "receipt_sha256": "53b578332356b5e5700e2d1a6c40b2b1ccab47440aa886e53db9f19746c8c074",
+      "release_acceptance": false,
+      "scope": "25_invented_source_compile_cache_controls",
+      "source_map_sha256": "4a3454e52c069c35a102ff9afde9becff4518f2be65a3c3049346633fea217de",
+      "status": "25_invented_controls_accepted",
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 25
+      },
+      "verified_current": {
+        "code_resources": 12,
+        "model_source": 5983,
+        "source_and_owned": 500
+      },
+      "wall_seconds": 4.932328291994054
+    },
+    "acs_one_call_profile": {
+      "accepted_diagnostic": true,
+      "cprofile_options": {
+        "builtins": true,
+        "subcalls": false
+      },
+      "current_reverified_files": {
+        "code_resources": 12,
+        "model_source": 5983,
+        "source_and_owned": 500
+      },
+      "date": "2026-09-10",
+      "decision": "Source-only experiment in bounded bytecode compilation reuse; preserve fresh reads and all loaded-function checks. No optimization adopted or native speedup established.",
+      "fixture_constructed": false,
+      "graph_executed": false,
+      "guard_sha256": "426cd0370e3e94d4d4e022fdcf954b89b373af7992da88e2d21a37e8670ec2a4",
+      "native_inputs_used": false,
+      "postcheck_sha256": "3426339877891cc0659118f788487fe54e7659094dcd454e193284cf6a6e60e7",
+      "producer_completed": true,
+      "producer_invocations_requested": 1,
+      "profile_sha256": "6b4508e6e96226746381a9862997c22eebb9880a328d50b24b9c19f9fd0e78a1",
+      "profiled_elapsed_cpu_seconds": 0.6406650000000003,
+      "profiled_elapsed_wall_seconds": 0.6561586250318214,
+      "protocol": "microcosm.acs-original-producer-profile.v1",
+      "receipt_sha256": "a956298f6bbe11438256ac5ad7183098c89ed889c457666602c68c32d4bc5e12",
+      "records": [
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.6560935,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/acs_native_coverage_binding.py",
+          "function": "_producer",
+          "kind": "frozen_source",
+          "line": 129,
+          "recursive_calls": 0,
+          "self_seconds": 0.005839213
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.42354929100000005,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "implementation_manifest",
+          "kind": "frozen_source",
+          "line": 411,
+          "recursive_calls": 0,
+          "self_seconds": 0.000314576
+        },
+        {
+          "calls": 59,
+          "cumulative_seconds": 0.36231329,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "_dependency_contract",
+          "kind": "frozen_source",
+          "line": 303,
+          "recursive_calls": 0,
+          "self_seconds": 0.005696675
+        },
+        {
+          "calls": 59,
+          "cumulative_seconds": 0.355838413,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "_dependency_details",
+          "kind": "frozen_source",
+          "line": 202,
+          "recursive_calls": 0,
+          "self_seconds": 0.023903589000000003
+        },
+        {
+          "calls": 44,
+          "cumulative_seconds": 0.212273085,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/acs_native_coverage_binding.py",
+          "function": "_live_code",
+          "kind": "frozen_source",
+          "line": 51,
+          "recursive_calls": 0,
+          "self_seconds": 0.021575394
+        },
+        {
+          "calls": 2586,
+          "cumulative_seconds": 0.128561793,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/acs_native_coverage_binding.py",
+          "function": "check",
+          "kind": "frozen_source",
+          "line": 86,
+          "recursive_calls": 66,
+          "self_seconds": 0.0032278470000000003
+        },
+        {
+          "calls": 979,
+          "cumulative_seconds": 0.103954326,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "visit_FunctionDef",
+          "kind": "frozen_source",
+          "line": 243,
+          "recursive_calls": 344,
+          "self_seconds": 0.000322374
+        },
+        {
+          "calls": 9482,
+          "cumulative_seconds": 0.052384176000000005,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "visit_Call",
+          "kind": "frozen_source",
+          "line": 260,
+          "recursive_calls": 2364,
+          "self_seconds": 0.002310004
+        },
+        {
+          "calls": 3,
+          "cumulative_seconds": 0.016132043000000002,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "_validate_package_roster",
+          "kind": "frozen_source",
+          "line": 332,
+          "recursive_calls": 0,
+          "self_seconds": 7.2842e-05
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.014024958,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/acs_person_coverage_authentication.py",
+          "function": "_producer",
+          "kind": "frozen_source",
+          "line": 124,
+          "recursive_calls": 0,
+          "self_seconds": 4.2163e-05
+        },
+        {
+          "calls": 36445,
+          "cumulative_seconds": 0.008270251000000001,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "visit_Name",
+          "kind": "frozen_source",
+          "line": 252,
+          "recursive_calls": 0,
+          "self_seconds": 0.005725035000000001
+        },
+        {
+          "calls": 16,
+          "cumulative_seconds": 0.005612417000000001,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/acs_person_coverage_authentication.py",
+          "function": "_sha",
+          "kind": "frozen_source",
+          "line": 65,
+          "recursive_calls": 0,
+          "self_seconds": 8.211e-06
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.004030375,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "_package_roots",
+          "kind": "frozen_source",
+          "line": 180,
+          "recursive_calls": 0,
+          "self_seconds": 9.082e-06
+        },
+        {
+          "calls": 59,
+          "cumulative_seconds": 0.0036707920000000004,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "_covered_imports",
+          "kind": "frozen_source",
+          "line": 286,
+          "recursive_calls": 0,
+          "self_seconds": 0.001535637
+        },
+        {
+          "calls": 3277,
+          "cumulative_seconds": 0.002018209,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/acs_native_coverage_binding.py",
+          "function": "visit",
+          "kind": "frozen_source",
+          "line": 97,
+          "recursive_calls": 3223,
+          "self_seconds": 0.0012540350000000001
+        },
+        {
+          "calls": 1451,
+          "cumulative_seconds": 0.001515904,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "<genexpr>",
+          "kind": "frozen_source",
+          "line": 229,
+          "recursive_calls": 0,
+          "self_seconds": 0.000852642
+        },
+        {
+          "calls": 181,
+          "cumulative_seconds": 0.000619031,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "_digest",
+          "kind": "frozen_source",
+          "line": 176,
+          "recursive_calls": 0,
+          "self_seconds": 6.2668e-05
+        },
+        {
+          "calls": 118,
+          "cumulative_seconds": 0.000576835,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "_canonical",
+          "kind": "frozen_source",
+          "line": 170,
+          "recursive_calls": 0,
+          "self_seconds": 7.5121e-05
+        },
+        {
+          "calls": 555,
+          "cumulative_seconds": 0.00047688000000000006,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "<genexpr>",
+          "kind": "frozen_source",
+          "line": 289,
+          "recursive_calls": 0,
+          "self_seconds": 0.00047688000000000006
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.000265083,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "_inventory",
+          "kind": "frozen_source",
+          "line": 312,
+          "recursive_calls": 0,
+          "self_seconds": 4.0999000000000005e-05
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 0.000205333,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "_projections",
+          "kind": "frozen_source",
+          "line": 352,
+          "recursive_calls": 0,
+          "self_seconds": 4.0830000000000005e-06
+        },
+        {
+          "calls": 76,
+          "cumulative_seconds": 0.00019908300000000002,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "columns",
+          "kind": "frozen_source",
+          "line": 355,
+          "recursive_calls": 74,
+          "self_seconds": 4.3078e-05
+        },
+        {
+          "calls": 3811,
+          "cumulative_seconds": 0.00012806000000000002,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/acs_native_coverage_binding.py",
+          "function": "_require",
+          "kind": "frozen_source",
+          "line": 46,
+          "recursive_calls": 0,
+          "self_seconds": 0.00012806000000000002
+        },
+        {
+          "calls": 555,
+          "cumulative_seconds": 8.0924e-05,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "<genexpr>",
+          "kind": "frozen_source",
+          "line": 290,
+          "recursive_calls": 0,
+          "self_seconds": 8.0924e-05
+        },
+        {
+          "calls": 303,
+          "cumulative_seconds": 4.1642000000000006e-05,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "<genexpr>",
+          "kind": "frozen_source",
+          "line": 358,
+          "recursive_calls": 0,
+          "self_seconds": 3.0757000000000004e-05
+        },
+        {
+          "calls": 240,
+          "cumulative_seconds": 3.2792e-05,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/graph_implementation.py",
+          "function": "<genexpr>",
+          "kind": "frozen_source",
+          "line": 296,
+          "recursive_calls": 0,
+          "self_seconds": 3.2792e-05
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 8.400000000000001e-08,
+          "file": "packages/microcosm-build/src/microcosm/build/us_runtime/acs_person_coverage_authentication.py",
+          "function": "_require",
+          "kind": "frozen_source",
+          "line": 60,
+          "recursive_calls": 0,
+          "self_seconds": 8.400000000000001e-08
+        },
+        {
+          "calls": 157,
+          "cumulative_seconds": 0.237641084,
+          "function": "builtins.compile",
+          "kind": "builtin",
+          "recursive_calls": 0,
+          "self_seconds": 0.237641084
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 2.92e-07,
+          "function": "time.perf_counter",
+          "kind": "builtin",
+          "recursive_calls": 0,
+          "self_seconds": 2.92e-07
+        },
+        {
+          "calls": 1,
+          "cumulative_seconds": 3e-06,
+          "function": "time.process_time",
+          "kind": "builtin",
+          "recursive_calls": 0,
+          "self_seconds": 3e-06
+        },
+        {
+          "calls": 103,
+          "cumulative_seconds": 0.12155241700000001,
+          "function": "ast.parse",
+          "kind": "stdlib",
+          "recursive_calls": 0,
+          "self_seconds": 4.1292000000000004e-05
+        }
+      ],
+      "scope": "one_original_producer_invocation_after_normal_helper_imports",
+      "source_or_population_authority_issued": false,
+      "successor_or_release_acceptance": false,
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 1
+      },
+      "timing_limitations": [
+        "normal imports are outside profiling and no fixture is requested",
+        "one producer call has no within-process repetition or warmup",
+        "cumulative times overlap and must not be summed",
+        "ast.parse wraps compile and their cumulative times overlap",
+        "cProfile adds overhead; this diagnostic cannot establish a speedup",
+        "source rows cover only the three declared owner/manifest modules",
+        "other external time remains within cumulative callers",
+        "compiled-reference visitation and deep code equality remain unmodified"
+      ],
+      "whole_guard": {
+        "cpu_seconds": 4.779278,
+        "peak_rss_bytes": 481591296,
+        "wall_seconds": 6.85519720899174
+      }
+    },
     "atomic_age_calibration": {
       "code_resources": 12,
       "configured_resource_limits": {
@@ -5054,8 +5434,138 @@
         "packages/microcosm-build/tests/test_us_survey_financial_successor.py": "a42e7dadf3b77f6cf976db9c904243e787f8704bbc6d1a82bd820246f3c2e980"
       }
     },
+    "financial_successor_positive": {
+      "all_successor_controls_passed": false,
+      "approval_sha256": "91efa2d737f38d6d6b11890241a1a9b5dbb1c6840da3a49f58966101e3f967ef",
+      "cpu_seconds": 647.185773,
+      "fixture_original_teardowns_passed": true,
+      "guard_sha256": "a9566eb1783d71dd1fc3c0468e2f1af763fbd5ed218f0a87d2cbca3ae1d4011b",
+      "interpretation": "The original financial replay and financial-to-weight-only successor behavior passes; remaining refusal/callback cases and native calibration admission are pending.",
+      "junit_sha256": "2af08e54f972192d299281c992dd4306dde99399699c4684037ad6bf60804d9a",
+      "limits": {
+        "cpu_seconds": 1200,
+        "numerical_threads": 1,
+        "wall_seconds": 1800
+      },
+      "memo_or_profiler": false,
+      "model_source_map_sha256": "018d739504f5919c65104ad44a46c1df045d0bf71002622e66e8b68c3192b035",
+      "native_acceptance": false,
+      "original_acs_owner_sha256": "db7aaae06961cc1ed9ce13b28dac74d8fd1041b9cd4c32294d2b11105fbef7af",
+      "peak_rss_bytes": 570884096,
+      "postcheck_sha256": "8698b43174b17faa1bcc4123ae1b7c7c1ea65bba94f5d41f207c259dc3c951e8",
+      "receipt_sha256": "96819afd6805e5cbcd6dfb2271ec1d8c4c3b72775135904a9efe1d97cbb79791",
+      "release_acceptance": false,
+      "remaining_controls": 7,
+      "resource_map_sha256": "088a55cd36f83e4b466947a216b0315a983d5888c603103e575f0cc7ae2ece38",
+      "schema_version": 1,
+      "scope": "one_invented_financial_successor_positive_control",
+      "source_map_sha256": "44d9306d0964a4b72490a07895a080b129b83c251866c2aeac06c74deb4ca762",
+      "status": "one_positive_control_accepted",
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 1
+      },
+      "unexpected_refusals": {},
+      "verified_current": {
+        "code_resources": 12,
+        "model_source": 5983,
+        "source_and_owned": 499
+      },
+      "wall_seconds": 651.2133005840005
+    },
+    "financial_successor_remaining_controls": {
+      "all_successor_controls_passed": true,
+      "approval_sha256": "9e4ed7c7924b130212a4580fa4ee4298bf7ea33d2ae3e5f2e9798226fb07baee",
+      "cpu_seconds": 798.6069409999999,
+      "guard_sha256": "51b3a5adad3c14e11a2f69b8566702abe5aecfffbc1c315dd6f08c412c5e671e",
+      "interpretation": "Together with the accepted positive control, all eight original financial successor cases pass. Native artifact replay, calibration admission in the completed graph and release verification remain separate.",
+      "junit_sha256": "6cffe5cac9baca685a7c2c0b032580edf83059bd653d4695b08aab75172d7a8c",
+      "limits": {
+        "cpu_seconds": 2400,
+        "native_threads": 1,
+        "qrf_fit_n_jobs": "1",
+        "qrf_predict_workers": "1",
+        "rss_monitor": false,
+        "rss_reporting": "final peak only",
+        "wall_seconds": 3600
+      },
+      "memo_or_profiler": false,
+      "model_source_map_sha256": "018d739504f5919c65104ad44a46c1df045d0bf71002622e66e8b68c3192b035",
+      "native_acceptance": false,
+      "original_fixture_and_teardowns": true,
+      "peak_rss_bytes": 563593216,
+      "peer_source_review_sha256": "12a541b3bcf620f0d931815f40f6b9fffac36e59064222c071c8128b9bdbab7d",
+      "positive_evidence": "us-financial-successor-positive-20260910.json",
+      "postcheck_sha256": "423a6cd3ae1537bfe372b7d735ad3a907e6fcc6837257e6c65d538db18e13486",
+      "receipt_sha256": "e394516086ca0f4c773764027ad2d7270a8a9d82d038873f0640cd49e3db483d",
+      "release_acceptance": false,
+      "resource_map_sha256": "63de09c280f733c91d07e674bf753c3017b7a375901623a2200a8538f835a4a2",
+      "root_source_review_sha256": "db0d7f3424cd85bcbc58c690d375d0ef58c557e8d4fefad3dddc666101143c12",
+      "schema_version": 1,
+      "scope": "seven_unchanged_invented_financial_successor_refusal_and_callback_controls",
+      "selected_test_cases": [
+        "test_us_survey_financial_successor.py::test_unissued_copy_and_wrong_original_budget_refuse",
+        "test_us_survey_financial_successor.py::test_arbitrary_nonweight_changes_still_refuse",
+        "test_us_survey_financial_successor.py::test_rehashed_graph_artifact_cannot_replace_issued_draw",
+        "test_us_survey_financial_successor.py::test_final_budget_support_borrow_cannot_mutate_financial_run",
+        "test_us_survey_financial_successor.py::test_final_support_borrow_cannot_forge_returned_view",
+        "test_us_survey_financial_successor.py::test_financial_borrow_cannot_relax_detached_budget_bounds",
+        "test_us_survey_financial_successor.py::test_run_borrow_cannot_forge_original_budget_digest"
+      ],
+      "source_count": 491,
+      "source_map_sha256": "44d9306d0964a4b72490a07895a080b129b83c251866c2aeac06c74deb4ca762",
+      "status": "seven_remaining_controls_accepted",
+      "subsequent_source_review": {
+        "covered_by_these_eight_controls": false,
+        "finding": "Budget and weight-only checked views were constructed before the last support I/O, exposing returned detached values to callbacks.",
+        "status": "additional_gap_under_correction"
+      },
+      "test_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 7
+      },
+      "unexpected_refusals": {},
+      "verified_current": {
+        "code_resources": 12,
+        "model_source": 5983,
+        "source_and_owned": 499
+      },
+      "wall_seconds": 802.8923444160027
+    },
     "full_candidate_calibration": "pending",
     "national_and_cd_release_verification": "pending",
+    "native_financial_pilot_startup": {
+      "cause": "Test-runner default null log sink denied by write guard; corrected in a separately reviewed fresh invocation. This failed attempt remains preserved.",
+      "collected_tests": 0,
+      "dataset_transformations_started": false,
+      "input_staging_accepted": true,
+      "native_acceptance": false,
+      "release_acceptance": false,
+      "runtime_cpu_seconds": 5.884715,
+      "runtime_receipt_sha256": "24a39dde81050de6f4d237f0bd36bf775674aaca3f48bc641b6d08ff640d64c0",
+      "runtime_wall_seconds": 6.376676416024566,
+      "source_resource_native_pins_unchanged": true,
+      "staged_input_bytes": 3735332980,
+      "staged_input_files": 10,
+      "staging_receipt_sha256": "757520c154f100a64c5cf64c1a669fe67383671de211f3379cf89c897494fa56",
+      "status": "startup_failed_before_collection"
+    },
+    "native_financial_pilot_v4": {
+      "approval_sha256": "837bf6c06fbe186f615080cd844ce0e92eecbad387e800f6d7cc4bfa02b673ae",
+      "compilation_cache_adopted": false,
+      "guard_sha256": "5bffe33e4c60055070bb9ab9a51ad2e87bfbf86fcd843e1da0d6407d53debda1",
+      "native_acceptance": false,
+      "release_acceptance": false,
+      "scope": "small_native_combined_survey_atomic_geography_and_current_financial_cold_artifacts",
+      "staged_input_bytes": 3735332980,
+      "staged_input_count": 10,
+      "staging_receipt_sha256": "c13afb61023012eeab9cf89c32e13f532d776d8ec0959ced234ff9110e5046b7",
+      "status": "running"
+    },
     "observed_geography_graph": {
       "before_after_current_frozen_and_maintained_source_equal": true,
       "before_after_current_model_and_code_resources_equal": true,
