@@ -1,11 +1,12 @@
 {
   "as_of": "2026-09-10",
-  "as_of_utc": "2026-09-10T14:58:06.888688+00:00",
+  "as_of_utc": "2026-09-10T19:17:46.275802+00:00",
   "geography_order_correction": {
     "decided_on": "2026-09-10",
     "distinct_clones_may_receive_distinct_areas": true,
     "draw_identity": "stable source household identity plus stable clone discriminator",
     "earlier_preclone_assignment_evidence_preserved": true,
+    "implemented_source_commit": "1cebe3547543bf2917a7af7362bfbb22a05bf964",
     "intended_order": [
       "complete_multispine_and_initial_clones",
       "assign_one_atomic_area_per_resulting_household",
@@ -14,9 +15,16 @@
       "calibrate",
       "derive_analysis_views"
     ],
+    "invented_controls": 70,
+    "invented_order_verified": true,
+    "native_order_status": "small_cold_pilot_running_required_replay_pending",
+    "native_order_verified": false,
     "new_order_runtime_verified": false,
     "observed_source_constraints_preserved": true,
-    "subsequent_views_redraw_geography": false
+    "public_evidence": "https://github.com/PolicyEngine/microcosm/blob/1cebe3547543bf2917a7af7362bfbb22a05bf964/experiments/us-postclone-geography-70-controls-20260910.json",
+    "separate_default_compatibility_controls": 1,
+    "subsequent_views_redraw_geography": false,
+    "validation_scope": "Selected function/fixture AST-equivalent lane controls; adopted-module-path CI remains separate."
   },
   "integration": {
     "acs_compilation_cache_adoption": {
@@ -5979,6 +5987,16 @@
       "unexpected_refusals": {},
       "wall_seconds": 182.49943441699725
     },
+    "postclone_financial_reader": {
+      "native_acceptance": false,
+      "receipt_sha256": "5ed603cf6a521140f8f7a9224ef2de68559cb6b775ac88d40d3a5e0ccdb80ec6",
+      "release_acceptance": false,
+      "root_postcheck_sha256": "4701b98c90bf634e84795d92fcc3c9bc55609d27756b5ab1aca7f616a5c3b1e4",
+      "scope": "Invented post-clone19 financial artifact reconstruction, cold/replay and changed receipt/geography/content refusals.",
+      "tests_failed": 0,
+      "tests_passed": 10,
+      "unexpected_refusals": 0
+    },
     "puf55_canonical_create_47": {
       "cpu_seconds": 11.761269,
       "current_checkout_runtime_certification": false,
@@ -6621,6 +6639,16 @@
       "source_receipt_sha256": "e4378b940d03ec8fc4f5f30a120ccb50852be43b166d314f5a31c7b3e53347ab",
       "target_year_growth": false
     },
+    "puf_survey_cross_store_replay": {
+      "native_acceptance": false,
+      "receipt_sha256": "9f02300483c4a4320816c4401188d01ee602b9304ebd0159bdbb8d04c424a719",
+      "release_acceptance": false,
+      "root_postcheck_sha256": "bf7ed80cb442cc5356aca5950ce9bdb01042387b7bc801a2ae94aaf8964e6c04",
+      "scope": "Proposed host supplied-manifest replay checks on tiny actual two-CREATE runs and detached negatives. Complete245 host remains pending.",
+      "tests_failed": 0,
+      "tests_passed": 28,
+      "unexpected_refusals": 0
+    },
     "scf": {
       "complete_loan_inputs": "pending",
       "correction": "Preserve raw wage values; map only the identified publisher zero-wage code to zero for modeling.",
@@ -6759,14 +6787,14 @@
   },
   "pipeline_order": [
     "harmonize_ACS_and_CPS_ASEC",
-    "assemble_combined_survey_multispine",
+    "assemble_combined_survey_multispine_and_initial_clones",
     "assign_atomic_geography_and_derive_larger_areas",
-    "apply_PUF_clone_and_donor_operators_to_combined_frame",
+    "complete_PUF_and_other_enrichment_on_combined_frame",
     "evaluate_rules_and_calibrate",
     "verify_full_and_pruned_exports"
   ],
-  "pipeline_order_scope": "Intended target architecture. National atomic support and the small native survey/atomic/financial cold and required-replay pilots are verified. Complete PUF enrichment, national/CD calibration and release remain pending.",
-  "release_path": "https://github.com/PolicyEngine/microcosm/blob/752158197a5df898413bc32dfc104ba0f66733cb/docs/us-uk-release-path.md",
+  "pipeline_order_scope": "Corrected post-clone architecture passes scoped invented controls; native cold pilot is running. Earlier native cold/replay evidence uses pre-clone assignment. Complete PUF enrichment, other input coverage, national/CD calibration and release remain pending.",
+  "release_path": "https://github.com/PolicyEngine/microcosm/blob/1cebe3547543bf2917a7af7362bfbb22a05bf964/docs/us-uk-release-path.md",
   "schema_version": "microcosm.us-candidate-method-status.v1",
   "sources": {
     "cd119_bef": {
