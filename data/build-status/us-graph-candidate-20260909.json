@@ -1,6 +1,6 @@
 {
   "as_of": "2026-09-10",
-  "as_of_utc": "2026-09-10T08:17:04.311244+00:00",
+  "as_of_utc": "2026-09-10T08:47:27.643359+00:00",
   "integration": {
     "acs_compilation_cache_adoption": {
       "control_postcheck_sha256": "58f10a538ad6db8efa30a4029a6eefaa4b0451c1bbb325e21d13a4bd2cc39cd7",
@@ -109,9 +109,18 @@
       "native_acceptance": false,
       "optimization_adopted": false,
       "owner_sha256": "237ed70be98f431d14c50e9d57698e488f6822f8ba511caf5252b594d4bafb38",
+      "paired_probe": {
+        "cpu_seconds": 11.989217,
+        "guard_sha256": "c95036b32a46ffb45f27c05e31f8fe0bbce48b8299ecf0bff8008ee51cef38c3",
+        "performance_claim": false,
+        "production_defect_diagnosed": false,
+        "status": "failed_fixture_acquisition",
+        "unexpected_refusals": {},
+        "wall_seconds": 14.308015124988742
+      },
       "release_acceptance": false,
       "root_postcheck_sha256": "3cb3fbd3ef16941bd46049da20d21db856ced321602b019e6b5f8ab5774c1182",
-      "status": "four_controls_accepted_paired_timing_pending",
+      "status": "four_controls_accepted_paired_integration_failed_adoption_held",
       "test_counts": {
         "errors": 0,
         "failures": 0,
@@ -5688,16 +5697,37 @@
       "status": "startup_failed_before_collection"
     },
     "native_financial_pilot_v4": {
+      "acceptance_scope": "selected1/1000_native20_node_cold_development_only",
       "approval_sha256": "837bf6c06fbe186f615080cd844ce0e92eecbad387e800f6d7cc4bfa02b673ae",
+      "budget_detached_view_correction_included": false,
+      "calibration_accepted": false,
       "compilation_cache_adopted": false,
+      "compiled_nodes": 20,
+      "cpu_seconds": 6591.938158,
+      "expanded_households": 3168,
+      "expanded_people": 6928,
+      "financial_output_columns": 7,
+      "fingerprint_sharing_included": false,
       "guard_sha256": "5bffe33e4c60055070bb9ab9a51ad2e87bfbf86fcd843e1da0d6407d53debda1",
-      "native_acceptance": false,
+      "manifest_metadata_sha256": "2168b79ff60b481636b4dacf504ff70f4f1934b92359d86cb95ce1ae78987b7a",
+      "model_quality_established": false,
+      "native_acceptance": true,
+      "peak_rss_bytes": 11452743680,
+      "public_record": "https://github.com/PolicyEngine/microcosm/blob/microcosm-us-launch-integration-20260909/experiments/us-native-atomic-financial-cold-20260910.json",
+      "puf_enrichment_accepted": false,
+      "receipt_sha256": "aea67b38a7a9af17a87b3bdce9e31c8033bdf2d14f7f01191cc7ec12d0d43eae",
       "release_acceptance": false,
+      "required_replay_passed": false,
+      "root_postcheck_sha256": "50eabf02b476f2fdc55e15812e374fd76cf6002feb7fd60f10810e4d2122ac8c",
       "scope": "small_native_combined_survey_atomic_geography_and_current_financial_cold_artifacts",
+      "source_households": 1584,
+      "source_map_sha256": "44d9306d0964a4b72490a07895a080b129b83c251866c2aeac06c74deb4ca762",
+      "source_people": 3464,
       "staged_input_bytes": 3735332980,
       "staged_input_count": 10,
       "staging_receipt_sha256": "c13afb61023012eeab9cf89c32e13f532d776d8ec0959ced234ff9110e5046b7",
-      "status": "running"
+      "status": "cold_development_pilot_accepted",
+      "wall_seconds": 6607.312281332968
     },
     "observed_geography_graph": {
       "before_after_current_frozen_and_maintained_source_equal": true,
