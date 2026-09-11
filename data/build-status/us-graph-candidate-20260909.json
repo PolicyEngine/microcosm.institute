@@ -1,6 +1,6 @@
 {
   "as_of": "2026-09-10",
-  "as_of_utc": "2026-09-10T20:48:24.096117+00:00",
+  "as_of_utc": "2026-09-10T22:32:56.028553+00:00",
   "geography_order_correction": {
     "decided_on": "2026-09-10",
     "distinct_clones_may_receive_distinct_areas": true,
@@ -5067,6 +5067,38 @@
       "selected_row_and_serialization_replay_passed": true,
       "wall_seconds": 24.365039
     },
+    "catalogue_memo20": {
+      "code": [
+        {
+          "maintained_sha256": "508d18bac53690f8841e3eb2770bc2aa6079b9180ad0a31c65c5566f3304a206",
+          "path": "packages/microcosm-build/src/microcosm/build/us_runtime/survey_population_preparation.py"
+        },
+        {
+          "maintained_sha256": "8a9742e108347916937317a0901a462c315d688b32795758972ff9554b07d32f",
+          "path": "packages/microcosm-build/tests/test_us_survey_catalogue_immutable_memo.py"
+        }
+      ],
+      "evidence": {
+        "cpu_seconds": 18.188797,
+        "model_sources": 0,
+        "peak_rss_bytes": 405815296,
+        "physical_postcheck_sha256": "fcd8dcdb6b706f65888b1e33add9c042302d51358597973db14901e0c70f17b8",
+        "receipt_sha256": "ee5279f9678d035b0d6ede176704b4d04196d1eea351adfba56510dba973f972",
+        "resources": 12,
+        "source_peer_review_sha256": "c5e0e1188fdac1e84929f46d8e13f5e42e33b286f86a121ddd16aa38222c7e1d",
+        "source_plus_owned": 514,
+        "tests_failed": 0,
+        "tests_passed": 20,
+        "unexpected_refusals": {},
+        "wall_seconds": 18.8203088750015,
+        "xml_sha256": "04dec52f2e8ca14815b8368a7ac2023d2f08f752c94367f9a6d7b2189402077f"
+      },
+      "maintained_full_CI_accepted": false,
+      "native_build_accepted": false,
+      "release_eligible": false,
+      "scope": "Reuse a sealed immutable ACS catalogue value within its issued preparation. All source and producer checks, complete Frame seals and final checks remain; replacing roots or mutable contents takes the original hashing path. Native performance remains to be measured.",
+      "status": "scoped_controls_accepted"
+    },
     "current_age_development_controls": {
       "peak_rss_bytes": 541949952,
       "receipt_sha256": "5849dd42e914e4d8304a5d290ff451da45910e7ac9a61e76fff36468949ffe3a",
@@ -5756,6 +5788,131 @@
       "wall_seconds": 802.8923444160027
     },
     "full_candidate_calibration": "pending",
+    "input_coverage25": {
+      "api": {
+        "assigned_block_diagnostic_retained": "census_block_geoid",
+        "diagnostic_module": "packages/microcosm-build/src/microcosm/build/us_runtime/population_input_coverage.py",
+        "employment_income_last_year_in_required_profiles": false,
+        "existing_release_gate_or_manifest_modified": false,
+        "historical_required_us_inputs_default_count": 163,
+        "national_cd_engine_omissions": [
+          "block_geoid",
+          "tract_geoid"
+        ],
+        "national_congressional_district_diagnostic_default_count": 161,
+        "profile_module": "packages/microcosm-build/src/microcosm/build/us_runtime/input_coverage_profile.py",
+        "report_protocol": "microcosm.us.input_coverage_diagnostic.v1",
+        "signature": "diagnose_us_input_coverage(population: Population, *, compiled: CompiledGraph, manifest: RunManifest, profile: USInputProfile = USInputProfile.NATIONAL_CD) -> PopulationInputCoverage"
+      },
+      "code": [
+        {
+          "after_sha256": "88a8456ad02846d8f41af7ead743c86caa8d82b9b2c18d196feee663acb02a33",
+          "before_sha256": null,
+          "path": "packages/microcosm-build/src/microcosm/build/us_runtime/input_coverage_profile.py"
+        },
+        {
+          "after_sha256": "34455450437b5e4b7ce0377522d2bf2d815ac0a9d6e554b25c25d690e196e318",
+          "before_sha256": null,
+          "path": "packages/microcosm-build/src/microcosm/build/us_runtime/population_input_coverage.py"
+        },
+        {
+          "after_sha256": "7271ca0197d1396dc42656f3220207b0ba96927c1cd11233543f72fcf57ce94d",
+          "before_sha256": null,
+          "path": "packages/microcosm-build/tests/test_us_population_input_coverage.py"
+        }
+      ],
+      "description": "Descriptive input coverage on a supplied actual graph Population and attached RunManifest; complete ownership, storage, origin/clone and writer-mask checks.",
+      "frozen_evidence": {
+        "cpu_seconds": 6.143905999999999,
+        "guard_sha256": "0fb8e3f9f25ec47d89d6a3f61c8483caa86ccdee83958f7e801a8be579c4a559",
+        "models": 0,
+        "peak_rss_bytes": 332939264,
+        "physical_postcheck_sha256": "017ccd3d1d97819c1d6332436449e0ba961a1873ce6962547be07743fe097fc7",
+        "receipt_sha256": "8fed087e9f44d87d47a2c3071653255c959cbfee53ca1166fd22994025ca8d43",
+        "resources": 0,
+        "selectors": {
+          "test_actual_masked_coverage_separates_origin_clone_grain_and_unknownness": 1,
+          "test_closed_profiles_match_manifest_without_changing_historical_default": 1,
+          "test_complete_current_ownership_refuses_wrong_carrier_or_writer": 5,
+          "test_declared_absence_is_not_an_applicability_exemption": 1,
+          "test_duplicate_grains_are_rejected_by_the_actual_frame_contract": 1,
+          "test_inconsistent_population_manifest_or_compiler_refuses": 5,
+          "test_last_manifest_borrow_mutation_refuses": 1,
+          "test_nonfinite_values_and_missing_grains_remain_unresolved": 1,
+          "test_population_version_must_be_an_actual_structural_version": 2,
+          "test_profile_omissions_do_not_omit_assigned_block_diagnostic": 1,
+          "test_required_replay_preserves_coverage_and_manifest_identity": 1,
+          "test_source_role_and_membership_are_checked_on_actual_rows": 3,
+          "test_unclaimed_physical_column_is_not_accepted_as_a_structural_carrier": 1,
+          "test_zero_weight_origin_and_zero_observations_remain_known": 1
+        },
+        "source_and_owned_physical_checks": 515,
+        "source_count": 507,
+        "source_map_sha256": "55af74ead417eeab1b0e977da24e91ed5de61e52cf5953cd060797f58bc40038",
+        "source_peer_proof_sha256": "e1b8ae0cadd118ca7d4cfd85af2f4fd707462d87ace779c94277a0ee87fbc4a3",
+        "source_peer_review_sha256": "5a3177a15b478da0a8dcda6030397483892b60ae4cfd7481aa10a4c889ad59e9",
+        "tests": {
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 25
+        },
+        "unexpected_refusals": {},
+        "wall_seconds": 6.524979708017781,
+        "xml_sha256": "e5ea4cc97ceddbd3ad9153b35ab14dd2e7eb3ff13e0d878972f85e9a3e72ade8"
+      },
+      "limitations": {
+        "actual_source_ancestry_verified": false,
+        "applicability_complete": false,
+        "calibration_modules_rolled_back": false,
+        "complete_population_input_coverage_proven": false,
+        "host_integration_added": false,
+        "native_build_or_model_evaluation_verified": false,
+        "release_eligible": false,
+        "statistical_signal_verified": false,
+        "supplied_graph_consistency_only": true
+      },
+      "maintained_integration_execution_verified": false,
+      "maintained_source_comparison": {
+        "baseline_eager_modules_compared": 59,
+        "comparison_is_not_recomputed_current_import_closure": true,
+        "different_calibration_imports_preserved": [
+          {
+            "comparison": "different_preserve_maintained",
+            "frozen_sha256": "397f02916de1535de3bd0c34fdd71a2e685fe37f1a61ff4d389a8343f9642d4b",
+            "maintained_sha256": "716018cfbb136c631ce56724e58048c94202d6d41b64a56c9ba901cc586fd253",
+            "module": "microcosm.calibrate",
+            "path": "packages/microcosm-calibrate/src/microcosm/calibrate/__init__.py"
+          },
+          {
+            "comparison": "different_preserve_maintained",
+            "frozen_sha256": "c5084a0dd45617922f8efca08560f243195eb4456430c1d87258e6240f379ab4",
+            "maintained_sha256": "8a400c46e4c94773dc0d83122f173c8c3bd405694d411989b10f792597b94196",
+            "module": "microcosm.calibrate.exact_k",
+            "path": "packages/microcosm-calibrate/src/microcosm/calibrate/exact_k.py"
+          },
+          {
+            "comparison": "different_preserve_maintained",
+            "frozen_sha256": "379e4adbb3ed7cdd13f7c7c548da45163f2a50330c874ee51095d38243d392e6",
+            "maintained_sha256": "14608a5ee02132f06eaad4a59de3b051c8b8e1d07bd1768f4eb57f237173cef7",
+            "module": "microcosm.calibrate.gates",
+            "path": "packages/microcosm-calibrate/src/microcosm/calibrate/gates.py"
+          },
+          {
+            "comparison": "different_preserve_maintained",
+            "frozen_sha256": "c04df2f61544d4ba83ad467365333a69528ccf9b78913d449539603cd848b6cc",
+            "maintained_sha256": "925a1b6bae1c714de93df3ee44e26afeed7f3912377b93942f3a5173281d851a",
+            "module": "microcosm.calibrate.solve",
+            "path": "packages/microcosm-calibrate/src/microcosm/calibrate/solve.py"
+          }
+        ],
+        "identical": 53,
+        "maintained_CI_pending": true,
+        "new_owners": 2
+      },
+      "proposed_adoption_base": "151166377036a6f4703ed8effdcb328c7699e416",
+      "status": "25_frozen_scoped_controls_accepted"
+    },
     "national_and_cd_release_verification": "pending",
     "native_financial_pilot_startup": {
       "cause": "Test-runner default null log sink denied by write guard; corrected in a separately reviewed fresh invocation. This failed attempt remains preserved.",
@@ -5966,6 +6123,64 @@
       "scope": "One cold 1/1000 native postclone nineteen-node financial pilot",
       "status": "incomplete_without_final_guard_receipt",
       "wall_limit_seconds": 10800
+    },
+    "native_postclone_financial19_v2": {
+      "as_of_utc": "2026-09-10T22:32:56.028553+00:00",
+      "cpu_limit_seconds": 7200,
+      "fraction": [
+        1,
+        1000
+      ],
+      "guard_sha256": "f5b4004fdab5f62ded885fdb1eb22cd72c0492cb65f970b67962a528b079d278",
+      "inputs_unchanged": 10,
+      "native_accepted": false,
+      "release_eligible": false,
+      "source_map_sha256": "96c29fc36bc3eec04a22d098468a1cae9d35ada665b9124ec34f0c3fae6fcf9a",
+      "source_overlays": [
+        "accepted immutable catalogue memo",
+        "accepted budget producer replay fence"
+      ],
+      "speedup_measured": false,
+      "status": "running_no_final_result",
+      "wall_limit_seconds": 10800
+    },
+    "numeric_diagnostics27": {
+      "code": [
+        {
+          "maintained_sha256": "22ff28977582c3b903ecf5d52b791a9f864a6a3c3df3b64541571e9199876b81",
+          "path": "packages/microcosm-build/src/microcosm/build/us_runtime/survey_calibration_diagnostics.py"
+        },
+        {
+          "maintained_sha256": "4d72fa2260af1178c889819295f39f3c2a0b79c37152eaf14e83cb7483b907aa",
+          "path": "packages/microcosm-build/tests/test_us_survey_calibration.py"
+        }
+      ],
+      "evidence": {
+        "cpu_seconds": 3.194314,
+        "model_sources": 0,
+        "peak_rss_bytes": 414924800,
+        "physical_postcheck_sha256": "e8a6f475e8bb8564c919ccfcbfce28182abd5b57e61029d0dab40404bae45d31",
+        "receipt_sha256": "50c1a09d4e71cffb00a375a703cb04623521a612478c34b2ac558c907bd4188b",
+        "resources": 0,
+        "source_peer_review_sha256": "4bfde0c677cecde4f2912a0a524c937292d33ee40ba35c10d5d29d34fa4c7b71",
+        "source_plus_owned": 512,
+        "tests_failed": 0,
+        "tests_passed": 27,
+        "unexpected_refusals": {},
+        "wall_seconds": 3.6059712909627706,
+        "xml_sha256": "e8dc6d33a24fcf4c0a226216cb6be574b599c73f4b16cb666bb9db1724d35ba1"
+      },
+      "maintained_full_CI_accepted": false,
+      "native_build_accepted": false,
+      "release_eligible": false,
+      "scope": "Independently reconstruct four closed solver options when verifying calibration diagnostics: no supplied gate initialization, nonzero-count budget basis, no feasible-draw upper bound and no budget search. Real grouped Adam over five invented households and four altered-option refusals pass against maintained calibration source. Complete age graph and native calibration remain separate.",
+      "status": "scoped_controls_accepted",
+      "test_formatting": {
+        "accepted_sha256": "e8a5fd5eea56ac357c5e919de0206d7ea44ff77b5dbf3809bea214b5d0e01109",
+        "change": "Ruff parenthesized one import; no AST change.",
+        "complete_AST_equal": true,
+        "maintained_sha256": "4d72fa2260af1178c889819295f39f3c2a0b79c37152eaf14e83cb7483b907aa"
+      }
     },
     "observed_geography_graph": {
       "before_after_current_frozen_and_maintained_source_equal": true,
@@ -6211,6 +6426,23 @@
       "unexpected_refusals": {},
       "wall_seconds": 11.048004040989326,
       "whole_population_attachment": false
+    },
+    "puf55_negative18": {
+      "corrected_parameter_status": "running_no_result",
+      "models": 0,
+      "physical_postcheck_sha256": "0bc0bee2b788538d2b67cdf792e3569b81587f6d117b69ce2d74dfa96b78d218",
+      "physical_source_owned": 515,
+      "production_correction_needed": null,
+      "receipt_sha256": "dd71074debeb06c28558de31a5a03047c6e937ef75a24a548d8381e26c3ea824",
+      "release_eligible": false,
+      "resources": 12,
+      "status": "failed_one_test",
+      "suite_accepted": false,
+      "tests_errors": 0,
+      "tests_failed": 1,
+      "tests_passed": 17,
+      "tests_skipped": 0,
+      "unexpected_refusals": {}
     },
     "puf55_numerical_output_seal_46": {
       "actual_model_chain_verified": true,
@@ -6851,7 +7083,7 @@
     "evaluate_rules_and_calibrate",
     "verify_full_and_pruned_exports"
   ],
-  "pipeline_order_scope": "Corrected post-clone architecture passes scoped invented controls, including the full 245-node PUF positive integration. Its native cold pilot reached its CPU limit without final verification; earlier accepted native cold/replay evidence uses pre-clone assignment. Native PUF enrichment, remaining input coverage, national/CD calibration and release remain pending.",
+  "pipeline_order_scope": "Corrected post-clone architecture passes scoped invented controls, including two full245-node PUF positive controls. Its native pilot stopped without final verification; a new pilot with a tested immutable-catalogue optimization is running. The host negative suite has17passes and1failed mutation test, with corrected control pending. Native PUF, complete inputs, model quality, national/CD calibration and release remain pending.",
   "release_path": "https://github.com/PolicyEngine/microcosm/blob/1cebe3547543bf2917a7af7362bfbb22a05bf964/docs/us-uk-release-path.md",
   "schema_version": "microcosm.us-candidate-method-status.v1",
   "sources": {
