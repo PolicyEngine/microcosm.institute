@@ -1,0 +1,81 @@
+{
+  "as_of": "2026-09-12",
+  "as_of_utc": "2026-09-12T13:52:47.828538+00:00",
+  "construction_order": [
+    "acs_asec_harmonization",
+    "initial_support_clones",
+    "atomic_block_assignment",
+    "derived_geographies",
+    "enrichment",
+    "calibration",
+    "verified_full_and_compact_exports"
+  ],
+  "fiscal_stages": {
+    "errors": 0,
+    "failures": 0,
+    "independent_selected_dense_tests": 167,
+    "integration_tests": 42,
+    "native_calibration_accepted": false,
+    "numeric_bounds_grant_source_authority": false,
+    "skipped": 0
+  },
+  "historical_evidence": "/data/build-status/us-graph-candidate-20260909.json",
+  "historical_methods": "/methods/history-20260910.html",
+  "integration_commit": "99543c3bf9c49d9ee953aa1e8241f00f6b086506",
+  "limitations": [
+    "No complete native enriched release",
+    "No current native national/CD calibration or holdout acceptance",
+    "No default promotion or deployment",
+    "Component tests are separate from research benchmark results"
+  ],
+  "minimal_invented_input_coverage": {
+    "applicability_established": false,
+    "native_coverage_established": false,
+    "present_names": 61,
+    "required_names": 161
+  },
+  "native_dimensions": {
+    "cloned_households": 3168,
+    "cloned_persons": 6928,
+    "financial_fields": 7,
+    "sampling_fraction": [
+      1,
+      1000
+    ],
+    "source_households": 1584,
+    "source_persons": 3464
+  },
+  "native_financial_replay": {
+    "baseline_manifest_sha256": "0d745678802d8dae16750f57ebe779644237e1b2416f1cb78edf4c59d2163f0e",
+    "cpu_seconds": 3944.4073700000004,
+    "financial_hits": 19,
+    "manifest_key": "134ab4ea39b434066e48258be345999425a6d23f3b5016680f457fd357be9edf",
+    "manifest_sha256": "c8a1b7715bae740c183aa592fca718849e35edf6722328c1de3d83f0cacafa77",
+    "native_source_head": "2ca11c85a0f710b8fa495e363243b940f7eabae2",
+    "non_manifest_export_hashes_match": true,
+    "peak_rss_bytes": 10988191744,
+    "portable_manifest_equality": "asserted by reviewed guarded replay harness; no native or generated Frame payload re-read by postcheck",
+    "prefix_hits": 9,
+    "protocol": "owned.native-financial19-replay-metadata-postcheck.v1",
+    "receipt_sha256": "71d6981518acad0ad0fd199f906c01ccfa867796aaf053cf6fa5f5a3df1193ae",
+    "release_eligible": false,
+    "scope": "frozen financial19 required replay only; excludes newer source, PUF, calibration and release",
+    "source_resource_input_owned_thread_hashes_unchanged": true,
+    "status": "PASS",
+    "unexpected_refusals": {},
+    "wall_seconds": 3981.09802937496
+  },
+  "puf_host": {
+    "fit_quality_accepted": false,
+    "full_invented_controls": 2,
+    "native_transfer_accepted": false,
+    "small_invented_controls": 31
+  },
+  "release_eligible": false,
+  "schema": "microcosm.site.development-status.v1",
+  "sources": {
+    "puf": "https://github.com/PolicyEngine/microcosm/blob/99543c3bf9c49d9ee953aa1e8241f00f6b086506/experiments/us-puf55-host-adoption-20260912.md",
+    "release_plan": "https://github.com/PolicyEngine/microcosm/blob/99543c3bf9c49d9ee953aa1e8241f00f6b086506/docs/us-uk-release-path.md",
+    "replay": "https://github.com/PolicyEngine/microcosm/blob/99543c3bf9c49d9ee953aa1e8241f00f6b086506/experiments/us-financial19-required-replay-20260912.md"
+  }
+}
