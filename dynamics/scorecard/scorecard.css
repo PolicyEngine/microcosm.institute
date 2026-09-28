@@ -1,10 +1,9 @@
-@import url('./charts.css');
+@import url('/dynamics/scorecard/charts.css');
 
 .scorecard-page {
   --series-ours: #2E8B57;
   --series-dynasim: #9A5BB5;
   color: var(--text-primary);
-  overflow-x: visible;
 }
 [data-theme="dark"] .scorecard-page,
 .scorecard-page[data-theme="dark"] {
@@ -39,7 +38,7 @@
 .control-row { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; margin-top: 1.3rem; }
 .text-link { font: .8rem var(--mono); padding: .7rem .4rem; }
 .score-section { padding-top: 2.8rem; margin-top: 2.8rem; border-top: 1px solid var(--border-strong); scroll-margin-top: 6rem; min-width: 0; }
-.score-section h2 { font-size: clamp(1.6rem, 3vw, 2.15rem); line-height: 1.2; font-weight: 400; margin: 0 0 1.5rem; color: var(--text-primary); }
+.score-section h2 { max-width: 40ch; font-size: clamp(1.6rem, 3vw, 2.15rem); line-height: 1.2; font-weight: 400; margin: 0 0 1.5rem; color: var(--text-primary); }
 .score-section h3 { font-size: 1.13rem; line-height: 1.3; margin: 0 0 .75rem; color: var(--text-primary); font-weight: 600; }
 .score-section p { margin: 0 0 1rem; }
 .score-section ul { padding-left: 1.2rem; }
@@ -66,7 +65,7 @@
 .timeline-events { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); list-style: none; gap: 1.2rem; padding: 0; }
 .timeline-events li { margin: 0; border-left: 2px solid var(--border-strong); padding-left: .85rem; min-width: 0; }
 .timeline-events strong { display: block; font-size: 1rem; margin-bottom: .6rem; }
-.timeline-events time, .timeline-events span { display: block; font: .73rem/1.7 var(--mono); color: var(--text-secondary); }
+.timeline-events time, .timeline-events li > span { display: block; font: .73rem/1.7 var(--mono); color: var(--text-secondary); }
 .timeline-copy { margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid var(--border-soft); font-size: .95rem; }
 .timeline-copy p { margin-bottom: 0; }
 .exercise-source { font: .78rem/1.6 var(--mono); color: var(--text-secondary); }
@@ -98,6 +97,7 @@ abbr[data-definition] { text-decoration: underline dotted var(--border-strong); 
 .drill-card.back { background: var(--section); }
 .presenter-notes { max-width: 850px; }
 .presenter-notes summary { cursor: pointer; }
+.presenter-notes summary h2 { max-width: none; }
 .presenter-notes h3 { margin-top: 1.8rem; }
 #tour-dialog { position: fixed; inset: auto 1.5rem 1.5rem auto; width: min(440px, calc(100vw - 3rem)); max-height: calc(100dvh - 3rem); margin: 0; padding: 1.5rem; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--card); color: var(--text-primary); box-shadow: 0 16px 60px #0003; overflow-y: auto; }
 #tour-dialog::backdrop { background: #0002; }

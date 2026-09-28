@@ -49,7 +49,7 @@
 .sc-chart-button:focus-visible,
 .sc-chart-scroll:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 4px; }
 .sc-chart-scroll { overflow-x: auto; max-width: 100%; padding-bottom: 6px; overscroll-behavior-x: contain; }
-.sc-dot-chart { display: block; max-width: none; overflow: visible; }
+.sc-dot-chart { display: block; max-width: 100%; height: auto; overflow: visible; }
 .sc-dot-chart text { fill: var(--text-primary); font-family: var(--font-body); font-size: 15px; }
 .sc-dot-chart .sc-tick,
 .sc-dot-chart .sc-axis-title,
@@ -61,7 +61,8 @@
 .sc-group-rule { stroke: var(--border-soft); stroke-width: 1; }
 .sc-zero { stroke: var(--border-strong); stroke-width: 2; }
 .sc-gap-connector { stroke: var(--border-strong); stroke-width: 2; }
-.sc-mark { cursor: help; outline: none; }
+.sc-mark { cursor: help; }
+.scorecard-page .sc-mark:focus-visible { outline: none; }
 .sc-mark-ours { color: var(--series-ours); }
 .sc-mark-dynasim { color: var(--series-dynasim); }
 .sc-point { fill: currentColor; }
@@ -102,14 +103,14 @@
 .sc-data-table th:first-child { text-align: left; }
 .sc-data-table thead { background: var(--section); }
 .sc-data-table tbody tr:hover { background: var(--section); }
-.sc-alternative-bars { display: grid; gap: 14px; margin-top: 14px; }
-.sc-alternative-row { display: grid; grid-template-columns: 55px minmax(0, 1fr) 62px; column-gap: 10px; align-items: center; }
+.sc-alternative-bars { display: grid; grid-template-columns: 55px minmax(0, 1fr) auto; gap: 14px 10px; margin-top: 14px; }
+.sc-alternative-row { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; }
 .sc-alternative-id,
 .sc-alternative-value { color: var(--text-primary); font-family: var(--font-mono); font-size: 13px; }
 .sc-alternative-value { text-align: right; }
 .sc-alternative-track { display: block; height: 10px; background: var(--section); }
-.sc-alternative-bar { display: block; height: 100%; background: var(--series-ours); opacity: .48; }
-.sc-alternative-headline .sc-alternative-bar { opacity: 1; }
+.sc-alternative-bar { display: block; height: 100%; background: var(--series-ours); }
+.sc-alternative-headline .sc-alternative-bar { box-shadow: 0 0 0 2px var(--text-primary); }
 .sc-alternative-headline .sc-alternative-id,
 .sc-alternative-headline .sc-alternative-value { font-weight: 600; }
 .sc-alternative-description { grid-column: 2 / -1; color: var(--text-secondary); font-size: 14px; line-height: 1.4; padding-top: 3px; overflow-wrap: anywhere; }
@@ -120,7 +121,8 @@
   .sc-chart-controls { gap: 14px 8px; }
   .sc-chart-legend { gap: 16px; }
   .sc-chart-tooltip { font-size: 14px; padding: 12px; }
-  .sc-alternative-row { grid-template-columns: 45px minmax(0, 1fr) 58px; gap: 4px 8px; }
+  .sc-alternative-bars { grid-template-columns: 45px minmax(0, 1fr) auto; column-gap: 8px; }
+  .sc-alternative-row { row-gap: 4px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

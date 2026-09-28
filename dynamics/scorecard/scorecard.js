@@ -3,7 +3,7 @@ import { renderExerciseChart, renderAlternatives } from './charts.js';
 const main = document.querySelector('#scorecard');
 const escapeHTML = (value) => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
 
-// The editorial source lives in data.json alongside the measurements. Source
+// The editorial source lives in copy.json, separate from measurements. Source
 // annotations remain inspectable in the DOM without interrupting the prose.
 function inline(source = '') {
   const comments = [];
@@ -31,7 +31,7 @@ function markdown(source = '') {
       }
       const header = rows.shift();
       if (rows[0]?.every(cell => /^:?-+:?$/.test(cell))) rows.shift();
-      output.push(`<div class="copy-table-wrap" role="region" aria-label="Published summary table" tabindex="0"><table><thead><tr>${header.map(cell => `<th scope="col">${inline(cell)}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map((cell, i) => i ? `<td>${inline(cell)}</td>` : `<th scope="row">${inline(cell)}</th>`).join('')}</tr>`).join('')}</tbody></table></div>`);
+      output.push(`<div class="copy-table-wrap" role="region" aria-label="${escapeHTML(header.join(', '))}" tabindex="0"><table><thead><tr>${header.map(cell => `<th scope="col">${inline(cell)}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map((cell, i) => i ? `<td>${inline(cell)}</td>` : `<th scope="row">${inline(cell)}</th>`).join('')}</tr>`).join('')}</tbody></table></div>`);
     } else if (/^- /.test(line)) {
       const items = [];
       while (index < lines.length && /^- /.test(lines[index].trim())) items.push(`<li>${inline(lines[index++].trim().slice(2))}</li>`);
@@ -78,7 +78,6 @@ function addGlossary(root, glossary) {
       term.tabIndex = node.parentElement.closest('a') ? -1 : 0;
       const entry = entries.get(match[0].toLowerCase());
       term.dataset.definition = entry.definition.replace(/\[src: [^\]]+\]/g, '').replace(/\*|`/g, '').trim();
-      term.setAttribute('aria-label', `${match[0]}: ${term.dataset.definition}`);
       fragment.append(term);
       start = match.index + match[0].length;
     }
@@ -130,13 +129,13 @@ function renderTimeline(exercise, target, copy, glossary) {
   function timestamp(value, timeZone) {
     return new Intl.DateTimeFormat('en-US', {timeZone, month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit', ...(value.match(/:\d\dZ$/) && value.split(':').length > 2 ? {second:'2-digit'} : {}), hour12: timeZone !== 'UTC'}).format(new Date(value));
   }
-  target.innerHTML = `<ol class="timeline-events">${entries.map(([label, value, url]) => `<li><strong>${url ? `<a href="${escapeHTML(url)}">${label} ↗</a>` : label}</strong><time datetime="${escapeHTML(value)}">${timestamp(value, 'UTC')} UTC</time><span>${timestamp(value, 'America/New_York')} ET</span></li>`).join('')}</ol><div class="timeline-copy">${markdown(copy)}</div>`;
+  target.innerHTML = `<ol class="timeline-events">${entries.map(([label, value, url]) => `<li><strong>${url ? `<a href="${escapeHTML(url)}">${label} <span aria-hidden="true">↗</span></a>` : label}</strong><time datetime="${escapeHTML(value)}">${timestamp(value, 'UTC')} UTC</time><span>${timestamp(value, 'America/New_York')} ET</span></li>`).join('')}</ol><div class="timeline-copy">${markdown(copy)}</div>`;
   addGlossary(target, glossary);
 }
 
 function renderDrill(cards, glossary, title) {
   const target = section('drill', title);
-  target.innerHTML += `<p class="section-note">Flip a card to check your answer. Use the arrow keys to move between cards.</p><div class="drill-meta mono"><span id="drill-progress" aria-live="polite"></span><span id="drill-side"></span></div><div id="drill-card" class="drill-card" role="group" tabindex="0" aria-label="Flashcard; press Enter or Space to flip"><div id="drill-content" aria-live="polite" aria-atomic="true"></div></div><div class="control-row"><button type="button" id="drill-prev">Previous</button><button type="button" id="drill-flip">Flip</button><button type="button" id="drill-next">Next</button><button type="button" id="drill-shuffle">Shuffle</button></div>`;
+  target.innerHTML += `<p class="section-note">Use Flip to check your answer; arrow keys move between cards.</p><div class="drill-meta mono"><span id="drill-progress" aria-live="polite"></span><span id="drill-side"></span></div><div id="drill-card" class="drill-card"><div id="drill-content" aria-live="polite" aria-atomic="true"></div></div><div class="control-row"><button type="button" id="drill-prev">Previous</button><button type="button" id="drill-flip">Flip</button><button type="button" id="drill-next">Next</button><button type="button" id="drill-shuffle">Shuffle</button></div>`;
   const card = target.querySelector('#drill-card');
   let deck = [...cards], index = 0, back = false;
   function render() {
@@ -146,12 +145,10 @@ function renderDrill(cards, glossary, title) {
     content.innerHTML = markdown(back ? deck[index].answer : deck[index].question);
     card.classList.toggle('back', back);
     addGlossary(content, glossary);
-    card.setAttribute('aria-label', `${back ? 'Answer' : 'Question'}: ${content.textContent}. Flip card.`);
   }
   function flip() { back = !back; render(); }
   function move(delta) { index = (index + delta + deck.length) % deck.length; back = false; render(); }
   card.addEventListener('click', event => { if (!event.target.closest('abbr')) flip(); });
-  card.addEventListener('keydown', event => { if (event.target === card && ['Enter', ' '].includes(event.key)) { event.preventDefault(); flip(); } });
   target.querySelector('#drill-flip').addEventListener('click', flip);
   target.querySelector('#drill-prev').addEventListener('click', () => move(-1));
   target.querySelector('#drill-next').addEventListener('click', () => move(1));
@@ -192,7 +189,7 @@ function setupTour(steps, glossary) {
   dialog.querySelector('#tour-close').addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', () => { highlighted?.classList.remove('tour-highlight'); trigger?.focus({preventScroll:true}); });
   dialog.addEventListener('keydown', event => {
-    if (event.key === 'Escape') { event.preventDefault(); dialog.close(); }
+    if (event.key === 'Escape') { const tip = document.querySelector('#glossary-tooltip'); event.preventDefault(); if (!tip.hidden) { tip.hidden = true; return; } dialog.close(); }
     if (event.key !== 'Tab') return;
     const focusable = [...dialog.querySelectorAll('button:not(:disabled), [tabindex="0"]')];
     const first = focusable[0], last = focusable.at(-1);
@@ -202,20 +199,20 @@ function setupTour(steps, glossary) {
 }
 
 async function start() {
-  const response = await fetch(new URL('./data.json', import.meta.url));
-  if (!response.ok) throw new Error(`Data request failed: ${response.status}`);
-  const data = await response.json();
-  const page = data.page;
+  const [dataResponse, copyResponse] = await Promise.all(['./data.json', './copy.json'].map(path => fetch(new URL(path, import.meta.url))));
+  for (const response of [dataResponse, copyResponse]) if (!response.ok) throw new Error(`Data request failed: ${response.status}`);
+  const data = await dataResponse.json();
+  const page = await copyResponse.json();
   main.addEventListener('scorecard:chart-render', event => addGlossary(event.target, page.glossary));
   document.querySelector('#load-status').remove();
   const hero = document.createElement('header');
   hero.className = 'scorecard-hero';
-  hero.innerHTML = `<p class="eyebrow">Microcosm Dynamics · Replication</p><h1>${inline(page.title)}</h1><div class="scorecard-lede">${markdown(page.intro)}</div><div class="control-row"><button type="button" id="tour-start">Guided tour <span aria-hidden="true">↗</span></button><a class="text-link" href="#drill">Check yourself →</a></div>`;
+  hero.innerHTML = `<p class="eyebrow">Microcosm Dynamics · Replication</p><h1>${inline(page.title)}</h1><div class="scorecard-lede">${markdown(page.intro)}</div><div class="control-row"><button type="button" id="tour-start">Guided tour <span aria-hidden="true">→</span></button><a class="text-link" href="#drill">Check yourself →</a></div>`;
   main.append(hero);
   const summaries = section('summaries', page.summaryTitle);
-  summaries.innerHTML += `<div class="summary-grid">${page.cards.map((card, i) => `<article class="summary-card"><h3><a href="#${data.exercises[i].id}">${inline(card.title)}</a></h3><p>${inline(card.policy)}</p><p>${inline(card.result)}</p><p class="verdict"><span>${inline(card.verdict)}</span><span aria-hidden="true">↗</span></p></article>`).join('')}</div>`;
+  summaries.innerHTML += `<div class="summary-grid">${page.cards.map((card, i) => `<article class="summary-card"><h3><a href="#${data.exercises[i].id}">${inline(card.title)}</a></h3><p>${inline(card.policy)}</p><p>${inline(card.result)}</p><p class="verdict"><span>${inline(card.verdict)}</span><span aria-hidden="true">→</span></p></article>`).join('')}</div>`;
   const method = section('method', page.method.title);
-  method.innerHTML += `<ol class="method-stepper">${page.method.steps.map((step, i) => `<li><span class="step-number mono" aria-hidden="true">${i + 1}</span>${markdown(step)}</li>`).join('')}</ol><div class="method-notes">${page.method.notes.map(note => markdown(note)).join('')}</div><div class="timeline-panel"><div class="timeline-heading"><h3>${inline(page.method.timelineTitle)}</h3><label for="timeline-exercise">Show timeline <select id="timeline-exercise">${data.exercises.map(ex => `<option value="${ex.id}">${escapeHTML(ex.number)} · ${escapeHTML(ex.short)}</option>`).join('')}</select></label></div><div id="timeline-content" aria-live="polite"></div></div>`;
+  method.innerHTML += `<ol class="method-stepper">${page.method.steps.map((step, i) => `<li><span class="step-number mono" aria-hidden="true">${i + 1}</span>${markdown(step)}</li>`).join('')}</ol><div class="method-notes">${page.method.notes.map(note => markdown(note)).join('')}</div><div class="timeline-panel"><div class="timeline-heading"><h3>${inline(page.method.timelineTitle)}</h3><label for="timeline-exercise">Show timeline <select id="timeline-exercise">${data.exercises.map(ex => `<option value="${ex.id}">${escapeHTML(ex.number)} · ${escapeHTML(ex.short)}</option>`).join('')}</select></label></div><div id="timeline-content"></div></div>`;
   const timelineContent = method.querySelector('#timeline-content');
   renderTimeline(data.exercises[0], timelineContent, page.method.timelines[0], page.glossary);
   method.querySelector('select').addEventListener('change', event => {
@@ -223,6 +220,12 @@ async function start() {
     renderTimeline(data.exercises[index], timelineContent, page.method.timelines[index], page.glossary);
   });
   const desktop = matchMedia('(min-width: 760px)');
+  const automaticDetailStates = new WeakMap();
+  function setDetailOpen(detail, open) {
+    if (detail.open === open) return;
+    automaticDetailStates.set(detail, open);
+    detail.open = open;
+  }
   for (const [index, exercise] of data.exercises.entries()) {
     const copy = page.exercises[index];
     const panel = section(exercise.id, copy.title, 'exercise-panel');
@@ -238,7 +241,14 @@ async function start() {
     for (const subsection of copy.sections) {
       const detail = document.createElement('details');
       detail.className = 'copy-section';
-      detail.open = desktop.matches;
+      detail.addEventListener('toggle', event => {
+        // Native toggle events also fire after assigning open programmatically.
+        const expected = automaticDetailStates.get(detail);
+        automaticDetailStates.delete(detail);
+        if (expected !== undefined && detail.open === expected) return;
+        if (event.isTrusted) detail.dataset.userToggled = 'true';
+      });
+      setDetailOpen(detail, desktop.matches);
       detail.innerHTML = `<summary><h3>${inline(subsection.title)}</h3></summary><div class="copy-body">${markdown(subsection.body)}</div>`;
       if (subsection.title === 'Registered alternatives') {
         const chart = document.createElement('div');
@@ -264,7 +274,7 @@ async function start() {
   addGlossary(main, page.glossary);
   setupGlossaryTooltip();
   setupTour(page.tour, page.glossary);
-  desktop.addEventListener('change', event => { document.querySelectorAll('.copy-section').forEach(detail => { detail.open = event.matches; }); });
+  desktop.addEventListener('change', event => { document.querySelectorAll('.copy-section').forEach(detail => { if (!detail.dataset.userToggled) setDetailOpen(detail, event.matches); }); });
   if (location.hash) requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
 }
 
@@ -273,5 +283,5 @@ start().catch(error => {
   let status = document.querySelector('#load-status');
   if (!status) { status = document.createElement('p'); main.prepend(status); }
   status.setAttribute('role', 'alert');
-  status.innerHTML = 'The scorecard could not load. Please reload, or <a href="./data.json">read the source data</a>.';
+  status.innerHTML = 'The scorecard could not load. Please reload, or <a href="/dynamics/scorecard/data.json">read the source data</a>.';
 });

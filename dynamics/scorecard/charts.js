@@ -1,6 +1,8 @@
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const numberFormat = new Intl.NumberFormat('en-US', { maximumFractionDigits: 3 });
+const chartNumberFormat = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 });
 const integerFormat = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+let alternativesChartCount = 0;
 
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -19,6 +21,11 @@ function svgElement(tag, attributes, text) {
 function format(value, signed = false) {
   if (!Number.isFinite(value)) return 'Not estimated';
   const result = numberFormat.format(Object.is(value, -0) ? 0 : value).replace('-', '−');
+  return signed && value > 0 ? `+${result}` : result;
+}
+
+function chartFormat(value, signed = false) {
+  const result = chartNumberFormat.format(Object.is(value, -0) ? 0 : value).replace('-', '−');
   return signed && value > 0 ? `+${result}` : result;
 }
 
@@ -71,7 +78,7 @@ function cellDescription(exercise, cell, mode, phase) {
     ['Noise floor', Number.isFinite(floorOf(cell)) ? `±${format(floorOf(cell))} pp` : 'Not estimated'],
   ];
   if (Number.isFinite(cell.draw_sd)) descriptions.push(['Spread across draws', format(cell.draw_sd)]);
-  if (Number.isFinite(cell.se)) descriptions.push(['Design SE', format(cell.se)]);
+  if (Object.hasOwn(cell, 'noise') && Number.isFinite(cell.se)) descriptions.push(['Design SE', `±${format(cell.se)} pp`]);
   if (Number.isFinite(cell.n)) descriptions.push(['Sample n', integerFormat.format(cell.n)]);
   if (cell.no_switcher) descriptions.push(['Sampling note', 'No switcher; uncertainty is not estimated']);
   if (cell.small_cell) descriptions.push(['Sampling note', 'Small cell']);
@@ -126,17 +133,21 @@ function createTooltip(host, id) {
   host.addEventListener('keydown', event => {
     if (event.key === 'Escape') hide();
   });
+  document.addEventListener('pointerdown', e => {
+    if (activeMark && !activeMark.contains(e.target) && !tooltip.contains(e.target)) hide();
+  });
   // A scrolled chart must not leave a floating tooltip at the old mark location.
   host.addEventListener('scroll', event => {
     if (event.target !== tooltip) hide();
   }, true);
 
   return {
+    id,
     hide,
     bind(mark, description) {
       mark.setAttribute('tabindex', '0');
       mark.setAttribute('role', 'button');
-      mark.setAttribute('aria-label', description.map(([label, value]) => `${label}: ${value}`).join('. '));
+      mark.setAttribute('aria-label', `${description[0][1]}`);
       mark.addEventListener('pointerenter', () => show(mark, description));
       mark.addEventListener('pointerleave', delayedHide);
       mark.addEventListener('focus', () => show(mark, description));
@@ -152,8 +163,8 @@ function createTooltip(host, id) {
   };
 }
 
-function ticksFor(minimum, maximum) {
-  const rawStep = (maximum - minimum) / 5;
+function ticksFor(minimum, maximum, intervals = 5) {
+  const rawStep = (maximum - minimum) / intervals;
   const power = 10 ** Math.floor(Math.log10(rawStep || 1));
   const step = [1, 2, 2.5, 5, 10].find(value => value * power >= rawStep) * power;
   const min = Math.floor(minimum / step) * step;
@@ -167,7 +178,7 @@ function addLine(svg, x1, y1, x2, y2, className) {
   svg.append(svgElement('line', { x1, y1, x2, y2, class: className }));
 }
 
-function addMark(svg, value, interval, x, y, series, tooltip, description, floor) {
+function addMark(svg, value, interval, x, y, series, tooltip, description, floor, focusable = true) {
   const group = svgElement('g', { class: `sc-mark sc-mark-${series}` });
   if (interval) {
     const lo = x(interval[0]);
@@ -198,6 +209,7 @@ function addMark(svg, value, interval, x, y, series, tooltip, description, floor
   }
   group.append(svgElement('circle', { cx, cy: y, r: 17, class: 'sc-mark-target' }));
   tooltip.bind(group, description);
+  if (!focusable) { group.setAttribute('tabindex', '-1'); group.setAttribute('aria-hidden', 'true'); }
   svg.append(group);
 }
 
@@ -216,18 +228,19 @@ function drawChart(exercise, mode, width, tooltip) {
       values.push(cell.ours - uncertainty, cell.ours + uncertainty, ...cell.interval);
     }
   });
-  const { min, max, ticks } = ticksFor(Math.min(...values), Math.max(...values));
-  const left = levels ? 155 : 115;
+  const narrow = width < 560;
+  const { min, max, ticks } = ticksFor(Math.min(...values), Math.max(...values), narrow ? 4 : 5);
+  const left = narrow ? 8 : (levels ? 155 : 115);
   const right = 46;
-  const top = 64;
-  const rowHeight = levels ? 86 : 64;
+  const top = narrow ? 92 : 64;
+  const rowHeight = (levels ? 86 : 64) + (narrow ? 22 : 0);
   let nextY = top;
   let previousOption;
   const rows = cells.map(cell => {
     let headingY;
     if (grouped && cell.option !== previousOption) {
       headingY = nextY;
-      nextY += 30;
+      nextY += narrow ? 44 : 30;
       previousOption = cell.option;
     }
     const row = { cell, y: nextY, headingY };
@@ -242,7 +255,7 @@ function drawChart(exercise, mode, width, tooltip) {
   const summary = `${title}. ${integerFormat.format(cells.length)} cells. Green circles show ours; violet diamonds and bands show ${seriesName}. ${levels ? 'Before and after levels are paired within each cell; no uncertainty for our levels was estimated.' : `Our horizontal bars show ${isDesign ? 'design standard errors, with dashed noise floors' : 'noise'}. Largest gap: ${largest[0].label}, ${format(largest[0].gap, true)} percentage points.`} Use the table view for all values.`;
   const svg = svgElement('svg', {
     viewBox: `0 0 ${width} ${height}`, width, height, class: 'sc-dot-chart',
-    role: 'img', 'aria-label': summary,
+    role: 'group', 'aria-roledescription': 'chart', 'aria-label': summary,
   });
   svg.append(svgElement('title', {}, title), svgElement('desc', {}, summary));
   svg.append(svgElement('text', { x: 0, y: 22, class: 'sc-axis-title' }, exercise.cell_axis));
@@ -250,7 +263,8 @@ function drawChart(exercise, mode, width, tooltip) {
   ticks.forEach(tick => {
     const tx = x(tick);
     addLine(svg, tx, top - 20, tx, axisY, tick === 0 ? 'sc-grid sc-zero' : 'sc-grid');
-    svg.append(svgElement('text', { x: tx, y: axisY + 25, 'text-anchor': 'middle', class: 'sc-tick' }, format(tick)));
+    const anchor = narrow && tick === min ? 'start' : narrow && tick === max ? 'end' : 'middle';
+    svg.append(svgElement('text', { x: tx, y: axisY + 25, 'text-anchor': anchor, class: 'sc-tick' }, chartFormat(tick)));
   });
   addLine(svg, left, axisY, width - right, axisY, 'sc-grid');
   rows.forEach(({ cell, y, headingY }, index) => {
@@ -259,10 +273,10 @@ function drawChart(exercise, mode, width, tooltip) {
       addLine(svg, left, headingY - 5, width - right, headingY - 5, 'sc-group-rule');
     }
     const label = grouped ? cell.group : cell.label;
-    svg.append(svgElement('text', { x: 0, y: y + 5, class: 'sc-row-label' }, label));
+    svg.append(svgElement('text', { x: 0, y: narrow ? y - 18 : y + 5, class: 'sc-row-label' }, label));
     const phases = levels ? [0, 1] : [undefined];
     phases.forEach(phase => {
-      const cy = levels ? y + phase * 29 : y;
+      const cy = levels ? y + phase * 29 + (narrow ? 24 : 0) : y;
       const ours = levels ? cell.ours_levels[phase] : cell.ours;
       const dynasim = levels ? cell.dynasim_levels[phase] : cell.dynasim;
       const interval = levels ? levelInterval(cell, phase) : cell.interval;
@@ -270,20 +284,24 @@ function drawChart(exercise, mode, width, tooltip) {
       const oursY = cy - 5;
       const dynasimY = cy + 5;
       if (levels) {
-        svg.append(svgElement('text', { x: left - 12, y: cy + 4, 'text-anchor': 'end', class: 'sc-phase-label' }, phase === 0 ? 'Before' : 'After'));
+        svg.append(svgElement('text', { x: narrow ? left : left - 12, y: cy + (narrow ? -10 : 4), 'text-anchor': narrow ? 'start' : 'end', class: 'sc-phase-label' }, phase === 0 ? 'Before' : 'After'));
       }
       addLine(svg, x(ours), oursY, x(dynasim), dynasimY, 'sc-gap-connector');
       const description = cellDescription(exercise, cell, mode, phase);
-      addMark(svg, dynasim, interval, x, dynasimY, 'dynasim', tooltip, description);
+      addMark(svg, dynasim, interval, x, dynasimY, 'dynasim', tooltip, description, undefined, false);
       addMark(svg, ours, Number.isFinite(noise) ? [ours - noise, ours + noise] : null,
         x, oursY, 'ours', tooltip, description, isDesign && !levels ? floorOf(cell) : undefined);
       if (!levels && largest.includes(cell)) {
         const mid = (x(ours) + x(dynasim)) / 2;
-        svg.append(svgElement('text', { x: mid, y: cy + 29, 'text-anchor': 'middle', class: 'sc-gap-label' }, `${format(cell.gap, true)} pp gap`));
+        const labelX = Math.max(55, Math.min(mid, width - 55));
+        svg.append(svgElement('text', { x: labelX, y: cy + 29, 'text-anchor': 'middle', class: 'sc-gap-label' }, `${chartFormat(cell.gap, true)} pp gap`));
       }
-      if (!levels && index === 0 && exercise.id === 'ex1') {
-        svg.append(svgElement('text', { x: x(ours) - 10, y: oursY - 17, 'text-anchor': 'end', class: 'sc-series-label' }, 'Ours'));
-        svg.append(svgElement('text', { x: x(dynasim) + 10, y: dynasimY - 20, class: 'sc-series-label' }, seriesName));
+      if (index === 0 && (!levels || phase === 0)) {
+        const oursX = Math.max(36, Math.min(x(ours) - 10, width - 110));
+        const comparatorX = Math.max(oursX + 12, Math.min(x(dynasim) + 10, width - 85));
+        const labelY = narrow ? 48 : oursY - 17;
+        svg.append(svgElement('text', { x: oursX, y: labelY, 'text-anchor': 'end', class: 'sc-series-label' }, 'Ours'));
+        svg.append(svgElement('text', { x: comparatorX, y: labelY, class: 'sc-series-label' }, seriesName));
       }
     });
   });
@@ -344,9 +362,8 @@ export function renderExerciseChart(exercise, host) {
     legend.append(item);
   });
   controls.append(legend);
-  const view = element('div', 'sc-chart-scroll');
+  const view = element('div', 'sc-chart-view');
   view.id = `${exercise.id}-chart-view`;
-  view.tabIndex = 0;
   view.setAttribute('role', 'region');
   view.setAttribute('aria-label', `${exercise.short} chart and table`);
   const tableToggle = element('button', 'sc-chart-button', 'Table view');
@@ -388,7 +405,10 @@ export function renderExerciseChart(exercise, host) {
 
   function render() {
     tooltip.hide();
-    currentWidth = Math.max(620, Math.floor(host.getBoundingClientRect().width));
+    currentWidth = Math.max(320, Math.floor(host.getBoundingClientRect().width));
+    view.classList.toggle('sc-chart-scroll', state.table);
+    if (state.table) view.tabIndex = 0;
+    else view.removeAttribute('tabindex');
     view.replaceChildren(state.table ? buildTable(exercise, state.mode) : drawChart(exercise, state.mode, currentWidth, tooltip));
     note.textContent = state.mode === 'levels'
       ? 'Before and after are paired within each cell. Violet bands show printed rounding intervals. Uncertainty for our levels was not estimated.'
@@ -400,7 +420,7 @@ export function renderExerciseChart(exercise, host) {
 
   render();
   const observer = new ResizeObserver(() => {
-    const nextWidth = Math.max(620, Math.floor(host.getBoundingClientRect().width));
+    const nextWidth = Math.max(320, Math.floor(host.getBoundingClientRect().width));
     if (!state.table && nextWidth !== currentWidth) render();
   });
   observer.observe(host);
@@ -414,11 +434,22 @@ export function renderAlternatives(exercise, host) {
   const identical = exercise.rows.filter(row => row.identical_to);
   const maximum = Math.max(...quantitative.map(row => row.mean_abs_gap));
   const headline = exercise.rows[0].id;
+  const tooltip = createTooltip(host, `${exercise.id}-alternatives-tooltip-${alternativesChartCount++}`);
   const chart = element('div', 'sc-alternative-bars');
-  chart.setAttribute('role', 'img');
+  chart.setAttribute('role', 'group');
   chart.setAttribute('aria-label', `Registered alternatives: mean absolute gap in percentage points. ${quantitative.map(row => `${row.id}${row.id === headline ? ', headline' : ''}, ${row.change}: ${format(row.mean_abs_gap)}`).join('; ')}.`);
   const heading = element('p', 'sc-alternative-axis', 'Mean absolute gap (pp)');
-  host.append(heading);
+  const controls = element('div', 'sc-chart-controls');
+  const tableToggle = element('button', 'sc-chart-button', 'Table view');
+  tableToggle.type = 'button';
+  tableToggle.setAttribute('aria-pressed', 'false');
+  const view = element('div', 'sc-chart-view');
+  view.id = `${tooltip.id}-view`;
+  view.setAttribute('role', 'region');
+  view.setAttribute('aria-label', `${exercise.short} registered alternatives`);
+  tableToggle.setAttribute('aria-controls', view.id);
+  controls.append(tableToggle);
+  host.append(heading, controls, view);
   quantitative.forEach(row => {
     const item = element('div', `sc-alternative-row${row.id === headline ? ' sc-alternative-headline' : ''}`);
     const id = element('span', 'sc-alternative-id', row.id);
@@ -426,12 +457,47 @@ export function renderAlternatives(exercise, host) {
     const bar = element('span', 'sc-alternative-bar');
     bar.style.width = `${row.mean_abs_gap / maximum * 100}%`;
     track.append(bar);
-    const value = element('span', 'sc-alternative-value', format(row.mean_abs_gap));
+    const value = element('span', 'sc-alternative-value', chartFormat(row.mean_abs_gap));
     const label = element('span', 'sc-alternative-description', `${row.change}${row.id === headline ? ' · scored headline' : ''}`);
-    item.append(id, track, value, label);
+    item.append(id, track);
+    if (row.id === headline) item.append(value);
+    item.append(label);
+    tooltip.bind(item, [['Alternative', row.id], ['Change', row.change], ['Mean absolute gap', `${format(row.mean_abs_gap)} pp`], ...(row.id === headline ? [['Status', 'Scored headline']] : [])]);
     chart.append(item);
   });
-  host.append(chart);
+  const table = element('table', 'sc-data-table');
+  table.append(element('caption', '', 'Registered alternatives: mean absolute gap (pp)'));
+  const thead = element('thead');
+  const headRow = element('tr');
+  ['Alternative', 'Change', 'Mean absolute gap (pp)', 'Headline'].forEach(label => {
+    const th = element('th', '', label);
+    th.scope = 'col';
+    headRow.append(th);
+  });
+  thead.append(headRow);
+  const tbody = element('tbody');
+  exercise.rows.forEach(row => {
+    const tr = element('tr');
+    const th = element('th', '', row.id);
+    th.scope = 'row';
+    tr.append(th, element('td', '', row.change),
+      element('td', '', row.identical_to ? `Identical to ${row.identical_to}` : format(row.mean_abs_gap)),
+      element('td', '', row.id === headline ? 'Scored headline' : ''));
+    tbody.append(tr);
+  });
+  table.append(thead, tbody);
+  let tableView = false;
+  tableToggle.addEventListener('click', () => {
+    tableView = !tableView;
+    tooltip.hide();
+    tableToggle.setAttribute('aria-pressed', String(tableView));
+    tableToggle.textContent = tableView ? 'Show chart' : 'Table view';
+    view.classList.toggle('sc-chart-scroll', tableView);
+    if (tableView) view.tabIndex = 0;
+    else view.removeAttribute('tabindex');
+    view.replaceChildren(tableView ? table : chart);
+  });
+  view.append(chart);
   if (identical.length) {
     const heading = element('p', 'sc-identical-heading', `Identical to ${identical[0].identical_to}`);
     const list = element('ul', 'sc-identical-rows');
