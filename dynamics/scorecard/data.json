@@ -1,0 +1,1127 @@
+{
+ "schema": "dynasim-scorecard/v1",
+ "note": "Every number is from a posted issue #42 result; nothing here is new computation.",
+ "sources": {
+  "ex1_memo": {
+   "path": "track-a-oneshot-20260923/COMPARISON.md",
+   "sha256": "ecf34b4d333b9e271e864792cef8c3877d8492e0a235a6d6d22c3ebaf6827ea3"
+  },
+  "ex3_json": {
+   "path": "fra68-oneshot-reg15-20260925/comparison.json",
+   "sha256": "dc848695ba8bceb18d63f0e12c6f29acf0d61f1e782242f02fb0ccee285d7eee"
+  },
+  "ex3_memo": {
+   "path": "fra68-oneshot-reg15-20260925/COMPARISON.md",
+   "sha256": "14567c4e163ec82a02078ba24f959d757fc22791e4e6dfc92db297f638c5d6cd"
+  },
+  "ex2_json": {
+   "path": "track-u-oneshot-reg16-20260927/comparison.json",
+   "sha256": "962e97765e41f63dd16a7d9ce2f6860cfa8fdfc4c27c680217b3ee0ca7e2d8f3"
+  },
+  "ex2_memo": {
+   "path": "track-u-oneshot-reg16-20260927/COMPARISON.md",
+   "sha256": "07ecdb4e0880d0f1be132272ad05e291b142b62fb9dd2ea7e09ceaca1dd685cd"
+  },
+  "ex4_json": {
+   "path": "track-m-oneshot-reg17-20260927/comparison.json",
+   "sha256": "083a6e1a3b1ab028134b98c22355b1e2e14c89bab9e0977c6dc28a0e83cdd809"
+  },
+  "ex4_memo": {
+   "path": "track-m-oneshot-reg17-20260927/COMPARISON.md",
+   "sha256": "a9b7ab470e7e824e64231b1449a27883d9a7fa954a730f6da141b18e23cd16e7"
+  }
+ },
+ "exercises": [
+  {
+   "id": "ex1",
+   "number": 1,
+   "short": "COLA cut",
+   "title": "Cut the COLA by 1 percentage point",
+   "source": "Urban Institute (2010), Details Matter, Figure 2",
+   "comparator": "DYNASIM3 run 614 (2008 Trustees assumptions)",
+   "kind": "projection",
+   "track": "Track A",
+   "statistic": "Percent change in average Social Security benefits in 2030, by beneficiary age",
+   "unit": "%",
+   "cell_axis": "Age in 2030",
+   "precision_note": "Exercise 1 values are the memo's two-decimal figures.",
+   "cells": [
+    {
+     "label": "50–61",
+     "ours": -7.77,
+     "noise": 0.36,
+     "draw_sd": 0.36,
+     "floor": 0.27,
+     "dynasim": -7.15,
+     "interval": [
+      -7.29,
+      -7.07
+     ],
+     "gap": -0.62,
+     "forecast": {
+      "point": -8.1,
+      "lo": -9.5,
+      "hi": -6.7,
+      "inside": true
+     }
+    },
+    {
+     "label": "62–64",
+     "ours": -3.64,
+     "noise": 0.35,
+     "draw_sd": 0.33,
+     "floor": 0.35,
+     "dynasim": -3.79,
+     "interval": [
+      -3.91,
+      -3.71
+     ],
+     "gap": 0.14,
+     "forecast": {
+      "point": -3.4,
+      "lo": -4.2,
+      "hi": -2.7,
+      "inside": true
+     }
+    },
+    {
+     "label": "65–69",
+     "ours": -6.26,
+     "noise": 0.13,
+     "draw_sd": 0.13,
+     "floor": 0.12,
+     "dynasim": -6.36,
+     "interval": [
+      -6.49,
+      -6.28
+     ],
+     "gap": 0.1,
+     "forecast": {
+      "point": -6.1,
+      "lo": -6.7,
+      "hi": -5.5,
+      "inside": true
+     }
+    },
+    {
+     "label": "70–79",
+     "ours": -12.22,
+     "noise": 0.16,
+     "draw_sd": 0.06,
+     "floor": 0.16,
+     "dynasim": -11.94,
+     "interval": [
+      -12.09,
+      -11.85
+     ],
+     "gap": -0.28,
+     "forecast": {
+      "point": -12.0,
+      "lo": -12.5,
+      "hi": -11.5,
+      "inside": true
+     }
+    },
+    {
+     "label": "80+",
+     "ours": -17.92,
+     "noise": 0.09,
+     "draw_sd": 0.03,
+     "floor": 0.09,
+     "dynasim": -18.66,
+     "interval": [
+      -18.84,
+      -18.56
+     ],
+     "gap": 0.74,
+     "forecast": {
+      "point": -18.1,
+      "lo": -18.3,
+      "hi": -17.85,
+      "inside": true
+     }
+    }
+   ],
+   "rows": [
+    {
+     "id": "R0",
+     "change": "primary: first reduced COLA effective December 2009, eligibility clock, calendar-year 2030 benefits, all five benefit types",
+     "mean_abs_gap": 0.38,
+     "max_abs_gap": 0.74,
+     "note": ""
+    },
+    {
+     "id": "R1",
+     "change": "first reduced COLA December 2010",
+     "mean_abs_gap": 0.46,
+     "max_abs_gap": 1.25,
+     "note": "One fewer reduced increase, so the 80+ gap widens to +1.25"
+    },
+    {
+     "id": "R2",
+     "change": "entitlement clock instead of eligibility",
+     "mean_abs_gap": 1.47,
+     "max_abs_gap": 2.43,
+     "note": "Worst row: every aged cell is too shallow by 0.9–2.4 points"
+    },
+    {
+     "id": "R3",
+     "change": "mean of individual ratios as the statistic",
+     "mean_abs_gap": 0.45,
+     "max_abs_gap": 0.98,
+     "note": ""
+    },
+    {
+     "id": "R4",
+     "change": "December 2030 monthly benefit instead of calendar year",
+     "mean_abs_gap": 0.86,
+     "max_abs_gap": 1.52,
+     "note": "80+ matches within 0.06, but the other cells overshoot by 0.8–1.5"
+    },
+    {
+     "id": "R5",
+     "change": "retired and disabled workers only",
+     "mean_abs_gap": 0.49,
+     "max_abs_gap": 0.74,
+     "note": ""
+    },
+    {
+     "id": "R6",
+     "change": "PSID 2009 wave (2008 opening)",
+     "mean_abs_gap": 0.37,
+     "max_abs_gap": 0.76,
+     "note": "Nearly identical to R0: the result is not an artifact of the 2011 wave"
+    }
+   ],
+   "summary": {
+    "mean_abs_gap": 0.38,
+    "max_abs_gap": 0.74,
+    "max_cell": "80+"
+   },
+   "timeline": {
+    "registration": {
+     "url": "https://github.com/PolicyEngine/microcosm-dynamics/issues/42#issuecomment-5804420283",
+     "at": "2026-09-23T23:06:06Z"
+    },
+    "run": {
+     "start": "2026-09-23T23:06Z",
+     "end": "2026-09-23T23:31Z"
+    },
+    "artifact_commit": {
+     "sha": "7b580dc9",
+     "at": "2026-09-23T23:40:38Z"
+    },
+    "result": {
+     "url": "https://github.com/PolicyEngine/microcosm-dynamics/issues/42#issuecomment-5804799227",
+     "at": "2026-09-23T23:42:53Z"
+    }
+   },
+   "memo": "track-a-oneshot-20260923/COMPARISON.md"
+  },
+  {
+   "id": "ex2",
+   "number": 2,
+   "short": "13% cut",
+   "title": "Cut all benefits 13% from 2004",
+   "source": "Butrica and Uccello (2004), How Will Boomers Fare at Retirement?, Tables 19 and 21",
+   "comparator": "DYNASIM3 (2004 report), 1936–45 birth cohort column",
+   "kind": "static",
+   "track": "Track U",
+   "statistic": "Change in the adjusted poverty rate at age 67 (percentage points), 1936–45 cohort",
+   "unit": "pp",
+   "cell_axis": "Group",
+   "printed_precision": "Whole percentages; the printed change is ±1",
+   "cells": [
+    {
+     "label": "All",
+     "n": 483,
+     "small_cell": false,
+     "no_switcher": false,
+     "ours": 0.46487135520987977,
+     "ours_levels": [
+      3.079321368580804,
+      3.5441927237906836
+     ],
+     "se": 0.2487135134557494,
+     "floor": {
+      "defined": true,
+      "mean": 0.2664361285239475,
+      "sd": 0.1086130735885756,
+      "undefined_reason": null
+     },
+     "dynasim": 2,
+     "dynasim_levels": [
+      5,
+      7
+     ],
+     "interval": [
+      1,
+      3
+     ],
+     "gap": -1.5351286447901202
+    },
+    {
+     "label": "Women",
+     "n": 249,
+     "small_cell": false,
+     "no_switcher": false,
+     "ours": 0.3506680988029105,
+     "ours_levels": [
+      4.076625326713628,
+      4.427293425516538
+     ],
+     "se": 0.2838795096900968,
+     "floor": {
+      "defined": true,
+      "mean": 0.44826293788898874,
+      "sd": 0.0846200409960444,
+      "undefined_reason": null
+     },
+     "dynasim": 3,
+     "dynasim_levels": [
+      7,
+      10
+     ],
+     "interval": [
+      2,
+      4
+     ],
+     "gap": -2.6493319011970895
+    },
+    {
+     "label": "Men",
+     "n": 234,
+     "small_cell": false,
+     "no_switcher": false,
+     "ours": 0.5967395998799494,
+     "ours_levels": [
+      1.9277541847797102,
+      2.5244937846596596
+     ],
+     "se": 0.4210672112224998,
+     "floor": {
+      "defined": true,
+      "mean": 0.15953808142038567,
+      "sd": 0.07904878670879281,
+      "undefined_reason": null
+     },
+     "dynasim": 1,
+     "dynasim_levels": [
+      3,
+      4
+     ],
+     "interval": [
+      0,
+      2
+     ],
+     "gap": -0.4032604001200506
+    },
+    {
+     "label": "Married",
+     "n": 331,
+     "small_cell": false,
+     "no_switcher": false,
+     "ours": 0.6003171814020938,
+     "ours_levels": [
+      2.1721244895048004,
+      2.772441670906894
+     ],
+     "se": 0.3444606113027895,
+     "floor": {
+      "defined": true,
+      "mean": 0.4570812911657658,
+      "sd": 0.10153004367453913,
+      "undefined_reason": null
+     },
+     "dynasim": 1,
+     "dynasim_levels": [
+      2,
+      3
+     ],
+     "interval": [
+      0,
+      2
+     ],
+     "gap": -0.3996828185979062
+    },
+    {
+     "label": "Widowed",
+     "n": 44,
+     "small_cell": false,
+     "no_switcher": false,
+     "ours": 0.4543452981514098,
+     "ours_levels": [
+      1.7023787129982728,
+      2.1567240111496826
+     ],
+     "se": 0.4510496101250882,
+     "floor": {
+      "defined": true,
+      "mean": 0.8388238154384485,
+      "sd": 0.1598167727336783,
+      "undefined_reason": null
+     },
+     "dynasim": 2,
+     "dynasim_levels": [
+      6,
+      8
+     ],
+     "interval": [
+      1,
+      3
+     ],
+     "gap": -1.5456547018485902
+    },
+    {
+     "label": "Divorced",
+     "n": 60,
+     "small_cell": false,
+     "no_switcher": true,
+     "ours": 0.0,
+     "ours_levels": [
+      5.6397012587866024,
+      5.6397012587866024
+     ],
+     "se": null,
+     "floor": {
+      "defined": true,
+      "mean": null,
+      "sd": null,
+      "undefined_reason": null
+     },
+     "dynasim": 5,
+     "dynasim_levels": [
+      15,
+      20
+     ],
+     "interval": [
+      4,
+      6
+     ],
+     "gap": -5.0
+    },
+    {
+     "label": "Never married",
+     "n": 14,
+     "small_cell": true,
+     "no_switcher": true,
+     "ours": 0.0,
+     "ours_levels": [
+      14.040548805535524,
+      14.040548805535524
+     ],
+     "se": null,
+     "floor": {
+      "defined": true,
+      "mean": null,
+      "sd": null,
+      "undefined_reason": null
+     },
+     "dynasim": 5,
+     "dynasim_levels": [
+      16,
+      21
+     ],
+     "interval": [
+      4,
+      6
+     ],
+     "gap": -5.0
+    }
+   ],
+   "rows": [
+    {
+     "id": "U0",
+     "change": "Headline",
+     "mean_abs_gap": 2.3618654952219655
+    },
+    {
+     "id": "U1",
+     "change": "All ten birth years (1936 at 68, uncut)",
+     "mean_abs_gap": 2.093365497085365,
+     "delta_all": 0.6155057269701238
+    },
+    {
+     "id": "U4",
+     "change": "Head-and-wife income unit",
+     "mean_abs_gap": 2.3748956994650583,
+     "delta_all": 0.36974608833739975
+    },
+    {
+     "id": "U5",
+     "change": "Keep reported asset income",
+     "mean_abs_gap": 2.552441356143099,
+     "delta_all": 0.2570614737330503
+    },
+    {
+     "id": "U8",
+     "change": "PSID needs standard",
+     "mean_abs_gap": 2.334558808655847,
+     "delta_all": 0.5150256668354007
+    },
+    {
+     "id": "U0-F",
+     "change": "Birth years 1941, 1943, 1945 only",
+     "mean_abs_gap": 2.5777597784095856,
+     "delta_all": 0.22705380073545633
+    },
+    {
+     "id": "U2",
+     "change": "SSI: no response",
+     "identical_to": "U0"
+    },
+    {
+     "id": "U3",
+     "change": "SSI: full static recomputation",
+     "identical_to": "U0"
+    },
+    {
+     "id": "U7",
+     "change": "Add employer DC balances",
+     "identical_to": "U0"
+    },
+    {
+     "id": "U9",
+     "change": "SSA 2004 life table",
+     "identical_to": "U0"
+    },
+    {
+     "id": "U10",
+     "change": "Census size-by-children matrix",
+     "identical_to": "U0"
+    }
+   ],
+   "summary": {
+    "switchers": 4,
+    "sample": 483
+   },
+   "timeline": {
+    "registration": {
+     "url": "https://github.com/PolicyEngine/microcosm-dynamics/issues/42#issuecomment-5852808026",
+     "at": "2026-09-27T05:01:06Z"
+    },
+    "run": {
+     "start": "2026-09-27T05:01:49Z",
+     "end": "2026-09-27T05:03:29Z"
+    },
+    "artifact_commit": {
+     "sha": "29d7a3cc",
+     "at": "2026-09-27T05:06:13Z"
+    },
+    "result": {
+     "url": "https://github.com/PolicyEngine/microcosm-dynamics/issues/42#issuecomment-5853001916",
+     "at": "2026-09-27T05:29:39Z"
+    }
+   },
+   "memo": "track-u-oneshot-reg16-20260927/COMPARISON.md"
+  },
+  {
+   "id": "ex3",
+   "number": 3,
+   "short": "FRA to 68",
+   "title": "Raise the full retirement age to 68",
+   "source": "Urban Institute (2010), Details Matter, Figure 2",
+   "comparator": "DYNASIM3 (run 614 per the figure's source line)",
+   "kind": "projection",
+   "track": "Track A pipeline",
+   "statistic": "Percent change in average Social Security benefits in 2030, by beneficiary age",
+   "unit": "%",
+   "cell_axis": "Age in 2030",
+   "cells": [
+    {
+     "label": "50–61",
+     "ours": -0.0034423135270877925,
+     "draw_sd": 0.004942104237630498,
+     "floor": 0.0026002757652515696,
+     "noise": 0.004942104237630498,
+     "dynasim": 0.0,
+     "interval": [
+      -0.156,
+      0.156
+     ],
+     "gap": -0.0034423135270877925,
+     "reading_not_measurement": true,
+     "forecast": {
+      "inside": true,
+      "gap_inside": true
+     }
+    },
+    {
+     "label": "62–64",
+     "ours": -4.731065513817895,
+     "draw_sd": 0.23856392755589845,
+     "floor": 0.09084078929679844,
+     "noise": 0.23856392755589845,
+     "dynasim": -5.122,
+     "interval": [
+      -5.245,
+      -5.038
+     ],
+     "gap": 0.3909344861821049,
+     "reading_not_measurement": false,
+     "forecast": {
+      "inside": true,
+      "gap_inside": true
+     }
+    },
+    {
+     "label": "65–69",
+     "ours": -5.676412289551692,
+     "draw_sd": 0.16702867037431143,
+     "floor": 0.10781473072404832,
+     "noise": 0.16702867037431143,
+     "dynasim": -9.898,
+     "interval": [
+      -10.045,
+      -9.812
+     ],
+     "gap": 4.221587710448308,
+     "reading_not_measurement": false,
+     "forecast": {
+      "inside": true,
+      "gap_inside": false
+     }
+    },
+    {
+     "label": "70–79",
+     "ours": -5.239609284842559,
+     "draw_sd": 0.06616913608283995,
+     "floor": 0.06589630345189512,
+     "noise": 0.06616913608283995,
+     "dynasim": -4.146,
+     "interval": [
+      -4.267,
+      -4.066
+     ],
+     "gap": -1.0936092848425591,
+     "reading_not_measurement": false,
+     "forecast": {
+      "inside": true,
+      "gap_inside": true
+     }
+    },
+    {
+     "label": "80+",
+     "ours": -0.7452114587087549,
+     "draw_sd": 0.03553706264652305,
+     "floor": 0.10699691871118999,
+     "noise": 0.10699691871118999,
+     "dynasim": -0.604,
+     "interval": [
+      -0.712,
+      -0.53
+     ],
+     "gap": -0.14121145870875496,
+     "reading_not_measurement": false,
+     "forecast": {
+      "inside": true,
+      "gap_inside": true
+     }
+    }
+   ],
+   "rows": [
+    {
+     "id": "F0",
+     "change": "Primary: P3, survivors under 416(l)(2), fixed claim ages (C0), ratio of scenario means, five components, 2011 wave, calendar-2030 payments",
+     "mean_abs_gap": 1.170157050741763,
+     "max_abs_gap": 4.221587710448308,
+     "note": ""
+    },
+    {
+     "id": "F1",
+     "change": "Schedule P1 (two-month steps from people turning 62 in 2011)",
+     "mean_abs_gap": 1.1317815942326122,
+     "max_abs_gap": 4.222800480099694,
+     "note": "70–79 narrows to −0.82 and 80+ overshoots to +0.22. 62–69 is unchanged: every schedule adds 12 months for births from 1960"
+    },
+    {
+     "id": "F2",
+     "change": "Schedule P2",
+     "mean_abs_gap": 1.2763269615691621,
+     "max_abs_gap": 4.218675346304251,
+     "note": "70–79 widens to −1.63; only 8 of 10 pairs are in DYNASIM3's order"
+    },
+    {
+     "id": "F3",
+     "change": "C1: claimants at 65 or later delay by the FRA increase",
+     "mean_abs_gap": 1.3893097890398107,
+     "max_abs_gap": 5.658909918258508,
+     "note": "70–79 flips to +0.84. 65–69 moves away (−4.24; gap +5.66), because postponed claimants leave the reform's recipient set"
+    },
+    {
+     "id": "F4",
+     "change": "C2: every projected claimant delays",
+     "mean_abs_gap": 4.197205650552922,
+     "max_abs_gap": 9.386452772602135,
+     "note": "Worst row: 62–64 turns positive (+1.93) and every cell from 65 up falls toward zero"
+    },
+    {
+     "id": "F5",
+     "change": "Mean of individual ratios as the statistic",
+     "mean_abs_gap": 1.0788927828874104,
+     "max_abs_gap": 3.96255793370526,
+     "note": "Lowest mean. 62–64 is within noise (+0.03; 0.3 times the floor) and 80+ is inside the sealed interval"
+    },
+    {
+     "id": "F6",
+     "change": "Retired and disabled workers only",
+     "mean_abs_gap": 1.2184364712309823,
+     "max_abs_gap": 4.037232742313307,
+     "note": "62–64 is within noise (+0.10; 0.7 times the floor), but 70–79 widens to −1.69"
+    },
+    {
+     "id": "F7",
+     "change": "Survivors' retirement age unchanged",
+     "mean_abs_gap": 1.1747336091366885,
+     "max_abs_gap": 4.266384477061408,
+     "note": "Nearly identical to F0"
+    },
+    {
+     "id": "F8",
+     "change": "PSID 2009 wave (2008 opening)",
+     "mean_abs_gap": 1.1779504322729726,
+     "max_abs_gap": 4.300625137750775,
+     "note": "Nearly identical to F0: the result is not an artifact of the 2011 wave"
+    }
+   ],
+   "summary": {
+    "mean_abs_gap": 1.170157050741763,
+    "max_abs_gap": 4.221587710448308,
+    "max_cell": "65–69"
+   },
+   "timeline": {
+    "registration": {
+     "url": "https://github.com/PolicyEngine/microcosm-dynamics/issues/42#issuecomment-5840600730",
+     "at": "2026-09-25T22:35:30Z"
+    },
+    "run": {
+     "start": "2026-09-25T22:36Z",
+     "end": "2026-09-25T23:07Z"
+    },
+    "artifact_commit": {
+     "sha": "aea61e22",
+     "at": "2026-09-25T23:27:01Z"
+    },
+    "result": {
+     "url": "https://github.com/PolicyEngine/microcosm-dynamics/issues/42#issuecomment-5841142710",
+     "at": "2026-09-25T23:40:59Z"
+    }
+   },
+   "memo": "fra68-oneshot-reg15-20260925/COMPARISON.md"
+  },
+  {
+   "id": "ex4",
+   "number": 4,
+   "short": "Minimum benefit",
+   "title": "Introduce a minimum Social Security benefit",
+   "source": "Urban Institute (2006), Minimum Benefits in Social Security, Table 6 (2025)",
+   "comparator": "DYNASIM3 (2006 report)",
+   "kind": "static",
+   "track": "Track M",
+   "statistic": "Share of OASDI beneficiaries aged 62+ receiving the minimum, options 2–5 (percent)",
+   "unit": "%",
+   "cell_axis": "Option · group",
+   "printed_precision": "One decimal; ±0.05",
+   "vintage_note": "Ours is PSID income year 2022; DYNASIM3's is a 2025 projection.",
+   "cells": [
+    {
+     "label": "Option 2 · All",
+     "option": 2,
+     "group": "All",
+     "n": 2135,
+     "ours": 7.749435818340729,
+     "se": 0.8637340945680895,
+     "floor": 0.7567872148226333,
+     "noise": 0.8637340945680895,
+     "dynasim": 6.3,
+     "interval": [
+      6.25,
+      6.35
+     ],
+     "gap": 1.4494358183407288,
+     "forecast": {
+      "point": 7.6,
+      "lo": 4.7,
+      "hi": 11.6,
+      "inside": true,
+      "dynasim_point": 9.1,
+      "dynasim_lo": 6.1,
+      "dynasim_hi": 13.1,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 2 · Men",
+     "option": 2,
+     "group": "Men",
+     "n": 899,
+     "ours": 2.357976635241909,
+     "se": 0.5832225909042054,
+     "floor": 1.2577739202097642,
+     "noise": 1.2577739202097642,
+     "dynasim": 4.8,
+     "interval": [
+      4.75,
+      4.85
+     ],
+     "gap": -2.4420233647580907,
+     "forecast": {
+      "point": 5.7,
+      "lo": 3.1,
+      "hi": 9.1,
+      "inside": false,
+      "dynasim_point": 7.1,
+      "dynasim_lo": 4.0,
+      "dynasim_hi": 11.1,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 2 · Women",
+     "option": 2,
+     "group": "Women",
+     "n": 1236,
+     "ours": 11.670978987392834,
+     "se": 1.5030576036311527,
+     "floor": 1.2428642624968114,
+     "noise": 1.5030576036311527,
+     "dynasim": 7.6,
+     "interval": [
+      7.55,
+      7.65
+     ],
+     "gap": 4.070978987392834,
+     "forecast": {
+      "point": 9.0,
+      "lo": 5.5,
+      "hi": 14.1,
+      "inside": true,
+      "dynasim_point": 10.5,
+      "dynasim_lo": 6.5,
+      "dynasim_hi": 16.2,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 3 · All",
+     "option": 3,
+     "group": "All",
+     "n": 2135,
+     "ours": 11.117734408800263,
+     "se": 0.9409817429831574,
+     "floor": 0.6806186918237905,
+     "noise": 0.9409817429831574,
+     "dynasim": 11.3,
+     "interval": [
+      11.25,
+      11.35
+     ],
+     "gap": -0.1822655911997373,
+     "forecast": {
+      "point": 10.2,
+      "lo": 6.6,
+      "hi": 15.1,
+      "inside": true,
+      "dynasim_point": 13.2,
+      "dynasim_lo": 9.2,
+      "dynasim_hi": 18.5,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 3 · Men",
+     "option": 3,
+     "group": "Men",
+     "n": 899,
+     "ours": 3.2251450054186823,
+     "se": 0.8229208824302112,
+     "floor": 1.3000052035197167,
+     "noise": 1.3000052035197167,
+     "dynasim": 8.7,
+     "interval": [
+      8.65,
+      8.75
+     ],
+     "gap": -5.474854994581317,
+     "forecast": {
+      "point": 7.7,
+      "lo": 4.5,
+      "hi": 11.8,
+      "inside": false,
+      "dynasim_point": 10.3,
+      "dynasim_lo": 6.3,
+      "dynasim_hi": 15.4,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 3 · Women",
+     "option": 3,
+     "group": "Women",
+     "n": 1236,
+     "ours": 16.858504951585765,
+     "se": 1.6289782404428184,
+     "floor": 1.4592054650970532,
+     "noise": 1.6289782404428184,
+     "dynasim": 13.4,
+     "interval": [
+      13.35,
+      13.45
+     ],
+     "gap": 3.4585049515857644,
+     "forecast": {
+      "point": 12.1,
+      "lo": 7.7,
+      "hi": 18.3,
+      "inside": true,
+      "dynasim_point": 15.3,
+      "dynasim_lo": 9.9,
+      "dynasim_hi": 22.8,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 4 · All",
+     "option": 4,
+     "group": "All",
+     "n": 2135,
+     "ours": 24.56164429249249,
+     "se": 1.0777181446936854,
+     "floor": 1.8835357658160454,
+     "noise": 1.8835357658160454,
+     "dynasim": 18.7,
+     "interval": [
+      18.65,
+      18.75
+     ],
+     "gap": 5.861644292492489,
+     "forecast": {
+      "point": 22.0,
+      "lo": 15.6,
+      "hi": 29.3,
+      "inside": true,
+      "dynasim_point": 22.3,
+      "dynasim_lo": 16.6,
+      "dynasim_hi": 29.1,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 4 · Men",
+     "option": 4,
+     "group": "Men",
+     "n": 899,
+     "ours": 13.423050097715459,
+     "se": 1.4192269088760316,
+     "floor": 3.5793087053555097,
+     "noise": 3.5793087053555097,
+     "dynasim": 14.4,
+     "interval": [
+      14.35,
+      14.45
+     ],
+     "gap": -0.9769499022845416,
+     "forecast": {
+      "point": 16.8,
+      "lo": 11.3,
+      "hi": 23.6,
+      "inside": true,
+      "dynasim_point": 16.6,
+      "dynasim_lo": 11.6,
+      "dynasim_hi": 23.1,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 4 · Women",
+     "option": 4,
+     "group": "Women",
+     "n": 1236,
+     "ours": 32.66343575449616,
+     "se": 1.9245029036744137,
+     "floor": 2.4889389753618945,
+     "noise": 2.4889389753618945,
+     "dynasim": 22.0,
+     "interval": [
+      21.95,
+      22.05
+     ],
+     "gap": 10.663435754496163,
+     "forecast": {
+      "point": 26.0,
+      "lo": 18.4,
+      "hi": 34.5,
+      "inside": true,
+      "dynasim_point": 26.7,
+      "dynasim_lo": 19.1,
+      "dynasim_hi": 35.9,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 5 · All",
+     "option": 5,
+     "group": "All",
+     "n": 2135,
+     "ours": 31.469232913321385,
+     "se": 1.339732383917979,
+     "floor": 2.3800388169964877,
+     "noise": 2.3800388169964877,
+     "dynasim": 29.3,
+     "interval": [
+      29.25,
+      29.35
+     ],
+     "gap": 2.169232913321384,
+     "forecast": {
+      "point": 28.2,
+      "lo": 20.7,
+      "hi": 36.6,
+      "inside": true,
+      "dynasim_point": 30.7,
+      "dynasim_lo": 23.3,
+      "dynasim_hi": 38.8,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 5 · Men",
+     "option": 5,
+     "group": "Men",
+     "n": 899,
+     "ours": 19.244077326034997,
+     "se": 1.7622941734213593,
+     "floor": 2.443151475354715,
+     "noise": 2.443151475354715,
+     "dynasim": 24.4,
+     "interval": [
+      24.35,
+      24.45
+     ],
+     "gap": -5.1559226739650015,
+     "forecast": {
+      "point": 22.5,
+      "lo": 15.7,
+      "hi": 30.5,
+      "inside": true,
+      "dynasim_point": 23.8,
+      "dynasim_lo": 17.0,
+      "dynasim_hi": 32.1,
+      "dynasim_inside": true
+     }
+    },
+    {
+     "label": "Option 5 · Women",
+     "option": 5,
+     "group": "Women",
+     "n": 1236,
+     "ours": 40.361347970819985,
+     "se": 1.9434450273575514,
+     "floor": 3.4996953394873955,
+     "noise": 3.4996953394873955,
+     "dynasim": 33.2,
+     "interval": [
+      33.15,
+      33.25
+     ],
+     "gap": 7.161347970819982,
+     "forecast": {
+      "point": 32.7,
+      "lo": 23.9,
+      "hi": 42.2,
+      "inside": true,
+      "dynasim_point": 36.0,
+      "dynasim_lo": 26.7,
+      "dynasim_hi": 46.6,
+      "dynasim_inside": true
+     }
+    }
+   ],
+   "rows": [
+    {
+     "id": "MS0",
+     "change": "Headline",
+     "mean_abs_gap": 4.088883101269836,
+     "headline": 7.749435818340729
+    },
+    {
+     "id": "MS1",
+     "change": "Policy year 2007 (the Report's dating)",
+     "mean_abs_gap": 3.4008813491393304,
+     "headline": 6.8303576609599475,
+     "max_abs_gap": 7.877790252589914,
+     "max_cell": "5_men"
+    },
+    {
+     "id": "MS2",
+     "change": "Cut applied after the floor",
+     "mean_abs_gap": 5.988190010642932,
+     "headline": 3.952854231400723,
+     "max_abs_gap": 15.83896650587597,
+     "max_cell": "5_men"
+    },
+    {
+     "id": "MS3",
+     "change": "Own worker PIA only",
+     "mean_abs_gap": 3.919711698099992,
+     "headline": 7.470331242131198,
+     "max_abs_gap": 9.278677520564944,
+     "max_cell": "4_women"
+    },
+    {
+     "id": "MS4",
+     "change": "Window strictly after the policy year",
+     "mean_abs_gap": 4.033669664464508,
+     "headline": 7.716962600701314,
+     "max_abs_gap": 10.347687403497915,
+     "max_cell": "4_women"
+    },
+    {
+     "id": "MS5",
+     "change": "Benefit-implied PIA",
+     "mean_abs_gap": 1.6001838165432298,
+     "headline": 9.164974308456824,
+     "max_abs_gap": 3.557984434561206,
+     "max_cell": "5_men"
+    },
+    {
+     "id": "MS6",
+     "change": "Track A's DI approximation (35-year divisor)",
+     "mean_abs_gap": 4.748537448708893,
+     "headline": 9.250113874835739,
+     "max_abs_gap": 12.036154345690072,
+     "max_cell": "4_women"
+    }
+   ],
+   "summary": {
+    "mean_abs_gap": 4.088883101269836,
+    "max_abs_gap": 10.663435754496163,
+    "max_cell": "Option 4 · Women",
+    "forecast_inside": {
+     "ours": 10,
+     "dynasim": 12,
+     "gap": 9
+    }
+   },
+   "timeline": {
+    "registration": {
+     "url": "https://github.com/PolicyEngine/microcosm-dynamics/issues/42#issuecomment-5855753783",
+     "at": "2026-09-27T12:18:29Z"
+    },
+    "run": {
+     "start": "2026-09-27T12:19:17Z",
+     "end": "2026-09-27T12:19:48Z"
+    },
+    "artifact_commit": {
+     "sha": "b54baeb9",
+     "at": "2026-09-27T12:36:32Z"
+    },
+    "result": {
+     "url": "https://github.com/PolicyEngine/microcosm-dynamics/issues/42#issuecomment-5856068881",
+     "at": "2026-09-27T12:58:12Z"
+    }
+   },
+   "memo": "track-m-oneshot-reg17-20260927/COMPARISON.md"
+  }
+ ]
+}
