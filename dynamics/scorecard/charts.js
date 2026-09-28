@@ -189,9 +189,12 @@ function addMark(svg, value, interval, x, y, series, tooltip, description, floor
       }));
     }
     group.append(svgElement('line', { x1: lo, x2: hi, y1: y, y2: y, class: 'sc-noise-bar' }));
-    [lo, hi].forEach(endpoint => group.append(svgElement('line', {
-      x1: endpoint, x2: endpoint, y1: y - 4, y2: y + 4, class: 'sc-noise-bar',
-    })));
+    // Caps on a bar narrower than the dot merge with it into a square; the tooltip still gives the value.
+    if (hi - lo >= 14) {
+      [lo, hi].forEach(endpoint => group.append(svgElement('line', {
+        x1: endpoint, x2: endpoint, y1: y - 4, y2: y + 4, class: 'sc-noise-bar',
+      })));
+    }
   }
   if (Number.isFinite(floor)) {
     group.append(svgElement('line', {

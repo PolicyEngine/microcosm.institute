@@ -275,7 +275,8 @@ async function start() {
   setupGlossaryTooltip();
   setupTour(page.tour, page.glossary);
   desktop.addEventListener('change', event => { document.querySelectorAll('.copy-section').forEach(detail => { if (!detail.dataset.userToggled) setDetailOpen(detail, event.matches); }); });
-  if (location.hash) requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
+  // The page renders after its fetch, and web fonts reflow it again, so scroll to a deep link only once both settle.
+  if (location.hash) document.fonts.ready.then(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
 }
 
 start().catch(error => {
