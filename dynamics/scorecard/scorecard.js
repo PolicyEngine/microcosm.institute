@@ -60,7 +60,7 @@ function addGlossary(root, glossary) {
   const entries = new Map(terms.map(entry => [entry.term.toLowerCase(), entry]));
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
-      return node.parentElement.closest('abbr, svg, button, select, option, dt, .chart-tooltip, [role="tooltip"]') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+      return node.parentElement.closest('abbr, svg, button, [role="button"], select, option, dt, .sc-chart-tooltip, [role="tooltip"]') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
     }
   });
   const texts = [];
