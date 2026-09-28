@@ -289,7 +289,6 @@ function drawChart(exercise, mode, width, tooltip) {
       if (levels) {
         svg.append(svgElement('text', { x: narrow ? left : left - 12, y: cy + (narrow ? -10 : 4), 'text-anchor': narrow ? 'start' : 'end', class: 'sc-phase-label' }, phase === 0 ? 'Before' : 'After'));
       }
-      addLine(svg, x(ours), oursY, x(dynasim), dynasimY, 'sc-gap-connector');
       const description = cellDescription(exercise, cell, mode, phase);
       addMark(svg, dynasim, interval, x, dynasimY, 'dynasim', tooltip, description, undefined, false);
       addMark(svg, ours, Number.isFinite(noise) ? [ours - noise, ours + noise] : null,

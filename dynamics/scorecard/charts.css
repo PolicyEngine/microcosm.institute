@@ -60,7 +60,6 @@
 .sc-grid,
 .sc-group-rule { stroke: var(--border-soft); stroke-width: 1; }
 .sc-zero { stroke: var(--border-strong); stroke-width: 2; }
-.sc-gap-connector { stroke: var(--border-strong); stroke-width: 2; }
 .sc-mark { cursor: help; }
 .scorecard-page .sc-mark:focus-visible { outline: none; }
 .sc-mark-ours { color: var(--series-ours); }
