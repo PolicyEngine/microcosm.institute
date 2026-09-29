@@ -84,6 +84,11 @@
 .reading-section ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 2.7rem; list-style: none; padding: 0; }
 .reading-section li { border-left: 2px solid var(--border-strong); padding-left: 1.2rem; }
 .next-section p { max-width: 850px; margin-bottom: 1.5rem; }
+.standing-section p { max-width: 850px; }
+.standing-section h3 { margin-top: 1.8rem; }
+.standing-section .copy-table-wrap table { font: inherit; font-size: .84rem; line-height: 1.5; }
+.standing-section .copy-table-wrap th, .standing-section .copy-table-wrap td { white-space: normal; text-align: left; vertical-align: top; min-width: 11rem; }
+.standing-section .copy-table-wrap th:first-child { min-width: 8.5rem; }
 .glossary-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem 2rem; font-size: 1rem; }
 .glossary-list dt { font-weight: 600; margin-bottom: .35rem; }
 .glossary-list dd { color: var(--text-secondary); }

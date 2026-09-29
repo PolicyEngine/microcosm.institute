@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Microcosm dynamics paper — microcosm</title>
-<meta name="description" content="A web version and PDF of PolicyEngine's design paper for Microcosm dynamics: an open, scored longitudinal layer for policy microsimulation." />
-<meta property="og:title" content="Microcosm dynamics: an open, scored longitudinal layer for policy microsimulation" />
-<meta property="og:description" content="A PolicyEngine design paper: trajectory-weighted dynamics, domains of validity, and a scoring protocol — validated first on U.S. Social Security." />
+<meta name="description" content="Read the Microcosm Dynamics working paper online or as a PDF. The model's earnings, family and disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components. The projection tests draw no earnings after 2010, apply no retirement earnings test and model no claiming response to reform." />
+<meta property="og:title" content="Microcosm Dynamics: an open, scored dynamic microsimulation model" />
+<meta property="og:description" content="Microcosm Dynamics is an open dynamic microsimulation model for U.S. Social Security. Its earnings, family and disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components." />
 <meta property="og:type" content="article" />
 <link rel="icon" type="image/svg+xml" href="/assets/microcosm-operator.svg" />
 <meta name="theme-color" content="#F6FAF7" />
@@ -34,37 +34,45 @@
 <main class="paper-main">
   <p class="strategy-crumb reveal" style="--d:0"><a href="/papers">papers</a> / <a href="/dynamics">dynamics</a> / paper</p>
   <section class="paper-hero">
-    <p class="eyebrow reveal" style="--d:0">design paper · preprint</p>
+    <p class="eyebrow reveal" style="--d:0">working paper · September 2026</p>
     <h1 class="paper-title reveal" style="--d:1">
-      Microcosm dynamics: an open, scored longitudinal layer for policy microsimulation
+      Microcosm Dynamics: an open, scored dynamic microsimulation model
     </h1>
     <p class="paper-lede reveal" style="--d:2">
-      The paper specifies Microcosm's longitudinal Dynamics layer — trajectory-weighted
-      calibration, transitions as conditional models, domains of validity, and a scoring
-      protocol under which every claim resolves, backtests, or computes exactly from
-      statute. First validation domain: U.S. Social Security.
+      Microcosm Dynamics follows individual Americans through time and computes each
+      person's Social Security benefits year by year. From the Panel Study of Income
+      Dynamics, it learns how people earn, marry, divorce, have children, become disabled
+      and die, and it draws claim ages from the Social Security Administration's published
+      awards. Its earnings, family and disability components pass tests on held-out or
+      external data, as do its transitions once carried onto the Current Population Survey,
+      and the whole engine, fitted through 2014, passes a 2015–2019 holdout. Mortality and
+      claiming run without such a test, and four of the passes rest on public amendments we
+      adopted after an earlier attempt failed. Four blind tests compare the model with
+      DYNASIM3's published results, and none of them uses the tested earnings, family or
+      disability components. The two projections draw no earnings after 2010, apply no
+      retirement earnings test and model no claiming response to reform.
     </p>
     <div class="hero-cta reveal" style="--d:3">
       <a class="btn btn-primary" href="#web">Read online</a>
       <a class="btn btn-ghost" href="/dynamics/microcosm-dynamics.pdf">Download PDF</a>
-      <a class="btn btn-ghost" href="https://github.com/PolicyEngine/microcosm-dynamics">Design book</a>
+      <a class="btn btn-ghost" href="https://github.com/PolicyEngine/microcosm-dynamics">Source code</a>
     </div>
     <dl class="paper-facts reveal" style="--d:4">
       <div>
-        <dt class="mono">foundation</dt>
-        <dd>Builds on Microcosm's certified cross-sectional layer — 0.038 holdout loss vs 0.317 for the enhanced CPS it replaced.</dd>
+        <dt class="mono">population</dt>
+        <dd>The model starts from Microcosm's certified, representative CPS frame: 166,302 people in 57,240 households, with a 2024 reference period. In the four blind tests against DYNASIM3, it starts from PSID cohorts.</dd>
       </div>
       <div>
-        <dt class="mono">method</dt>
-        <dd>One weight per trajectory with entry/exit markers; a Dynamics operator mixing deterministic hazards with machine-learned earnings processes.</dd>
+        <dt class="mono">gates</dt>
+        <dd>Earnings, family, disability and the transport of PSID-estimated processes onto the CPS frame each pass a gate, a test on held-out or external data. Claiming, disability-insurance entitlement and the immigrants who enter the population on a schedule run without one.</dd>
       </div>
       <div>
-        <dt class="mono">discipline</dt>
-        <dd>No 75-year point forecasts — sensitivity surfaces instead; forecast cells resolve annually; contributions merge only on held-out score.</dd>
+        <dt class="mono">blind tests</dt>
+        <dd>A one-point COLA cut lands within 0.74 percentage points of DYNASIM3 in every age group. Each of the other three tests finds a gap between the two models.</dd>
       </div>
       <div>
-        <dt class="mono">scope</dt>
-        <dd>U.S. Social Security is the first validation domain; the layer is country-agnostic by construction.</dd>
+        <dt class="mono">next</dt>
+        <dd>We plan to connect the forward earnings law to the projection tests, apply the retirement earnings test, add behavioral claiming and run the full benefit rules in the Axiom rules engine. So far Axiom reproduces one piece of the model's Python benefit rules: average indexed monthly earnings computed with statutory computation years, while the projection tests count a fixed 35 years.</dd>
       </div>
     </dl>
   </section>
@@ -77,7 +85,7 @@
       </div>
       <a class="btn btn-ghost" href="/dynamics/web">Open full page</a>
     </div>
-    <iframe class="paper-frame" src="/dynamics/web" title="Microcosm dynamics: an open, scored longitudinal layer for policy microsimulation"></iframe>
+    <iframe class="paper-frame" src="/dynamics/web" title="Microcosm Dynamics: an open, scored dynamic microsimulation model"></iframe>
   </section>
 </main>
 
