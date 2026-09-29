@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Microcosm dynamics paper — microcosm</title>
-<meta name="description" content="A web version and PDF of PolicyEngine's design paper for Microcosm dynamics: an open, scored longitudinal layer for policy microsimulation." />
-<meta property="og:title" content="Microcosm dynamics: an open, scored longitudinal layer for policy microsimulation" />
-<meta property="og:description" content="A PolicyEngine design paper: trajectory-weighted dynamics, domains of validity, and a scoring protocol — validated first on U.S. Social Security." />
+<meta name="description" content="A web version and PDF of the Microcosm Dynamics working paper: the model as it stands, how it is scored, four registered blind tests against DYNASIM3, and what remains to build." />
+<meta property="og:title" content="Microcosm Dynamics: an open, scored dynamic microsimulation model" />
+<meta property="og:description" content="An open dynamic microsimulation model for U.S. Social Security, scored by gates locked in advance and by four registered blind tests against DYNASIM3." />
 <meta property="og:type" content="article" />
 <link rel="icon" type="image/svg+xml" href="/assets/microcosm-operator.svg" />
 <meta name="theme-color" content="#F6FAF7" />
@@ -34,37 +34,37 @@
 <main class="paper-main">
   <p class="strategy-crumb reveal" style="--d:0"><a href="/papers">papers</a> / <a href="/dynamics">dynamics</a> / paper</p>
   <section class="paper-hero">
-    <p class="eyebrow reveal" style="--d:0">design paper · preprint</p>
+    <p class="eyebrow reveal" style="--d:0">working paper · September 2026</p>
     <h1 class="paper-title reveal" style="--d:1">
-      Microcosm dynamics: an open, scored longitudinal layer for policy microsimulation
+      Microcosm Dynamics: an open, scored dynamic microsimulation model
     </h1>
     <p class="paper-lede reveal" style="--d:2">
-      The paper specifies Microcosm's longitudinal Dynamics layer — trajectory-weighted
-      calibration, transitions as conditional models, domains of validity, and a scoring
-      protocol under which every claim resolves, backtests, or computes exactly from
-      statute. First validation domain: U.S. Social Security.
+      The paper describes the model as it stands: the transitions it fits on the Panel
+      Study of Income Dynamics, how each component is scored by a gate locked before any
+      candidate runs, four registered blind tests against DYNASIM3's published results,
+      and what remains to build.
     </p>
     <div class="hero-cta reveal" style="--d:3">
       <a class="btn btn-primary" href="#web">Read online</a>
       <a class="btn btn-ghost" href="/dynamics/microcosm-dynamics.pdf">Download PDF</a>
-      <a class="btn btn-ghost" href="https://github.com/PolicyEngine/microcosm-dynamics">Design book</a>
+      <a class="btn btn-ghost" href="https://github.com/PolicyEngine/microcosm-dynamics">Source code</a>
     </div>
     <dl class="paper-facts reveal" style="--d:4">
       <div>
-        <dt class="mono">foundation</dt>
-        <dd>Builds on Microcosm's certified cross-sectional layer — 0.038 holdout loss vs 0.317 for the enhanced CPS it replaced.</dd>
+        <dt class="mono">population</dt>
+        <dd>Starts from Microcosm's certified CPS frame (166,302 people in 57,240 households, 2024), or from PSID cohorts for the DynaSim tests.</dd>
       </div>
       <div>
-        <dt class="mono">method</dt>
-        <dd>One weight per trajectory with entry/exit markers; a Dynamics operator mixing deterministic hazards with machine-learned earnings processes.</dd>
+        <dt class="mono">gates</dt>
+        <dd>Earnings, family, disability and population transport each pass a registered gate; claiming, disability-insurance entitlement and entrants run without one.</dd>
       </div>
       <div>
-        <dt class="mono">discipline</dt>
-        <dd>No 75-year point forecasts — sensitivity surfaces instead; forecast cells resolve annually; contributions merge only on held-out score.</dd>
+        <dt class="mono">blind tests</dt>
+        <dd>Four one-shot tests against DYNASIM3: a COLA cut lands within 0.74 points in every age group; three locate specific differences.</dd>
       </div>
       <div>
-        <dt class="mono">scope</dt>
-        <dd>U.S. Social Security is the first validation domain; the layer is country-agnostic by construction.</dd>
+        <dt class="mono">next</dt>
+        <dd>Forward earnings in the projections, the retirement earnings test, a claiming model, and benefit rules executed in Axiom.</dd>
       </div>
     </dl>
   </section>
@@ -77,7 +77,7 @@
       </div>
       <a class="btn btn-ghost" href="/dynamics/web">Open full page</a>
     </div>
-    <iframe class="paper-frame" src="/dynamics/web" title="Microcosm dynamics: an open, scored longitudinal layer for policy microsimulation"></iframe>
+    <iframe class="paper-frame" src="/dynamics/web" title="Microcosm Dynamics: an open, scored dynamic microsimulation model"></iframe>
   </section>
 </main>
 

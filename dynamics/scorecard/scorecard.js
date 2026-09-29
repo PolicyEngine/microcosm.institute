@@ -207,7 +207,7 @@ async function start() {
   document.querySelector('#load-status').remove();
   const hero = document.createElement('header');
   hero.className = 'scorecard-hero';
-  hero.innerHTML = `<p class="eyebrow">Microcosm Dynamics · Replication</p><h1>${inline(page.title)}</h1><div class="scorecard-lede">${markdown(page.intro)}</div><div class="control-row"><button type="button" id="tour-start">Guided tour <span aria-hidden="true">→</span></button><a class="text-link" href="#drill">Check yourself →</a></div>`;
+  hero.innerHTML = `<p class="eyebrow">Microcosm Dynamics · Replication</p><h1>${inline(page.title)}</h1><div class="scorecard-lede">${markdown(page.intro)}</div><div class="control-row"><button type="button" id="tour-start">Guided tour <span aria-hidden="true">→</span></button><a class="text-link" href="#standing">Where the model stands →</a><a class="text-link" href="#drill">Check yourself →</a></div>`;
   main.append(hero);
   const summaries = section('summaries', page.summaryTitle);
   summaries.innerHTML += `<div class="summary-grid">${page.cards.map((card, i) => `<article class="summary-card"><h3><a href="#${data.exercises[i].id}">${inline(card.title)}</a></h3><p>${inline(card.policy)}</p><p>${inline(card.result)}</p><p class="verdict"><span>${inline(card.verdict)}</span><span aria-hidden="true">→</span></p></article>`).join('')}</div>`;
@@ -261,6 +261,8 @@ async function start() {
   }
   const reading = section('reading', page.reading.title, 'reading-section');
   reading.innerHTML += markdown(page.reading.body);
+  const standing = section('standing', page.standing.title, 'standing-section');
+  standing.innerHTML += page.standing.sections.map(part => `<h3>${inline(part.title)}</h3>${markdown(part.body)}`).join('');
   const next = section('next', page.next.title, 'next-section');
   next.innerHTML += markdown(page.next.body);
   const glossary = section('glossary', page.glossaryTitle);

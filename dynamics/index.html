@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dynamics — microcosm</title>
-<meta name="description" content="How microcosm extends its cross-sectional layer longitudinally: trajectory-weighted calibration, transitions as conditional models, and a scoring protocol that refuses point forecasts where parameter uncertainty dominates." />
+<meta name="description" content="Microcosm Dynamics: an open dynamic microsimulation model for U.S. Social Security, scored by registered gates and by four registered blind tests against DYNASIM3." />
 <meta property="og:title" content="Dynamics — microcosm" />
-<meta property="og:description" content="The longitudinal layer: one weight per trajectory, transitions as conditional models, domains of validity instead of point forecasts. First validation domain: U.S. Social Security." />
+<meta property="og:description" content="An open dynamic microsimulation model: gated components, four registered blind tests against DYNASIM3, and what remains to build." />
 <meta property="og:type" content="article" />
 <link rel="icon" type="image/svg+xml" href="/assets/microcosm-operator.svg" />
 <meta name="theme-color" content="#F6FAF7" />
@@ -45,13 +45,13 @@
         earnings, family structure, disability, and mortality — the
         benchmark U.S. models that do this (DYNASIM, MINT, CBOLT) are closed:
         internal to government, tied to restricted administrative records,
-        or reachable only through institutional relationships. Dynamics
-        specifies an open alternative, built as an extension of the
-        certified cross-sectional layer rather than a replacement for it.
+        or reachable only through institutional relationships. Dynamics is
+        an open alternative, built as an extension of the certified
+        cross-sectional layer rather than a replacement for it.
       </p>
       <div class="strategy-status-row reveal" style="--d:3">
-        <span class="tag tag-wip">design stage</span>
-        <span class="tag tag-draft">paper: design paper, preprint</span>
+        <span class="tag tag-wip">gated components · four blind tests</span>
+        <span class="tag tag-preprint">paper: working paper, September 2026</span>
         <a class="btn btn-primary" href="/dynamics/paper">Read the paper</a>
         <a class="btn btn-ghost" href="/dynamics/benchmarks">Benchmark wall</a>
         <a class="btn btn-ghost" href="/dynamics/learn">Learn</a>
@@ -64,153 +64,88 @@
   <section id="explainer" class="band">
     <div class="band-head">
       <span class="kicker mono">01 — the 30-second version</span>
-      <h2>A design paper, not a validated run.</h2>
+      <h2>Where the model stands.</h2>
     </div>
     <div class="prose">
       <p>
-        This page describes what the dynamics design paper specifies, not a
-        completed backtest — no trajectory has been scored against
-        administrative outcomes yet. The design commits to four elements
-        before any implementation ships:
+        Microcosm Dynamics fits the transitions of individual lives on the
+        Panel Study of Income Dynamics and runs them forward year by year.
+        Each gated component is scored on held-out or external data under
+        terms locked before its scored run, and every scored run is
+        committed whether it passes or fails. Four registered blind tests
+        compare the model with DYNASIM3's published results. The projection
+        tests do not yet draw forward earnings, apply the retirement
+        earnings test or model claiming responses; that is the next stage
+        of work.
       </p>
     </div>
-    <figure class="diagram-figure">
-      <svg viewBox="0 0 860 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dyn-traj-title dyn-traj-desc">
-        <title id="dyn-traj-title">One person aged forward as a single weighted trajectory</title>
-        <desc id="dyn-traj-desc">A design-stage schematic. One person is aged forward across periods from an entry marker to an exit at mortality. Between periods, state transitions — earnings, family structure, disability, mortality, and program participation — are drawn as conditional models. A single weight attaches to the whole trajectory, not to each period's cross-section, so multi-period calibration cannot silently destroy the panel structure. Everything shown is specified in the design paper, not yet built.</desc>
-
-        <text class="dg-kicker" x="8" y="16">design stage · specified, not yet built · dashed = not implemented</text>
-
-        <!-- entry marker -->
-        <circle cx="40" cy="120" r="14" class="dg-box-planned"/>
-        <text class="dg-label" x="40" y="124" text-anchor="middle" style="font-size:9px;">entry</text>
-
-        <!-- period states -->
-        <rect class="dg-box-planned" x="88" y="88" width="128" height="64" rx="5"/>
-        <text class="dg-title" x="98" y="108" style="font-size:12px;">period t</text>
-        <text class="dg-label" x="98" y="124">earnings · family</text>
-        <text class="dg-label" x="98" y="138">disability · program</text>
-
-        <rect class="dg-box-planned" x="316" y="88" width="128" height="64" rx="5"/>
-        <text class="dg-title" x="326" y="108" style="font-size:12px;">period t+1</text>
-        <text class="dg-label" x="326" y="124">earnings · family</text>
-        <text class="dg-label" x="326" y="138">disability · program</text>
-
-        <rect class="dg-box-planned" x="544" y="88" width="128" height="64" rx="5"/>
-        <text class="dg-title" x="554" y="108" style="font-size:12px;">period t+2</text>
-        <text class="dg-label" x="554" y="124">earnings · family</text>
-        <text class="dg-label" x="554" y="138">disability · program</text>
-
-        <!-- exit marker -->
-        <text class="dg-label" x="760" y="112" style="font-size:11px;">…</text>
-        <circle cx="812" cy="120" r="16" class="dg-box-planned"/>
-        <text class="dg-label" x="812" y="117" text-anchor="middle" style="font-size:9px;">exit</text>
-        <text class="dg-label" x="812" y="128" text-anchor="middle" style="font-size:8px;">mortality</text>
-
-        <!-- transitions between periods: conditional models (arrows stop short of the boxes) -->
-        <path class="dg-edge-planned" d="M 56 120 L 84 120" marker-end="url(#dyn-arrow)"/>
-
-        <path class="dg-edge-planned" d="M 220 120 L 312 120" marker-end="url(#dyn-arrow)"/>
-        <text class="dg-label-accent" x="266" y="110" text-anchor="middle">transition</text>
-        <text class="dg-label" x="266" y="144" text-anchor="middle" style="font-size:9px;">conditional model</text>
-
-        <path class="dg-edge-planned" d="M 448 120 L 540 120" marker-end="url(#dyn-arrow)"/>
-        <text class="dg-label-accent" x="494" y="110" text-anchor="middle">transition</text>
-        <text class="dg-label" x="494" y="144" text-anchor="middle" style="font-size:9px;">conditional model</text>
-
-        <path class="dg-edge-planned" d="M 676 120 L 790 120" marker-end="url(#dyn-arrow)"/>
-
-        <!-- one weight per trajectory: a single bracket spanning the whole thing -->
-        <path class="dg-edge" d="M 40 176 L 40 190 L 812 190 L 812 176" stroke="var(--amber-soft)"/>
-        <text class="dg-value" x="426" y="214" text-anchor="middle" style="font-size:14px;">one weight per trajectory</text>
-        <text class="dg-label" x="426" y="232" text-anchor="middle">entry and exit markers · the whole panel scaled together</text>
-
-        <!-- contrast: NOT per-period -->
-        <line class="dg-gridline" x1="8" y1="256" x2="852" y2="256"/>
-        <text class="dg-label" x="8" y="280" style="font-size:11px;">the design choice: <tspan fill="var(--amber-soft)">one weight for the full trajectory</tspan>, not a separate weight per period —</text>
-        <text class="dg-label" x="8" y="296" style="font-size:11px;">so a cross-sectional reweight cannot silently break the panel structure that longitudinal policy analysis needs.</text>
-
-        <defs>
-          <marker id="dyn-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="var(--paper-faint)" stroke-width="1.5"/>
-          </marker>
-        </defs>
-      </svg>
-      <figcaption>
-        A design-stage schematic (dashed = specified, not built). One person is aged forward across periods, entry marker to exit at mortality; each transition — earnings, family structure, disability, mortality, program participation — is a <strong>conditional model</strong>, not one monolithic projection. A single weight attaches to the <strong>whole trajectory</strong>, not to each period's cross-section, so multi-period calibration cannot silently destroy the panel structure. No trajectory has been scored against administrative outcomes yet.
-      </figcaption>
-    </figure>
     <div class="cards">
       <article class="card">
-        <header><span class="card-id mono">01</span><span class="tag tag-wip">specified</span></header>
-        <h3>Trajectory-weighted calibration</h3>
+        <header><span class="card-id mono">01</span><span class="tag tag-shipped">built · gated</span></header>
+        <h3>Gated components</h3>
         <p>
-          One weight per full trajectory, with entry and exit markers, so
-          multi-period calibration cannot silently destroy the panel
-          structure a cross-sectional reweight would ignore.
+          Earnings histories, the forward earnings law, family formation,
+          household composition, disability and the transport onto
+          Microcosm's CPS frame each pass a registered gate. Claiming,
+          disability-insurance entitlement and entrants run without one.
         </p>
       </article>
       <article class="card">
-        <header><span class="card-id mono">02</span><span class="tag tag-wip">specified</span></header>
-        <h3>Transitions as conditional models</h3>
+        <header><span class="card-id mono">02</span><span class="tag tag-live">reported</span></header>
+        <h3>Four blind tests against DYNASIM3</h3>
         <p>
-          A Dynamics operator treats state transitions — earnings, family
-          structure, disability, mortality, program participation — as
-          conditional models, mixing deterministic demographic hazards with
-          machine-learned earnings processes rather than a single monolithic
-          projection.
+          Each is registered in public, run once and scored after its output
+          is committed. A one-point COLA cut lands within 0.74 points of
+          DYNASIM3 in every age group; the other three locate specific
+          differences between the two models.
         </p>
       </article>
       <article class="card">
-        <header><span class="card-id mono">03</span><span class="tag tag-wip">specified</span></header>
-        <h3>Domains of validity, not point forecasts</h3>
+        <header><span class="card-id mono">03</span><span class="tag tag-wip">design</span></header>
+        <h3>Claims bounded by horizon</h3>
         <p>
-          Where parameter uncertainty dominates — including the 75-year
-          actuarial balance — the design refuses a single point estimate and
-          publishes sensitivity surfaces instead.
+          Near-term components are designed to resolve against
+          administrative publications; long-horizon outputs are published
+          as sensitivity surfaces over documented assumptions, not as a
+          forecast. The forward gate that would score this has not yet run.
         </p>
       </article>
       <article class="card">
-        <header><span class="card-id mono">04</span><span class="tag tag-wip">specified</span></header>
-        <h3>A scoring protocol before merge</h3>
+        <header><span class="card-id mono">04</span><span class="tag tag-draft">planned</span></header>
+        <h3>Next: forward earnings</h3>
         <p>
-          Every claim is required to resolve against administrative
-          publications, backtest with leakage control, or compute exactly
-          from statute — and a contribution merges only when it improves a
-          held-out score, not on review judgment alone.
+          Carrying the forward earnings law into the projections, applying
+          the retirement earnings test and modelling claiming, each admitted
+          only through its own registered gate.
         </p>
       </article>
     </div>
     <p class="caveat">
-      <span class="mono">From the microcosm-dynamics design paper abstract (preprint).</span>
-      The layer builds on Microcosm's certified cross-sectional foundation —
-      0.038 holdout loss against 0.317 for the enhanced CPS it replaced — but
-      that number describes the cross-sectional layer being extended, not a
-      result the dynamics layer has produced.
+      Every component, gate verdict and gap, with its source:
+      <a href="/dynamics/scorecard#standing">where the model stands</a> on the
+      scorecard, and the <a href="/dynamics/paper">working paper</a>.
     </p>
   </section>
 
   <section id="method" class="band">
     <div class="band-head">
       <span class="kicker mono">02 — scope</span>
-      <h2>One validation domain first, country-agnostic by construction.</h2>
+      <h2>One validation domain first.</h2>
     </div>
     <div class="prose">
       <p>
-        U.S. Social Security is the first validation domain the design
-        targets — a single program with published long-range projections to
-        score against. The layer itself is specified to be country-agnostic:
-        nothing in the trajectory-weighting or transition-model design is
-        U.S.-specific, but no other country's implementation has started.
+        U.S. Social Security is the first validation domain: a single
+        program with published long-range projections, and published
+        DYNASIM3 results, to score against.
       </p>
     </div>
   </section>
 
   <section class="band band-cta">
-    <h2>Read the design paper.</h2>
+    <h2>Read the working paper.</h2>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="https://github.com/PolicyEngine/microcosm-dynamics">microcosm-dynamics on GitHub</a>
-      <a class="btn btn-ghost" href="/dynamics/paper">Read the paper</a>
+      <a class="btn btn-primary" href="/dynamics/paper">Read the paper</a>
+      <a class="btn btn-ghost" href="https://github.com/PolicyEngine/microcosm-dynamics">microcosm-dynamics on GitHub</a>
     </div>
   </section>
 </main>
