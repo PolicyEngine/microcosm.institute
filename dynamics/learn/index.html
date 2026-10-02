@@ -115,7 +115,7 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
   <h3>The pipeline</h3>
   <ul>
     <li><strong>Histories:</strong> PSID individual and family records, 1968–2023 — marriage, fertility, and earnings histories read directly from the panel.</li>
-    <li><strong>Transition modules:</strong> differential mortality, marriage and survivorship, fertility and caregiving, disability, and claiming-age behavior — each gated before use.</li>
+    <li><strong>Transition modules:</strong> mortality, marriage and survivorship, fertility, disability, and claiming-age behavior. The marriage and fertility modules and the work-limitation disability module each pass a gate before use: a test on held-out or external data that we register publicly before we run it, with its pass rule fixed in advance. Mortality, claiming and disability-insurance entitlement run without a gate so far.</li>
     <li><strong>Projection engine:</strong> a wave-loop composing the modules year by year, certified by a pre-registered <strong>temporal holdout</strong>: fit on early waves, scored blind on held-out later years, against thresholds locked before any candidate ran. The first candidate engine failed 6 of 11 checks — published as a fail. The third passed.</li>
     <li><strong>Policy layer:</strong> benefit rules and payroll revenue over the projected lifepaths.</li>
   </ul>
