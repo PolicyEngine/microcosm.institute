@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Microcosm dynamics paper — microcosm</title>
-<meta name="description" content="Read the Microcosm Dynamics working paper online or as a PDF. The model's earnings, family and disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components. The projection tests draw no earnings after 2010, apply no retirement earnings test and model no claiming response to reform." />
+<meta name="description" content="Read the Microcosm Dynamics working paper online or as a PDF. The model's earnings, family and work-limiting disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components. The projection tests draw no earnings after 2010, apply no retirement earnings test and model no claiming response to reform." />
 <meta property="og:title" content="Microcosm Dynamics: an open, scored dynamic microsimulation model" />
-<meta property="og:description" content="Microcosm Dynamics is an open dynamic microsimulation model for U.S. Social Security. Its earnings, family and disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components." />
+<meta property="og:description" content="Microcosm Dynamics is an open dynamic microsimulation model for U.S. Social Security. Its earnings, family and work-limiting disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components." />
 <meta property="og:type" content="article" />
 <link rel="icon" type="image/svg+xml" href="/assets/microcosm-operator.svg" />
 <meta name="theme-color" content="#F6FAF7" />
@@ -43,14 +43,15 @@
       person's Social Security benefits year by year. From the Panel Study of Income
       Dynamics, it learns how people earn, marry, divorce, have children, become disabled
       and die, and it draws claim ages from the Social Security Administration's published
-      awards. Its earnings, family and disability components pass tests on held-out or
+      awards. Its earnings, family and work-limiting disability components pass tests on held-out or
       external data, as do its transitions once carried onto the Current Population Survey,
       and the whole engine, fitted through 2014, passes a 2015–2019 holdout. Mortality and
       claiming run without such a test, and four of the passes rest on public amendments we
       adopted after an earlier attempt failed. Four blind tests compare the model with
       DYNASIM3's published results, and none of them uses the tested earnings, family or
-      disability components. The two projections draw no earnings after 2010, apply no
-      retirement earnings test and model no claiming response to reform.
+      work-limiting disability components. Two of the blind tests project PSID families to
+      2030, and those projections draw no earnings after 2010, apply no retirement earnings
+      test and model no claiming response to reform.
     </p>
     <div class="hero-cta reveal" style="--d:3">
       <a class="btn btn-primary" href="#web">Read online</a>
@@ -61,23 +62,23 @@
     <dl class="paper-facts reveal" style="--d:4">
       <div>
         <dt class="mono">population</dt>
-        <dd>The model starts from Microcosm's certified, representative CPS frame: 166,302 people in 57,240 households, with a 2024 reference period. In the four blind tests against DYNASIM3, it starts from PSID cohorts.</dd>
+        <dd>The model is built to start from Microcosm's certified, representative CPS frame: 166,302 people in 57,240 households, with a 2024 reference period. No projection starts there yet. Every projection so far starts from PSID members, and all four blind tests against DYNASIM3 draw their people from the PSID.</dd>
       </div>
       <div>
         <dt class="mono">gates</dt>
-        <dd>Earnings, family, disability and the transport of PSID-estimated processes onto the CPS frame each pass a gate: a test on held-out or external data that we register publicly before we run it, with its pass rule fixed in advance. Claiming, disability-insurance entitlement and the immigrants who enter the population on a schedule run without one.</dd>
+        <dd>Earnings, family, work-limiting disability and the transport of PSID-estimated processes onto the CPS frame each pass a gate: a test on held-out or external data that we register publicly before we run it, with its pass rule fixed in advance and changed only by public amendment. Mortality, claiming, disability-insurance entitlement and the immigrants who enter the population on a schedule run without one.</dd>
       </div>
       <div>
         <dt class="mono">data limits</dt>
-        <dd>In 2023 the PSID interviewed 9,152 families, against about 95,000 households a year in the Current Population Survey. It follows the families of 1968 and their descendants. About 40 percent of the surviving 1968 sample still responded in 2015, and the PSID's records of low earnings have known measurement problems. Section 6 of the paper sets out what the model does about each limit, including a planned check against the Social Security Administration's public file of earnings records.</dd>
+        <dd>In 2023 the PSID interviewed 9,152 families, against about 95,000 households a year in the Current Population Survey. It follows the families of 1968 and their descendants. About 40 percent of the surviving 1968 sample still responded in 2015. The PSID's records of low earnings have known measurement problems: in a study of men's earnings, about 5 percent of PSID observations had earnings under $20,000 a year, against about 25 percent in the Census Bureau's Longitudinal Employer-Household Dynamics records. <a href="/dynamics/web#sec-psid">Section 6 of the paper</a> sets out what the model does about each limit, including a planned check against the Social Security Administration's public file of earnings records.</dd>
       </div>
       <div>
         <dt class="mono">blind tests</dt>
-        <dd>A one-point COLA cut lands within 0.74 percentage points of DYNASIM3 in every age group. Each of the other three tests finds a gap between the two models.</dd>
+        <dd>A one-point cut to cost-of-living adjustments, which acts mechanically on benefits already being paid, lands within 0.74 percentage points of DYNASIM3 in every age group, so the match says little about how well the model captures how lives change. Each of the other three tests finds a gap between the two models.</dd>
       </div>
       <div>
         <dt class="mono">next</dt>
-        <dd>We plan to connect the forward earnings law to the projection tests, apply the retirement earnings test, add behavioral claiming and run the full benefit rules in the Axiom rules engine. So far Axiom reproduces one piece of the model's Python benefit rules: average indexed monthly earnings computed with statutory computation years, while the projection tests count a fixed 35 years.</dd>
+        <dd>We plan to connect the forward earnings model (the paper's forward earnings law) to the projection tests, apply the retirement earnings test, add behavioral claiming and run the full benefit rules in the Axiom rules engine. So far Axiom reproduces one piece of the model's Python benefit rules: average indexed monthly earnings computed over the number of years the law sets, while the projection tests count a fixed 35 years.</dd>
       </div>
     </dl>
   </section>
