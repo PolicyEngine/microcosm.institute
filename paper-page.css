@@ -72,6 +72,12 @@
   line-height: 1.5;
 }
 
+.paper-facts dd a {
+  color: var(--amber-soft);
+  text-decoration-color: color-mix(in srgb, var(--primary) 35%, transparent);
+  text-underline-offset: 0.18em;
+}
+
 .paper-viewer {
   max-width: min(1500px, calc(100vw - clamp(20px, 5vw, 56px) * 2));
   margin: clamp(58px, 8vw, 96px) auto 0;

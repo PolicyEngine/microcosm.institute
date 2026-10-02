@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Learn — dynamics — microcosm</title>
-<meta name="description" content="How the microcosm-dynamics Social Security microsimulation works, how it is validated, and how to read the benchmark wall — with a self-test drill." />
+<meta name="description" content="How Microcosm Dynamics, an open model of U.S. Social Security, works, how we test it and what the tests do and do not show, following the October 2026 working paper. With a self-test drill." />
 <link rel="icon" type="image/svg+xml" href="/assets/microcosm-operator.svg" />
 <meta name="theme-color" content="#F6FAF7" />
 <link rel="stylesheet" href="/vendor/fonts/microcosm-fonts.css" />
@@ -16,6 +16,9 @@
 .learn-main h2 { font-size: 1.3rem; margin: 2.6rem 0 0.5rem; }
 .learn-main h3 { font-size: 1.02rem; margin: 1.6rem 0 0.3rem; }
 .learn-main p, .learn-main li { line-height: 1.6; }
+.learn-main > p { margin: 0.7rem 0; }
+.learn-main ul, .learn-main ol { padding-left: 1.3rem; margin: 0.6rem 0; }
+.learn-main li { margin: 0.35rem 0; }
 .learn-lede { font-size: 1.08rem; opacity: 0.85; max-width: 42rem; }
 .learn-toc { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.2rem 0 0; }
 .learn-toc a { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.78rem;
@@ -27,11 +30,9 @@
   border-bottom: 1px solid var(--border, #E2E8F0); font-size: 0.92rem; }
 .stat-row:last-child { border-bottom: none; }
 .stat-row .val { font-family: var(--mono, 'JetBrains Mono', monospace); font-variant-numeric: tabular-nums;
-  white-space: nowrap; font-size: 0.85rem; }
-.gapchips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.8rem 0; }
-.gapchips span { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.74rem;
-  border: 1px solid var(--border, #E2E8F0); border-radius: 999px; padding: 0.25rem 0.7rem; opacity: 0.85; }
-.gapchips .zero { border-color: var(--primary, #2C7A7B); color: var(--primary, #2C7A7B); font-weight: 600; }
+  text-align: right; font-size: 0.85rem; max-width: 45%; }
+.stat-row.head { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.05em; opacity: 0.6; }
 .callout { border-left: 3px solid var(--primary, #2C7A7B); padding: 0.1rem 0 0.1rem 1rem; margin: 1.2rem 0; }
 .callout p { margin: 0.4rem 0; }
 dl.gloss dt { font-weight: 600; margin-top: 0.9rem; }
@@ -60,37 +61,56 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
 .viz-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-top: 0.6rem;
   font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.72rem; opacity: 0.85; }
 .viz-legend i.sw { display: inline-block; width: 14px; height: 8px; border-radius: 3px; margin-right: 0.35rem; vertical-align: baseline; }
-.sw-earn { background: linear-gradient(90deg, #0D948833, #0D9488); }
-.sw-marry { background: #7C3AED; height: 8px; width: 8px; border-radius: 50%; }
-.sw-claim { background: transparent; border: 2.5px solid #B45309; width: 7px; height: 7px; border-radius: 50%; }
-.sw-death { background: #101828; width: 3px; height: 10px; border-radius: 1px; }
-.sw-sim { background: repeating-linear-gradient(90deg, #94A3B8 0 4px, transparent 4px 8px); height: 3px; }
-.sw-imp { background: repeating-linear-gradient(45deg, #0D948855 0 3px, transparent 3px 6px); height: 8px; border: 1px solid #0D948866; }
+.viz-legend i.sw.sw-earn { background: linear-gradient(90deg, #0D948833, #0D9488); }
+.viz-legend i.sw.sw-weight { background: #0D9488; height: 5px; border-radius: 0; vertical-align: middle; }
+.viz-legend i.sw.sw-marry { background: #7C3AED; height: 8px; width: 8px; border-radius: 50%; }
+.viz-legend i.sw.sw-birth { background: #fff; border: 1.6px solid #7C3AED; width: 8px; height: 8px; border-radius: 50%; }
+.viz-legend i.sw.sw-claim { background: transparent; border: 2.5px solid #B45309; width: 9px; height: 9px; border-radius: 50%; }
+.viz-legend i.sw.sw-death { background: #101828; width: 3px; height: 10px; border-radius: 1px; }
+.viz-legend i.sw.sw-sim { background: repeating-linear-gradient(90deg, #0D9488 0 3px, transparent 3px 5px); height: 3px; border-radius: 0; vertical-align: middle; }
+.viz-legend i.sw.sw-imp { background: repeating-linear-gradient(90deg, #0D948855 0 2px, transparent 2px 5px); height: 3px; border-radius: 0; vertical-align: middle; }
+.viz-legend i.sw.sw-hold { background: #E4E9EF; border: 1px solid #CBD5E1; }
 .viz-tip { position: absolute; pointer-events: none; background: #101828; color: #fff; font-size: 0.75rem;
   font-family: var(--mono, 'JetBrains Mono', monospace); padding: 0.45rem 0.6rem; border-radius: 6px;
   max-width: 260px; line-height: 1.45; z-index: 5; }
+.seam-fig { margin: 1.2rem 0 0.6rem; font-size: 0.86rem; }
+.seam-fig .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.seam-box { border: 1px solid color-mix(in srgb, currentColor 25%, transparent); border-radius: 8px; padding: 0.7rem 0.85rem; }
+.seam-box .tag { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 0.3rem; }
+.seam-box p { margin: 0.25rem 0; }
+.seam-panel { border-left: 3px solid #0D9488; } .seam-panel .tag { color: #0D9488; }
+.seam-xsec  { border-left: 3px solid #7C3AED; } .seam-xsec .tag { color: #7C3AED; }
+.seam-join  { border-left: 3px solid #B45309; } .seam-join .tag { color: #B45309; }
+.seam-later { border-style: dashed; }
+.seam-arrows { text-align: center; font-family: var(--mono, 'JetBrains Mono', monospace); opacity: 0.55; padding: 0.15rem 0; }
+.seam-fig .spine { display: flex; flex-direction: column; gap: 0; }
+.seam-note { font-size: 0.8rem; opacity: 0.75; margin-top: 0.5rem; }
+@media (max-width: 560px) { .seam-fig .cols { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <main class="learn-main">
   <p class="crumb"><a href="/dynamics">dynamics</a> / learn</p>
-  <h1>How the model works — and how to check it</h1>
-  <p class="learn-lede">microcosm-dynamics is a dynamic microsimulation of Social Security built on the PSID panel. This page explains the machine, the validation discipline around it, and how to read the <a href="/dynamics/benchmarks">benchmark wall</a> — then lets you quiz yourself.</p>
+  <h1>How the model works, and how to check it</h1>
+  <p class="learn-lede">Microcosm Dynamics is a computer model of Social Security that anyone can download, run and check. This page explains how it works, how we test it and what those tests do and do not show, then lets you quiz yourself. It follows the <a href="/dynamics/paper">working paper</a> of October 2026. If this page and the paper ever disagree, trust the paper.</p>
   <nav class="learn-toc">
     <a href="#watch">watch it work</a>
     <a href="#model">the model</a>
-    <a href="#data">weights &amp; calibration</a>
-    <a href="#discipline">the discipline</a>
-    <a href="#wall">reading the wall</a>
-    <a href="#correction">the correction program</a>
+    <a href="#loop">each simulated year</a>
+    <a href="#data">weights &amp; missing years</a>
+    <a href="#seam">the CPS frame</a>
+    <a href="#gates">gates</a>
+    <a href="#holdout">the holdout test</a>
+    <a href="#blind">blind tests</a>
+    <a href="#limits">the PSID's limits</a>
     <a href="#drill">drill</a>
     <a href="#glossary">glossary</a>
   </nav>
 
   <h2 id="watch">Watch it work</h2>
-  <p>A dynamic microsimulation follows people, not averages. Below: a small synthetic cohort moves through time — observed panel history on the left, module-driven simulation on the right of the seam. Earnings ribbons thicken and fade with age; marriages link lines; children start new ones; claiming rings fire between 62 and 70; lines end when mortality fires. Line weight is survey weight — heavier lines stand for more of the population — and the hatched patch is an imputed stretch of history. The strip underneath shows the calibration step: an aggregate of the simulated cohort landing against an external reference — <em>compared, never tuned</em>.</p>
+  <p>A dynamic microsimulation follows people, not averages. The diagram follows 12 made-up people; each line is one person. Left of the dashed line are years for which the Panel Study of Income Dynamics (PSID) recorded earnings; right of it are years the model simulates. Earnings bands grow thicker and darker as a person earns more. Filled violet dots joined by a line mark a marriage, open violet rings mark a birth, bronze rings mark a benefit claim between 62 and 70, and a line ends when the person dies. A line that is thicker overall stands for more people, as survey weights do. Faint dashes mark the odd years from 1997 on, which the model fills in from neighboring years (<a href="#data">see missing years</a>). The shaded band marks 2015 to 2019, the years scored by <a href="#holdout">the holdout test</a>; for that test, the model learned only from data through 2014. The strip at the bottom tracks the share of these 12 people who have claimed benefits.</p>
   <div class="viz-wrap">
-    <canvas id="lifecanvas" aria-label="Animated lifepath diagram of a synthetic cohort moving from observed panel data into simulation"></canvas>
+    <canvas id="lifecanvas" role="img" aria-label="Animated diagram of 12 made-up people moving from years the PSID recorded into simulated years"></canvas>
     <div class="viz-tip" id="viztip" hidden></div>
     <div class="viz-controls">
       <button id="vplay" type="button" class="primary">Pause</button>
@@ -99,158 +119,157 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
       <span class="viz-year" id="vyearlab">1968</span>
     </div>
     <div class="viz-legend">
-      <span><i class="sw sw-earn"></i>earnings (darker = more)</span>
-      <span><i class="sw sw-marry"></i>marriage / birth</span>
-      <span><i class="sw sw-claim"></i>benefit claiming</span>
+      <span><i class="sw sw-earn"></i>earnings (darker, thicker = more)</span>
+      <span><i class="sw sw-weight"></i>thicker overall = stands for more people</span>
+      <span><i class="sw sw-marry"></i>marriage</span>
+      <span><i class="sw sw-birth"></i>birth</span>
+      <span><i class="sw sw-claim"></i>benefit claim</span>
       <span><i class="sw sw-death"></i>death</span>
       <span><i class="sw sw-sim"></i>simulated years</span>
-      <span><i class="sw sw-imp"></i>imputed gap</span>
+      <span><i class="sw sw-imp"></i>filled-in year</span>
+      <span><i class="sw sw-hold"></i>scored by the holdout test, 2015–19</span>
     </div>
-    <p class="crumb" style="margin-top:0.5rem">Illustrative synthetic cohort — generated for teaching. PSID microdata is restricted and never displayed.</p>
+    <p class="crumb" style="margin-top:0.5rem">Made-up people, drawn for teaching; no real PSID respondent appears. The diagram shows how the model is designed to work, not a run. Two of the blind tests against DYNASIM3, the previous generation of the Urban Institute's model (<a href="#blind">below</a>), start from the families the PSID interviewed in 2011 and end in 2030; in them nobody earns, marries or divorces after 2010, and no one is born or immigrates. The holdout test's projection, which learned only from data through 2014, does project marriages and disability for 2015 to 2019 and earnings for 2016 and 2018.</p>
   </div>
 
   <h2 id="model">The model</h2>
-  <p>Dynamic microsimulation is the method behind DYNASIM (Urban Institute) and MINT (Social Security Administration): start from real people's longitudinal records, age each person forward through estimated transition models — work, marriage, children, disability, death, benefit claiming — then run program rules over the projected lifepaths and add them up. It's how you answer questions that cross decades and generations: who gains from a benefit formula change in 2050, and what it does to payroll revenue on the way there.</p>
-  <p>microcosm-dynamics builds on the <strong>Panel Study of Income Dynamics</strong> — the longest-running household panel in the world, following the same families since 1968. The choice trades the administrative earnings precision of MINT's matched frame for something the field has never had: a Social Security microsimulation whose data, code, and validation record are <strong>fully public and reproducible end to end</strong>.</p>
-  <h3>The pipeline</h3>
+  <p>Some questions about Social Security need more than a snapshot of one year, such as which retirees a benefit cut reaches decades from now. Dynamic microsimulation answers them by aging a population of individual people year by year, drawing their earnings, marriages, disabilities, deaths and benefit claims, and applying the program's rules to each life. The Urban Institute's DYNASIM, the Social Security Administration's MINT and the Congressional Budget Office's long-term model, CBOLT, do this for Social Security. Outsiders can read the results these models publish, but CBO does not publish CBOLT's code, and we found no public code with which to rerun DYNASIM or MINT. We publish the code, estimates and tests of Microcosm Dynamics under the MIT license.</p>
+  <p>The model learns how lives unfold from the <strong>Panel Study of Income Dynamics</strong>, a University of Michigan survey that has followed a set of American families, and the new families their members form, since 1968. It takes the ages at which people claim benefits from the Social Security Administration's published awards. MINT and CBOLT run on SSA's administrative earnings records, and SSA has a legal obligation to protect the confidentiality of the people in them; anyone can obtain the PSID's data.</p>
+  <p>The model produces no cost estimates, no measure of Social Security's long-run balance and no date when the trust funds run out. It reports how a reform's effects differ across people, such as benefit changes by age group and poverty at 67.</p>
+
+  <h3>Three layers</h3>
   <ul>
-    <li><strong>Histories:</strong> PSID individual and family records, 1968–2023 — marriage, fertility, and earnings histories read directly from the panel.</li>
-    <li><strong>Transition modules:</strong> mortality, marriage and survivorship, fertility, disability, and claiming-age behavior. The marriage and fertility modules and the work-limitation disability module each pass a gate before use: a test on held-out or external data that we register publicly before we run it, with its pass rule fixed in advance. Mortality, claiming and disability-insurance entitlement run without a gate so far.</li>
-    <li><strong>Projection engine:</strong> a wave-loop composing the modules year by year, certified by a pre-registered <strong>temporal holdout</strong>: fit on early waves, scored blind on held-out later years, against thresholds locked before any candidate ran. The first candidate engine failed 6 of 11 checks — published as a fail. The third passed.</li>
-    <li><strong>Policy layer:</strong> benefit rules and payroll revenue over the projected lifepaths.</li>
+    <li><strong>The starting population.</strong> Every projection so far starts from PSID members. The two projection tests, the blind tests of a one-point cut to cost-of-living adjustments and of raising the full retirement age, the age for an unreduced benefit, to 68 (<a href="#blind">below</a>), start from 11,405 people born in 1980 or earlier, in the families the PSID interviewed in 2011. Their earnings records run from 1968 through 2010, with the earnings the PSID recorded where it has them and filled-in or zero values where it does not. The model is also built to start from Microcosm's frame of 166,302 people, drawn mainly from the Census Bureau's Current Population Survey (CPS), but no projection starts there yet.</li>
+    <li><strong>The projection engine.</strong> It moves each person through one year at a time, in eight steps (<a href="#loop">below</a>). For <a href="#holdout">the holdout test</a>, we let it learn only from data through 2014 and compared its projection for 2015 to 2019 with what the PSID recorded.</li>
+    <li><strong>The rules layer.</strong> Python code turns each simulated life into Social Security benefits. It computes each worker's benefit from average indexed monthly earnings (AIME), adjusts it for claiming age and adds spouse and survivor benefits. It takes Social Security's parameters from PolicyEngine-US, PolicyEngine's model of U.S. tax and benefit rules. The Axiom rules engine, which encodes the statute as machine-readable rules, so far reproduces one piece of that code: AIME computed over the number of years the law sets, for all 7,486 people we tested. The projection tests count a fixed 35 years instead, which gives a different AIME for 251 of those people, all born before 1929.</li>
   </ul>
 
-  <h3>Inside the annual loop</h3>
-  <p>Each projection year runs the modules in a fixed order, and each module reads only the prior year's panel plus the current-year state already resolved above it — the order is a directed acyclic graph, not a convention:</p>
+  <h3>Which parts pass a gate</h3>
+  <p>A gate is a test on data set aside from what the model learned from, or on outside data, that we register publicly before we run it. Its pass rule is fixed before each scored run and changes only by public amendment (<a href="#gates">more below</a>).</p>
+  <div class="stat-table">
+    <div class="stat-row head"><span>Component</span><span class="val">Status</span></div>
+    <div class="stat-row"><span>Earnings histories the model generates</span><span class="val">gate 1: passes, under two amendments</span></div>
+    <div class="stat-row"><span>Forward earnings model, which projects earnings ahead</span><span class="val">gate m6: passes, 4 of 5 seeds, under one amendment</span></div>
+    <div class="stat-row"><span>Marriage, divorce, remarriage, widowhood and births</span><span class="val">gate 2: passes on its 16th candidate, 4 of 5 seeds, under an amendment and a split into gates 2, 2b and 2c</span></div>
+    <div class="stat-row"><span>Who lives with whom</span><span class="val">gate 2b: passes, 4 of 5 seeds; split off from gate 2</span></div>
+    <div class="stat-row"><span>How marital status lines up with earnings</span><span class="val">gate 2c: passes, 4 of 5 seeds; split off from gate 2</span></div>
+    <div class="stat-row"><span>Work-limiting disability</span><span class="val">gate m4: passes, 5 of 5 seeds</span></div>
+    <div class="stat-row"><span>Carrying the PSID's patterns of change onto the CPS frame</span><span class="val">gate w1: passes, under three amendments</span></div>
+    <div class="stat-row"><span>Mortality</span><span class="val">no gate</span></div>
+    <div class="stat-row"><span>Claiming</span><span class="val">no gate</span></div>
+    <div class="stat-row"><span>Who receives Social Security Disability Insurance (SSDI)</span><span class="val">no gate</span></div>
+    <div class="stat-row"><span>Immigrants who enter on a schedule</span><span class="val">no gate; output reported only</span></div>
+  </div>
+  <p>A candidate is a version of a piece that we register for one scored run. Several gates score each candidate on five seeds: starting numbers for the model's random draws, such as who dies or marries in a given year. "4 of 5 seeds" means the candidate passed on four of the five.</p>
+  <p>None of the four blind tests against DYNASIM3 (<a href="#blind">below</a>) uses a component that passes a gate. The parts they use include the PSID's recorded earnings, mortality, the SSDI component, claiming and the Python benefit rules.</p>
+
+  <h2 id="loop">Inside each simulated year</h2>
+  <p>Each simulated year, the engine takes every person's record through eight steps in a fixed order. Each step is a separate component that does its own calculations. The loop fixes only the order of the steps and the flow of marital status: the childbearing and household steps both read the one result the marital step produces, so every later step works from the same marriage history.</p>
   <ol>
-    <li><strong>Mortality.</strong> Death draws from hazards that anchor NCHS period life tables and apply differentials estimated from the PSID's own 1968–2023 death file, by age band and sex. Decedents leave the risk set before anything else happens that year.</li>
-    <li><strong>Aging.</strong> Ages advance; indexing series and the wage base roll forward.</li>
-    <li><strong>Marriage — one core.</strong> A single certified hazard state machine covers first marriage, divorce, remarriage, and widowhood, plus the spousal age gap. A gated modifier reweights <em>who</em> marries first by career-earnings tercile without changing <em>how many</em> marry. Every downstream module reads this one marital state; nothing re-simulates it.</li>
-    <li><strong>Fertility.</strong> Births draw from the fertility component; paternal attribution reads the married state; new children enter the panel as people.</li>
-    <li><strong>Disability.</strong> A forward Markov model over the PSID's self-reported work-limitation panel — incidence and recovery by age band and sex — with the statutory DI-to-retirement conversion applied at full retirement age.</li>
-    <li><strong>Earnings.</strong> A chained quantile-regression-forest generator: each year's draw conditions on age and a person-level permanent component, with ranks mapped to dollars through a wage-indexed age profile. Fitted only on data through 2014 — the leakage cutoff the holdout gate enforces.</li>
-    <li><strong>Claiming.</strong> Claim ages draw from the SSA Statistical Supplement's observed claim-age distribution by sex and entitlement year, vintage-frozen to the cutoff. Calibrated, not behavioral — it reproduces current-law claiming patterns; a behavioral claiming model is on the roadmap.</li>
-    <li><strong>Household composition.</strong> A reconciliation pass — cohabitation, parental-home exits, multigenerational households, household size — consuming the marital state read-only.</li>
+    <li><strong>Mortality.</strong> The model decides at random who dies each year, using death probabilities by age group and sex. No gate tests this step, or how death rates change over time. The projection tests use SSA's 2004 period life table, the death rates by age observed in 2004, scaled each year by the change in death rates that the Social Security Trustees' 2008 report projects.</li>
+    <li><strong>Aging.</strong> Everyone grows a year older.</li>
+    <li><strong>Marriage.</strong> The marital step updates each person's marital status. The marriage model that passes gate 2 covers marriage, divorce, remarriage and widowhood, but the projection tests do not use it: in them, a person becomes widowed when a linked spouse dies, and no one marries or divorces.</li>
+    <li><strong>Childbearing.</strong> This step decides who has a child, reading the marital step's result. Gate 2 scores births along with marriage. The projection tests add no newborns.</li>
+    <li><strong>Disability.</strong> This step models who reports a health problem that limits their work: who starts reporting one, who recovers, how many report one at a time, and how people leave near full retirement age. It passes gate m4, which compares it with PSID records set aside from what it learned from, and with the age pattern and mix of exits, but not the levels, of SSA's 2023 disability-insurance statistics. Work limitation is a different measure from receiving Social Security Disability Insurance (SSDI). The projection tests use a separate component, with no gate, that decides who receives SSDI: awards, recoveries and the switch to a retirement benefit at full retirement age, at rates observed through 2008.</li>
+    <li><strong>Earnings.</strong> The forward earnings model (the paper calls it the forward earnings law) decides at random, every two years, whether each person works and where they rank among earners. It then converts that rank to dollars using the national average wage index, which it projects by extending the 2005 to 2014 trend. It learned from PSID earnings through 2014 at ages 25 to 64; for anyone older, it reuses the pattern of its oldest age group. It passes gate m6, but no blind test uses it yet: the projection tests include no earnings after 2010 and count every later year as zero in the benefit formula.</li>
+    <li><strong>Claiming.</strong> The model picks each person's claim age at random, following SSA's published distribution of retired-worker awards by sex and year of entitlement (Annual Statistical Supplement, Table 6.B5.1). No gate tests this step, and no claim responds to a reform. For years after 2008, the projection tests reuse the 2008 distribution.</li>
+    <li><strong>Household composition.</strong> This step works out who lives with whom, reading the marital step's result. It passes gate 2b, but the projection tests do not use the gated household model.</li>
   </ol>
-  <p>Every random draw comes from a per-(draw, module, year, person) stream registry, so a run reproduces exactly and no module can perturb another's randomness.</p>
+  <p>Immigrants enter the population on a schedule, through a separate entry point in the loop. We report that output, no gate scores it, and the projection tests add no immigrants.</p>
+  <p>The model has three kinds of earnings. Recorded earnings are the labor income the PSID recorded for its family heads and spouses, with the gaps filled in or set to zero (<a href="#data">see missing years</a>). Generated earnings come from a backward-looking process that produces earnings careers, which passes gate 1. Projected earnings come from the forward earnings model above. The blind tests use only the recorded kind.</p>
+  <p>The engine draws its random numbers from separate, repeatable sequences: one for each draw, time period and step, and for each person where a step needs it. The same seed produces an identical projection.</p>
 
-  <h2 id="data">Weights, imputation, and calibration</h2>
-  <p>No survey arrives ready. Three standard repairs make a panel usable, and the visualization above encodes the first two:</p>
+  <h2 id="data">Weights and missing years</h2>
   <ul>
-    <li><strong>Weights — two systems, two jobs.</strong> The PSID deliberately oversampled low-income families at its start, so each family carries a survey weight — in the diagram, heavier lines are people who stand for more of the population. PSID weights do two things: they make the fitted transition <em>rates</em> representative (every model is estimated weighted), and they weight the published survey-frame estimates (children inherit the mother's weight). The national projection is a different run: there the units are the microcosm frame's people and the weights are the frame's calibrated weights, carried forward under a pinned rule — PSID contributes laws, not people, to that run. In short: PSID weights make the rates representative; frame weights make the people representative.</li>
-    <li><strong>Imputation.</strong> Panels have holes — missed interviews, questions a wave never asked. Where a history has a gap, values are filled by models estimated from everything that <em>was</em> observed, and marked as imputed rather than passed off as data (the hatched segment in the diagram).</li>
-    <li><strong>Calibration — on the cross-sectional side.</strong> The microcosm program builds the calibrated national microdata: reweighting to administrative totals and imputing what surveys never ask. The division of labor is deliberate: <strong>the panel supplies transitions</strong> — who moves between work, marriage, disability, claiming — while <strong>calibrated cross-sections supply representativeness</strong>. The dynamics side never calibrates to the benchmarks it validates against; levels are checked against SSA, Trustees, and CBO series and divergences are explained on the wall.</li>
+    <li><strong>Weights.</strong> The PSID began in 1968 by joining a nationally representative sample of families with an extra sample of low-income families, and it publishes weights that account for those unequal chances of being selected. Every blind test weights each PSID person by the PSID's own weight for that person in the survey year it uses, and none adjusts those weights.</li>
+    <li><strong>Missing years.</strong> The PSID asked about earnings for every year through 1996. Since 1997 it has interviewed every other year, and each interview centers on the year before it. The model's main earnings records read only those years, so the model fills in each odd year from 1997 on from neighboring years, or sets it to zero when no neighboring year was recorded. (The minimum-benefit test instead reads the PSID's reports for those in-between years, 2001 to 2021.) The model also sets other years without a usable record to zero, such as years in which a person lived in no PSID family that responded. For the 7,486 people in the projections who reach 62 between 1979 and 2030, about half of their career years through 2010 hold filled-in or zero values.</li>
+    <li><strong>No corrections.</strong> The model reads the PSID's labor income as the PSID records it, including the values the PSID itself filled in, and takes reported zero earnings at face value. It treats that labor income as the earnings Social Security covers.</li>
   </ul>
 
-  <h3 id="seam">How the panel and the cross-section fit together</h3>
-  <p>Two datasets, two jobs. The panel knows how lives change; the cross-section knows who the country is. The projection needs both, and they meet at exactly one seam:</p>
-  <style>
-    .seam-fig { margin: 1.2rem 0 0.6rem; font-size: 0.86rem; }
-    .seam-fig .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-    .seam-box { border: 1px solid color-mix(in srgb, currentColor 25%, transparent); border-radius: 8px; padding: 0.7rem 0.85rem; }
-    .seam-box .tag { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 0.3rem; }
-    .seam-box p { margin: 0.25rem 0; }
-    .seam-panel { border-left: 3px solid #0D9488; } .seam-panel .tag { color: #0D9488; }
-    .seam-xsec  { border-left: 3px solid #7C3AED; } .seam-xsec .tag { color: #7C3AED; }
-    .seam-join  { border-left: 3px solid #B45309; } .seam-join .tag { color: #B45309; }
-    .seam-wall  { border-style: dashed; }
-    .seam-arrows { text-align: center; font-family: var(--mono, 'JetBrains Mono', monospace); opacity: 0.55; padding: 0.15rem 0; }
-    .seam-fig .spine { display: flex; flex-direction: column; gap: 0; }
-    .seam-note { font-size: 0.8rem; opacity: 0.75; margin-top: 0.5rem; }
-    @media (max-width: 560px) { .seam-fig .cols { grid-template-columns: 1fr; } }
-  </style>
-  <figure class="seam-fig" aria-label="How the PSID panel and the microcosm cross-section combine">
+  <h3 id="seam">How the PSID and the CPS frame fit together</h3>
+  <p>The PSID knows how lives change; the CPS frame knows who the country is. The model is built to use both, and so far they meet in one place, gate w1.</p>
+  <figure class="seam-fig" aria-label="How the PSID and Microcosm's CPS frame fit together">
     <div class="cols">
       <div class="seam-box seam-panel">
-        <span class="tag">The panel — microcosm-dynamics</span>
-        <p><strong>PSID: the same families, 1968–2023.</strong> Supplies <em>transitions</em> — the estimated modules of the annual loop (mortality, marriage, disability, earnings, claiming), each certified on a temporal holdout.</p>
-        <p>Knows <em>how lives change</em>. Its sample is small and its weights are survey weights.</p>
+        <span class="tag">The panel: PSID</span>
+        <p><strong>The same families and their descendants, 1968–2023.</strong> The model learns from it how people earn, marry, divorce, have children, become disabled and die. We call these its patterns of change.</p>
+        <p>Knows <em>how lives change</em>. It is small: 9,152 families in 2023.</p>
       </div>
       <div class="seam-box seam-xsec">
-        <span class="tag">The cross-section — microcosm</span>
-        <p><strong>Calibrated national microdata (CPS frame).</strong> Reweighted to administrative totals, with imputations for what surveys never ask.</p>
-        <p>Knows <em>who the country is</em> in one year — but not what happens to anyone next year.</p>
+        <span class="tag">The cross-section: Microcosm's CPS frame</span>
+        <p><strong>166,302 people in 57,240 households, for 2024.</strong> Microcosm calibrates its household weights to official totals, among them IRS income statistics, Social Security payments by benefit type and Census population counts by age.</p>
+        <p>Knows <em>who the country is</em> in one year, but not what happens to anyone next.</p>
       </div>
     </div>
     <div class="seam-arrows">↘&ensp;&ensp;↙</div>
     <div class="spine">
       <div class="seam-box seam-join">
-        <span class="tag">The seam — transport, period 0</span>
-        <p>The panel-estimated generators are <strong>deployed onto the pinned national frame</strong> — 166,302 people in 57,240 households, hash-pinned. Each frame adult gets a seeded entry state (marital, disability, earnings position), and where the policy rules need a career — AIME needs 35 years of earnings — a <strong>synthetic history is transported</strong>: one persistent earnings rank drawn per person and threaded through the certified age-indexed quantile maps, so a 55-year-old at the 80th percentile has been near the 80th percentile their whole career. A dedicated pre-registered gate scored whether the transported states and histories reproduce the right joint distributions on the new frame, separately from whether the dynamics are right.</p>
+        <span class="tag">Where they meet: gate w1</span>
+        <p>Gate w1 runs the patterns of change learned from the PSID on every adult in the frame, starting each adult's marital history from the frame's own share of married people at ages 25 to 34. It then scores the result against the frame on 43 snapshot statistics, covering earnings by age and sex, marital shares, spouses living together and one household-size share, plus one ordering check. It passes under three amendments, each adopted after a candidate failed; the candidate that passed is identical to the last one that failed. Together the amendments moved 21 other statistics out of the score, so we publish them without a pass mark, and narrowed the ordering check. The marital statistics at ages 25 to 34 are compared with the same frame numbers the starting histories read, so they test nothing new. The gate certifies no pattern of change, so any bias in how the PSID shows lives changing carries over to the frame.</p>
       </div>
-      <div class="seam-arrows">↓</div>
-      <div class="seam-box">
-        <span class="tag">Projection — transitions only, no annual re-calibration</span>
-        <p>The annual loop runs forward on the national frame, year over year → a <strong>projected national panel</strong> → the policy layer computes benefits and payroll revenue over the projected lifepaths. Calibration happens <strong>once, at the seam</strong>: weights carry forward under a pinned rule, deaths remove people, births add them, and no year is re-aligned to external demographic or economic totals. (DYNASIM and MINT align projected aggregates to the Trustees' assumptions year by year; here annual levels stay free so validating against those series means something.)</p>
-      </div>
-      <div class="seam-arrows">↓ <span style="font-size:0.7rem">(one-way)</span></div>
-      <div class="seam-box seam-wall">
-        <span class="tag">Benchmark wall — validation only</span>
-        <p>Levels and shares are compared against SSA, Trustees, CBO, DYNASIM, and MINT. Nothing flows back: the model never calibrates to the benchmarks it is judged against.</p>
+      <div class="seam-arrows">↓ <span style="font-size:0.7rem">(not yet)</span></div>
+      <div class="seam-box seam-later">
+        <span class="tag">Projecting from the frame: not yet</span>
+        <p>The model is built to project from the frame, so that the frame supplies the population's size and makeup and the PSID supplies the patterns of change. No projection starts from the frame yet. Every projection so far starts from PSID members, and all four blind tests use PSID members with the PSID's own weights.</p>
       </div>
     </div>
-    <figcaption class="seam-note">The division of labor in one line: <strong>the panel supplies transitions, the calibrated cross-section supplies representativeness.</strong> The first estimates published so far are survey-frame — scored on the panel's own held-out years, isolating the dynamics from transport error; the transport seam is how the same machinery produces national-frame estimates, and it carries its own gate so error can't hide between the two.</figcaption>
+    <figcaption class="seam-note">The division of labor, once both halves run together: <strong>the PSID supplies how lives change, and the CPS frame supplies who the country is.</strong> Today only gate w1 joins them.</figcaption>
   </figure>
 
-  <h3>How the engine earned certification</h3>
-  <p>The projection engine's gate is the clearest picture of the whole method. The loop:</p>
+  <h2 id="gates">How we test it: gates</h2>
+  <p>Before we score a piece of the model, we post which statistics we will compare, which we call cells, and how close counts as a pass for each, its tolerance. We call such a test a <strong>gate</strong>: a test on data set aside from what the model learned from (held-out data), or on outside data, that we register publicly before we run it. The term comes from the quality gates that code must clear before it ships, and from the go/no-go decisions of clinical trials. A piece that faces a gate joins the model only after it passes.</p>
   <ul>
-    <li><strong>Pre-register the gate.</strong> The temporal-holdout checks and their pass thresholds were locked before any engine candidate existed.</li>
-    <li><strong>One blind shot per candidate.</strong> A candidate gets a single scored run against the held-out years. No candidate ever iterates against the holdout — that's the line between validation and tuning.</li>
-    <li><strong>Publish the verdict either way.</strong> Candidate 1 failed 6 of 11 checks, on the record.</li>
-    <li><strong>Forensics, not fitting.</strong> Each failed check got a diagnosis ceremony — what mechanism the miss implicates — reviewed adversarially like everything else.</li>
-    <li><strong>Amend the design, re-register, repeat.</strong> Candidate 2 was built from the first round of diagnoses and re-registered; candidate 3 was built on the levers the accumulated forensics had proven out, and passed. The holdout was never touched between shots.</li>
+    <li><strong>One scored run per candidate.</strong> We call each version of a piece that we register for scoring a candidate. Each candidate gets one scored run, and we publish the result in the public repository whatever the verdict. Failed candidates stay on the record next to the one that passed.</li>
+    <li><strong>Tolerances from the data's own noise.</strong> We set most tolerances from a noise floor: how far apart two halves of the real PSID, with no person in common, land on the same statistic. A seed passes only if every scored cell stays within its tolerance. The gates for marriage and childbearing, household makeup, and marriage by earnings (gates 2, 2b and 2c) each need at least 4 of their 5 seeds to pass.</li>
+    <li><strong>Changes only in public.</strong> We change a gate's terms only by a public amendment, which must come before the next scored run.</li>
   </ul>
-  <p>That loop — gate first, blind scoring, published failures, diagnosed causes, amended designs — is the general recipe here, and it's what makes the passing result mean something.</p>
-
-  <h2 id="discipline">The discipline</h2>
-  <p>The defining commitment is that <strong>generation is cheap and verification carries the weight</strong>. Three mechanisms:</p>
-  <ul>
-    <li><strong>Pre-registration.</strong> Evaluation gates and their pass thresholds are committed before candidates run. Failures are published alongside passes.</li>
-    <li><strong>Adversarial review.</strong> Design documents and results go through independent referee rounds whose explicit job is to break them; ratification requires an affirmative verdict on exact bytes. Major changes get two referees in parallel, because independent reviews reliably find different defects.</li>
-    <li><strong>A graded forecast ledger.</strong> The schedule itself is forecast in public — append-only entries with 50% and 80% confidence dates, graded when they resolve. Revisions never overwrite history; they supersede it with stated evidence, so a missed date can't be laundered.</li>
-  </ul>
-
-  <h2 id="wall">Reading the wall</h2>
-  <p>The <a href="/dynamics/benchmarks">benchmark wall</a> registers every quantity the model shares with an external source — SSA administrative data, the Trustees, CBO, DYNASIM, MINT — and shows the comparison, including the misses. Two laws govern it:</p>
   <div class="callout">
-    <p><strong>Validation-only.</strong> Benchmark rows are never tuning targets. Nothing in estimation reads them, and expected values come from independent references — so agreement means something, and divergence gets explained rather than optimized away.</p>
-    <p><strong>No unexplained gaps.</strong> Every divergence carries a classification and a written explanation. A gap without one fails the build.</p>
+    <p><strong>Four gates pass only under amendments we adopted after an earlier candidate failed:</strong> gate 1 (generated earnings histories), gate 2 (marriage and childbearing), gate w1 (the CPS frame) and gate m6 (the holdout test). At gates 1 and w1, the candidate that passed is identical to one that failed under the old terms.</p>
+    <p><strong>What gates cannot catch.</strong> A gate scored on the PSID tests whether the model reproduces the PSID, not how far the PSID departs from the country. Both halves that set its tolerances come from the same survey, which follows a population defined in 1968 and has lost members over time, so a bias they share goes undetected.</p>
   </div>
-  <p>Explore the <a href="/dynamics/scorecard">DynaSim replication scorecard</a> for the blind comparisons, registered alternatives, and published gaps.</p>
-  <h3>Results so far</h3>
-  <div class="stat-table">
-    <div class="stat-row"><span>Claiming-age shares (NRA-to-70) vs published DYNASIM3 results</span><span class="val">within ±0.4pp, all quintiles</span></div>
-    <div class="stat-row"><span>Payroll revenue share vs CBO</span><span class="val">−1.1% to +0.2%</span></div>
-    <div class="stat-row"><span>COLA −0.4pp reform vs external estimate</span><span class="val">+0.3% to +0.7%</span></div>
-    <div class="stat-row"><span>Price-indexing reform</span><span class="val">±1.6%</span></div>
-    <div class="stat-row"><span>Labor-income proxy vs true covered earnings</span><span class="val">+22% to +34%</span></div>
-  </div>
-  <h3>The gap census</h3>
-  <div class="gapchips">
-    <span>module_missing 59</span>
-    <span>unverified_source 20</span>
-    <span>concept_mismatch 18</span>
-    <span>label_mismatch 3</span>
-    <span>frame_no_alignment 1</span>
-    <span class="zero">unexplained 0</span>
-  </div>
-  <p>Most of the wall's 101 rows are open gaps today — quantities the model doesn't yet compute, each with a written reason. That's deliberate: the wall doubles as the public roadmap, and progress is measured by gaps closing on the record, run over run.</p>
+  <p>Gate 3 would score near-term outputs, such as beneficiary counts and average benefits, against annual administrative publications. It has no cells or tolerances yet and has never run.</p>
 
-  <h2 id="correction">The correction program</h2>
-  <p>The first estimates labeled their earnings input honestly as a labor-income <em>proxy</em>. True FICA-covered earnings — what Social Security actually taxes and credits — differ from labor income by 22–34% in aggregate across the projection. Replacing the proxy properly turned into a research program of its own:</p>
+  <h2 id="holdout">The engine's holdout test</h2>
+  <p>To test the projection engine as a whole, we let it learn only from data through 2014, projected forward and compared the projection with what the PSID recorded. Gate m6 scores projected changes in marital status and in disability for 2015 to 2019, and earnings statistics for 2016 and 2018. It scores only the people the PSID observed in each later round of interviews, and the scored run may use which people those were; an open forward projection, which no gate scores, gets no such information. The model treats 2020 to 2022 as a shock outside its scope; we publish the results for those years but score none of them.</p>
+  <p><strong>We had already seen the years it scores.</strong> What the engine estimates came only from data through 2014, but not every design choice did. We chose the cells gate m6 scores, and the structure of the forward earnings model, with the PSID's records for 2015 onward in view.</p>
+  <p><strong>Its terms changed after a failure.</strong> Candidate 1, the first version of the engine we scored, failed. We then adopted a public amendment with two parts. First, it restricts the earnings cells to people for whom the model estimated a 2014 earnings position; the engine fixes everyone else's earnings at zero instead of projecting them. That took 2,722 of the 13,163 people those cells had scored out of the earnings comparison. Second, it re-derives the noise floors from which those cells' tolerances are set. Candidate 2 failed under the amended terms. Candidate 3 passed, in 4 of 5 seeds.</p>
+  <p><strong>The new floors loosened the low-earnings tolerance.</strong> The re-derived floors raised the tolerance on the 10th percentile of positive earnings at ages 25 to 44 from 0.221 to 0.284, on a log scale. In plain terms, the projection's figure may now fall short of the PSID's by up to about 25 percent, instead of about 20 percent. Three of candidate 3's four passing seeds score between those two values.</p>
+  <p><strong>The passing version still differs from the PSID.</strong> In every seed, its remarriage rate runs 27 to 51 percent higher than the PSID's. At ages 25 to 44, its two-year earnings growth runs 2.7 to 5.2 log points (about 3 to 5 percentage points) lower, and its 10th percentile of positive earnings runs 15 to 24 percent lower. Its earnings also hold steadier: the correlation of a person's earnings four years apart, on a log scale, runs 0.74 to 0.76 in the projection against 0.67 to 0.71 in the PSID.</p>
+  <p>Gate m6 certifies nothing about how death rates or widowhood change over time, or about the people who enter the population, and no blind test uses the forward earnings model yet.</p>
+
+  <h2 id="blind">Four blind tests against DYNASIM3</h2>
+  <p>The second kind of test compares the model with published results from DYNASIM3, the previous generation of the Urban Institute's model. For each test we post a plan, called a registration, in public before the run. A separate workstream, working apart from the model's builders, reads DYNASIM3's published numbers twice, independently, and seals them until we have saved the model's output to the public repository. No test has a pass mark: DYNASIM3 is another model, so each gap measures a disagreement between two models, not an error in either. None of the tests involves DYNASIM4, the current version, and none establishes that our model matches either version.</p>
+  <div class="stat-table">
+    <div class="stat-row head"><span>Test</span><span class="val">Model vs DYNASIM3</span></div>
+    <div class="stat-row"><span>Cut each year's cost-of-living adjustment by one percentage point: change in average benefits in 2030, by age group</span><span class="val">within 0.74 points in every age group</span></div>
+    <div class="stat-row"><span>Raise the full retirement age to 68: change in average benefits at ages 65 to 69 in 2030</span><span class="val">−5.7% vs −9.9%</span></div>
+    <div class="stat-row"><span>Cut every benefit by 13 percent: rise in the poverty rate at age 67 for people born 1936 to 1945, on a measure that counts income people could draw from their wealth</span><span class="val">+0.46 vs +2 points</span></div>
+    <div class="stat-row"><span>Add a minimum benefit tied to years of work: share of beneficiaries 62 and older on it, headline version</span><span class="val">7.75% vs 6.3%</span></div>
+  </div>
   <ul>
-    <li>Hand annotation of <strong>all 81 PSID instrument documents</strong>, 1968–2023, page by page, under a sealed per-document protocol — the last of the 81 seals landed August 4, 2026;</li>
-    <li>Independent re-derivation of every codebook and data dictionary, and a complete classification of all <strong>89,599 raw fields</strong> — with fields that can't be lawfully interpreted recorded as closed failures rather than silently dropped;</li>
-    <li>Capture of the underlying statute — the SECA amendment chain, coverage law, wage-base determinations — as <strong>112 primary legal documents</strong> with cryptographic provenance, and the remaining source gaps documented openly;</li>
-    <li>A design contract amended only through adversarial referee rounds, each amendment triggered by raw evidence contradicting a ratified assumption.</li>
+    <li><strong>The close match is a weak test of how lives change.</strong> Once we choose the year from which each person's cost-of-living increases are cut, the cut's effect on benefits already being paid follows by arithmetic, so the match says little about how well the model captures how lives change.</li>
+    <li><strong>What the projections leave out.</strong> The first two tests project PSID families to 2030. In them, nobody earns, marries or divorces after 2010. Every claimant with earnings on record through 2010 gets a retirement benefit, without a check that they worked long enough to qualify. We do not apply the retirement earnings test, which withholds benefits from early claimants who keep working, and no one changes when they claim in response to the reform. Benefits come from the Python rules, which count a fixed 35 years of earnings for every worker. Leaving out claiming responses or the earnings test could account for the gap at ages 65 to 69.</li>
+    <li><strong>Small numbers and rounding.</strong> The model's poverty figure rests on 483 people born in odd years from 1937 to 1945, so one person of average weight moves it by about 0.2 points. DYNASIM3's report rounds poverty rates to whole percentages, so its 2-point rise could lie anywhere between 1 and 3 points.</li>
+    <li><strong>Who gets the minimum.</strong> The headline share hides a split by sex. Under the model's main assumptions, all four versions of the minimum benefit put a larger share of women and a smaller share of men on it than DYNASIM3 does. Three of the six alternative assumptions we registered in advance break that pattern in at least one version.</li>
+    <li><strong>Different populations.</strong> The last two tests apply each reform to incomes people reported to the PSID, while DYNASIM3's figures come from projections published in 2004 and 2006, so part of each gap can reflect the different populations.</li>
+    <li><strong>Blind only as far as the records show.</strong> The AI model that coordinated the build saw the cost-of-living test's DYNASIM3 values before that test ran, in a report that may also have held the retirement-age test's. The builders, some of them AI agents, could reach files of DYNASIM3 material, and the records cannot rule out that they opened them. The person who wrote the plan for the 13 percent cut test read a page of DYNASIM3's 2004 report that includes discussion of its results. The person who wrote the first plan for the minimum-benefit test read one sentence that was supposed to be withheld; it describes a table outside that test's targets.</li>
   </ul>
-  <p><strong>Status — August 4, 2026.</strong> The annotation corpus closed today: all 81 instrument documents now carry sealed annotations, each one an adversarial adjudication of machine-generated candidates against the actual page bytes. The unit-authority amendment is in its fifth referee round; in the latest round, two independent reviewers re-derived the classification from the raw PDFs and converged on the same two residual defects. An earlier round struck 209 readings where the pipeline had inferred U.S. dollars from monetary context — descriptions like "hourly earnings" with no currency stated. The contract forbids invented units, so those fields stand as explicitly unit-less rather than carrying an assumed currency.</p>
-  <p>The corrected series publishes when the whole chain passes its gates — the current forecast is on the ledger, where it will be graded.</p>
+  <p>An interactive <a href="/dynamics/scorecard">scorecard</a> publishes every cell of the four tests, each test's timeline and every alternative assumption registered in advance. The <a href="/dynamics/benchmarks">benchmark wall</a> is a separate page. It lists figures published by other models, among them DYNASIM, MINT and CBO's, and by SSA and Social Security's Trustees, and it classifies each gap between them and this model. For more than half of its rows, the model does not yet produce a comparable figure. The paper does not draw on the wall. The paper's pass-or-fail verdicts come only from the gates, and the four blind tests report their gaps without grading them.</p>
+
+  <h2 id="limits">What the PSID cannot tell us</h2>
+  <p>The PSID's design limits what the model can learn from it:</p>
+  <ul>
+    <li><strong>Size.</strong> In 2023 the PSID interviewed 9,152 families, against about 95,000 households a year in the Current Population Survey, so figures for small groups are noisy, as in the poverty test above.</li>
+    <li><strong>Who it covers.</strong> It follows the families of 1968 and their descendants, so it covers later immigrants mainly through two small added samples.</li>
+    <li><strong>Who stays.</strong> Of the original 1968 members still alive in 2015, about 40 percent were still responding, and those who left differ from those who stayed.</li>
+    <li><strong>Low earnings.</strong> Its records of low earnings have known measurement problems, many of which trace to changes in how it interviewed people and processed their answers in 1993 and 1994. The model reads these records as the PSID gives them and corrects none of these problems.</li>
+  </ul>
+  <p>The model addresses these limits in two ways, and we plan a third; none removes them. It is built to carry the PSID's patterns of change onto Microcosm's calibrated CPS frame, which gate w1 tests, though no projection starts there yet. Its gates set tolerances from the PSID's own sampling noise, which cannot reveal a bias the whole PSID shares. And we plan to check the PSID's earnings careers against SSA's 2006 Earnings Public-Use File, which holds annual earnings records for 1951 through 2006 for a 1 percent random sample of all Social Security numbers issued before 2007. We have not yet designed, registered or run that check.</p>
+  <p>Next, we plan to add earnings after 2010 to the projections, apply the retirement earnings test, let claim ages respond to reforms where the data support it, run the full benefit rules in Axiom, and compare the model with public tables from SSA's actuaries, MINT, the Penn Wharton Budget Model and CBO.</p>
 
   <h2 id="drill">Drill</h2>
   <p class="crumb">Tap to flip · arrow keys to move</p>
-  <div class="drill-card" id="dcard" tabindex="0" role="button" aria-label="flashcard"></div>
+  <div class="drill-card" id="dcard" tabindex="0" role="button" aria-live="polite"></div>
   <div class="drill-meta"><span id="dnum"></span><span id="dside"></span></div>
   <div class="drill-btns">
     <button id="dprev" type="button">← Back</button>
@@ -260,36 +279,47 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
 
   <h2 id="glossary">Glossary</h2>
   <dl class="gloss">
-    <dt>Dynamic microsimulation</dt><dd>Project a population person-by-person through estimated transition models, then run policy rules over the simulated lifepaths.</dd>
-    <dt>PSID</dt><dd>Panel Study of Income Dynamics — US household panel following the same families since 1968; the model's estimation frame.</dd>
-    <dt>DYNASIM</dt><dd>The Urban Institute's dynamic microsimulation, in its fourth generation. Published DYNASIM3 claiming results are the model's closest external comparator.</dd>
-    <dt>MINT</dt><dd>Modeling Income in the Near Term — SSA's microsimulation, built on survey records matched to administrative earnings.</dd>
-    <dt>Temporal holdout</dt><dd>Certification by fitting on early panel waves and scoring blind on held-out later years, with thresholds locked in advance.</dd>
-    <dt>Validation-only</dt><dd>The rule that benchmark comparisons never feed back into estimation — the wall measures the model; it never trains it.</dd>
-    <dt>Gap classes</dt><dd>Every benchmark divergence is classified: a missing module, an unverified source, a concept or label mismatch, a frame that can't align — or unexplained, which is required to be zero.</dd>
-    <dt>Forecast ledger</dt><dd>Append-only public schedule forecasts with p50/p80 dates, graded at resolution; superseded entries stay on the record.</dd>
-    <dt>Covered earnings</dt><dd>Earnings subject to FICA — what Social Security credits and taxes. The correction program replaces the model's labor-income proxy with this concept.</dd>
+    <dt>Dynamic microsimulation</dt><dd>A model that ages a population of individual people year by year, drawing their earnings, marriages, disabilities, deaths and claims, and applies a program's rules to each life.</dd>
+    <dt>PSID</dt><dd>The Panel Study of Income Dynamics: a University of Michigan survey that has followed a set of American families, and the new families their members form, since 1968.</dd>
+    <dt>CPS frame</dt><dd>Microcosm's population of 166,302 people in 57,240 households, drawn mainly from the Census Bureau's Current Population Survey and weighted to official totals.</dd>
+    <dt>Gate</dt><dd>A test on data set aside from what the model learned from, or on outside data, that we register publicly before we run it, with its pass rule fixed in advance and changed only by public amendment.</dd>
+    <dt>Cell and tolerance</dt><dd>A statistic a gate scores, and how far the model may miss it and still pass.</dd>
+    <dt>Noise floor</dt><dd>How far apart two halves of the real PSID, with no person in common, land on the same statistic. We set most tolerances from it.</dd>
+    <dt>Candidate</dt><dd>A version of a piece of the model that we register for one scored run against its gate. At gates 1 and w1, the candidate that passed was identical to one that had failed under the old terms.</dd>
+    <dt>Seed</dt><dd>The starting number for the model's random draws. The same seed always gives the same result, and several gates score each candidate with five seeds.</dd>
+    <dt>Amendment</dt><dd>A public change to a gate's terms, which must come before the next scored run.</dd>
+    <dt>Report-only</dt><dd>A cell we publish with no tolerance, so it cannot fail a gate.</dd>
+    <dt>Holdout test</dt><dd>Gate m6, which the paper calls a temporal holdout: the engine learned only from data through 2014, and we compared its projection with what the PSID recorded for 2015 to 2019. We chose the scored cells, and the structure of the forward earnings model, with those later years in view, and it passed under an amendment adopted after its first candidate failed. Gates 1, 2, 2b and 2c are holdout tests of a different kind: they score a piece of the model on people left out of what it learned from.</dd>
+    <dt>Blind test</dt><dd>A comparison with DYNASIM3's published results in which DYNASIM3's values stay sealed until the model's output is saved to the public repository. A test is blind only as far as its registration's disclosed exposures show.</dd>
+    <dt>Retirement earnings test</dt><dd>The Social Security rule that withholds benefits from early claimants who keep working. The model holds its parameters but does not yet apply it.</dd>
+    <dt>DYNASIM</dt><dd>The Urban Institute's dynamic microsimulation model. The four blind tests use published results from DYNASIM3; DYNASIM4 is the current generation.</dd>
+    <dt>MINT</dt><dd>The Social Security Administration's microsimulation model, which runs on Social Security's administrative records matched to the Survey of Income and Program Participation.</dd>
+    <dt>AIME</dt><dd>Average indexed monthly earnings: a worker's average monthly earnings over the highest-earning years, adjusted for wage growth. The benefit formula starts from it.</dd>
+    <dt>Covered earnings</dt><dd>Earnings from jobs that Social Security covers. The model treats the labor income the PSID records for family heads and spouses as covered earnings.</dd>
+    <dt>Axiom</dt><dd>A rules engine that encodes the Social Security statute as machine-readable rules. So far it reproduces one piece of the model's Python benefit rules: AIME computed over the number of years the law sets, for all 7,486 people we tested. It reproduces nothing else yet.</dd>
   </dl>
 </main>
 
 <script>
 (function () {
   var cards = [
-    ["What kind of model is microcosm-dynamics?", "A dynamic microsimulation: real PSID histories, aged person-by-person through estimated transitions, with Social Security rules run over projected lifepaths."],
-    ["Claiming-age shares vs published DYNASIM3?", "Within ±0.4 percentage points in every earnings quintile."],
-    ["How many benchmark rows, and the tier split?", "101 rows: 18 admin-truth, 82 model-triangulation, 1 statutory parameter."],
-    ["How many unexplained gaps are allowed?", "Zero — every divergence carries a class and a written explanation, enforced in CI."],
-    ["What does module_missing (59 rows) mean?", "Quantities the model doesn't compute yet, held on the wall as the public roadmap."],
-    ["Why do benchmarks stay validation-only?", "So agreement means something: rows are never tuning targets, and expected values come from independent references."],
-    ["How was the projection engine certified?", "A pre-registered temporal holdout — fit on early waves, blind-scored on later years, thresholds locked first. Candidate 1 failed publicly; candidate 3 passed."],
-    ["Labor-income proxy vs true covered earnings?", "+22% to +34% aggregate divergence — the number that motivated the correction program."],
-    ["Payroll revenue vs CBO?", "Within −1.1% to +0.2% on the shared revenue-share quantity."],
-    ["What is the forecast ledger?", "Append-only public schedule forecasts (p50/p80 dates), graded when they resolve; revisions supersede, never overwrite."],
-    ["The PSID annotation effort, in numbers?", "All 81 questionnaires, 1968–2023, annotated page-by-page, plus a complete classification of all 89,599 raw fields."],
-    ["What do survey weights do in the model?", "Each PSID family stands for a share of the population (the panel oversampled low-income families at its start) - every reported aggregate is weight-aware."],
-    ["How are gaps in a history handled?", "Imputed from models estimated on what was observed - and marked as imputed, never passed off as data."],
-    ["How did the engine pass its gate?", "One blind shot per candidate against pre-locked holdout thresholds: candidate 1 failed 6/11 publicly, forensics diagnosed each miss, the design was amended under review, and candidate 3 passed. The holdout was never tuned against."],
-    ["Why build on PSID instead of administrative data?", "Full public reproducibility and deep family linkage — at the cost of earnings measurement error, which the wall and the correction confront directly."]
+    ["What kind of model is Microcosm Dynamics?", "A dynamic microsimulation: it ages individual people year by year through earnings, marriage, childbearing, disability, death and benefit claims, then applies Social Security's rules to each life."],
+    ["What is a gate?", "A test on data set aside from what the model learned from, or on outside data, that we register publicly before we run it, with its pass rule fixed in advance and changed only by public amendment."],
+    ["Which parts of the model run without a gate?", "Mortality, claiming, who receives disability insurance (SSDI) and the immigrants who enter the population on a schedule."],
+    ["Had we seen the PSID's 2015–2019 records before the engine's holdout test?", "Yes. The engine learned only from data through 2014, but we chose the cells the test scores, and the forward earnings model's structure, with those later records in view."],
+    ["How did the engine pass its holdout test?", "Candidate 1 failed. A public amendment then restricted the earnings cells to people with an estimated 2014 earnings position and re-derived their noise floors. Candidate 2 failed under the new terms, and candidate 3 passed in 4 of 5 seeds. The new floors loosened the tolerance on low earnings: the projection may now fall short of the PSID's figure by up to about 25 percent, instead of about 20 percent. Three of candidate 3's four passing seeds score between those two limits."],
+    ["What does \"4 of 5 seeds\" mean?", "The gate scored the candidate on five seeds, each a different starting number for its random draws, and it passed on four of them."],
+    ["How many gates pass only under amendments adopted after a failure?", "Four: gate 1 (generated earnings histories), gate 2 (marriage and childbearing), gate w1 (the CPS frame) and gate m6 (the holdout test)."],
+    ["Which gated components do the four blind tests use?", "None."],
+    ["How close is the model to DYNASIM3 when each year's cost-of-living adjustment is cut by one percentage point?", "Within 0.74 percentage points in every age group. Once we fix the year from which each person's increases are cut, the cut's effect on benefits already being paid follows by arithmetic, so the match says little about how the model captures how lives change."],
+    ["A full retirement age of 68: what happens at ages 65 to 69 in 2030?", "Average benefits fall 5.7 percent in the model and 9.9 percent in DYNASIM3. The model leaves out claiming responses and the retirement earnings test, and either could account for the gap."],
+    ["Why is a gap with DYNASIM3 not an error?", "DYNASIM3 is another model, so each gap measures a disagreement between two models, not an error in either. No blind test has a pass mark, and none establishes that the model matches DYNASIM3 or DYNASIM4."],
+    ["In the two 2030 projections, what happens to earnings after 2010?", "Nobody earns after 2010, and the benefit formula counts every later year as zero."],
+    ["Does any projection start from Microcosm's CPS frame?", "Not yet. Gate w1 places the PSID's patterns of change on the frame, but every projection so far starts from PSID members."],
+    ["How much of the projected people's earnings records is filled in or zero?", "About half of the career years through 2010, for the 7,486 people in the projections who reach 62 between 1979 and 2030."],
+    ["What does the disability gate test?", "Self-reported limits on work, a different measure from receiving Social Security Disability Insurance. Who receives SSDI comes from a separate component with no gate."],
+    ["What does Axiom reproduce so far?", "One piece of the Python benefit rules: average indexed monthly earnings computed over the number of years the law sets, for all 7,486 people tested."],
+    ["Does the model estimate costs or the trust funds' depletion date?", "No. It produces no cost estimates, no measure of long-run balance and no depletion date."]
   ];
   var i = 0, back = false;
   var el = document.getElementById("dcard"), num = document.getElementById("dnum"), side = document.getElementById("dside");
@@ -308,6 +338,8 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
   document.getElementById("dnext").addEventListener("click", next);
   document.getElementById("dprev").addEventListener("click", prev);
   document.addEventListener("keydown", function (e) {
+    var t = e.target;
+    if (e.altKey || e.ctrlKey || e.metaKey || (t && t.closest && t.closest("input, textarea, select, [contenteditable]"))) return;
     if (e.key === "ArrowRight") next();
     else if (e.key === "ArrowLeft") prev();
   });
@@ -316,21 +348,21 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
 </script>
 <script>
 (function () {
-  var Y0 = 1968, Y1 = 2055, SEAM = 2023.5, HOLD0 = 2011;
+  var Y0 = 1968, Y1 = 2055, SEAM = 2022.5, HOLD0 = 2015, HOLD1 = 2020, FILL0 = 1997, FILL1 = 2022;
   var TEAL = "#0D9488", VIOLET = "#7C3AED", BRONZE = "#B45309", INK = "#101828",
-      MUTED = "#64748B", GRIDC = "#EDF0F3", BAND = "#E5E9EE";
+      MUTED = "#64748B", GRIDC = "#EDF0F3";
   var P = [
-    {n:"A", born:1922, entry:1968, die:1999, claim:1984, wt:0.8},
-    {n:"B", born:1926, entry:1968, die:2008, claim:1991, note:"married A before the panel began"},
-    {n:"C", born:1948, entry:1968, die:2031, claim:2013, marry:{w:1972, with:"D"}, kids:[1974, 1979], imputed:[1994, 1997], wt:1.5},
+    {n:"A", born:1922, entry:1968, die:1999, claim:1984, wt:0.8, note:"married to B since before the PSID began"},
+    {n:"B", born:1926, entry:1968, die:2008, claim:1991, note:"married to A since before the PSID began"},
+    {n:"C", born:1948, entry:1968, die:2031, claim:2013, marry:{w:1972, with:"D"}, kids:[1974, 1979], wt:1.5},
     {n:"D", born:1950, entry:1968, claim:2012, disabled:1996, marry:{w:1972, with:"C"}},
     {n:"E", born:1974, entry:1974, claim:2040, marry:{w:2003, with:"G"}, kids:[2006], childOf:"C & D"},
-    {n:"G", born:1976, entry:1998, claim:2043, marry:{w:2003, with:"E"}, note:"entered the panel at marriage"},
+    {n:"G", born:1976, entry:2003, claim:2043, marry:{w:2003, with:"E"}, note:"joined the PSID by marrying E"},
     {n:"F", born:1979, entry:1979, claim:2049, childOf:"C & D", note:"claims late, at 70"},
     {n:"K", born:1958, entry:1980, die:2047, claim:2024, wt:0.7},
     {n:"L", born:1963, entry:1985, claim:2025, disabled:2019, wt:1.6},
     {n:"H", born:2006, entry:2006, marry:{w:2032, with:"I"}, kids:[2035], childOf:"E & G"},
-    {n:"I", born:2008, entry:2032, note:"simulated entry at marriage"},
+    {n:"I", born:2008, entry:2008, marry:{w:2032, with:"H"}, note:"in a PSID family since birth"},
     {n:"J", born:2035, entry:2035, childOf:"H & I", note:"born inside the simulation"}
   ];
   var idx = {}; P.forEach(function (p, i) { idx[p.n] = i; });
@@ -346,34 +378,43 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
     var r = seeded(p.born * 37 + yr)();
     return Math.max(0, Math.min(1, base * (0.75 + 0.5 * r)));
   }
+  // Since 1997 the PSID interviews every other year; the model fills the odd income years from neighbors.
+  function filled(yr) { var y = Math.floor(yr); return y >= FILL0 && y < FILL1 && y % 2 === 1; }
   var canvas = document.getElementById("lifecanvas"), ctx = canvas.getContext("2d");
   var tip = document.getElementById("viztip");
   var LW = 900, LH = 470, PADL = 16, PADR = 14, ROWT = 34, ROWH = 24, VTOP = 372, VH = 82;
+  // Below this CSS width the canvas text would render too small to read; the legend and caption carry it.
+  var small = false, fs = 10;
   function xOf(yr) { return PADL + (yr - Y0) / (Y1 - Y0) * (LW - PADL - PADR); }
   function fit() {
     var dpr = window.devicePixelRatio || 1, w = canvas.clientWidth || canvas.parentNode.clientWidth;
+    small = w < 560;
+    fs = Math.max(10, Math.min(15, Math.round(10 * LW / w)));
     canvas.width = Math.round(w * dpr); canvas.height = Math.round(w * (LH / LW) * dpr);
     canvas.style.height = Math.round(w * (LH / LW)) + "px";
     ctx.setTransform(canvas.width / LW, 0, 0, canvas.width / LW, 0, 0);
   }
+  function label(text, x, y) { if (!small) ctx.fillText(text, x, y); }
   var claims = P.filter(function (p) { return p.claim; }).map(function (p) { return p.claim; }).sort(function(a,b){return a-b;});
   function draw(year) {
     ctx.clearRect(0, 0, LW, LH);
     ctx.fillStyle = "#FFFFFF"; ctx.fillRect(0, 0, LW, LH);
-    var xh = xOf(HOLD0), xs = xOf(SEAM), xe = xOf(Y1);
-    ctx.fillStyle = "#F6F8FA"; ctx.fillRect(xh, ROWT - 14, xs - xh, VTOP - ROWT - 4);
+    var xh0 = xOf(HOLD0), xh1 = xOf(HOLD1), xs = xOf(SEAM), xe = xOf(Y1);
+    ctx.fillStyle = "#E4E9EF"; ctx.fillRect(xh0, ROWT - 14, xh1 - xh0, VTOP - ROWT - 4);
     ctx.fillStyle = "rgba(13,148,136,0.055)"; ctx.fillRect(xs, ROWT - 14, xe - xs, VTOP - ROWT - 4);
     ctx.strokeStyle = GRIDC; ctx.lineWidth = 1;
     for (var d = 1970; d <= 2050; d += 10) { var gx = xOf(d);
       ctx.beginPath(); ctx.moveTo(gx, ROWT - 14); ctx.lineTo(gx, VTOP + VH - 6); ctx.stroke(); }
-    ctx.font = "10px 'JetBrains Mono', monospace"; ctx.fillStyle = MUTED; ctx.textAlign = "center";
-    for (d = 1970; d <= 2050; d += 20) ctx.fillText(String(d), xOf(d), LH - 4);
+    ctx.font = fs + "px 'JetBrains Mono', monospace"; ctx.fillStyle = MUTED; ctx.textAlign = "center";
+    for (d = 1970; d <= 2050; d += 20) label(String(d), xOf(d), LH - 4);
     ctx.strokeStyle = "#B7BFC9"; ctx.setLineDash([4, 3]);
     ctx.beginPath(); ctx.moveTo(xs, ROWT - 14); ctx.lineTo(xs, VTOP + VH - 6); ctx.stroke(); ctx.setLineDash([]);
     ctx.textAlign = "left"; ctx.fillStyle = MUTED;
-    ctx.fillText("observed (PSID, 1968-2023)", xOf(1969), ROWT - 18);
-    ctx.fillText("held out - blind scoring", xh + 4, ROWT - 4);
-    ctx.fillStyle = TEAL; ctx.fillText("simulated", xs + 6, ROWT - 18);
+    label("earnings recorded by the PSID, 1968-2022", xOf(1969), ROWT - 18);
+    ctx.textAlign = "right";
+    label("2015-19 scored", xh1 - 2, ROWT - 4);
+    ctx.textAlign = "left";
+    ctx.fillStyle = TEAL; label("simulated (illustration)", xs + 6, ROWT - 18);
     P.forEach(function (p, i) {
       var y = ROWT + i * ROWH + ROWH / 2;
       var start = Math.max(p.entry, Y0), stop = Math.min(year, p.die || Y1, Y1);
@@ -381,10 +422,10 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
       var wt = p.wt || 1;
       for (var yr = start; yr < stop; yr += 0.5) {
         var e = earn(p, yr), x1 = xOf(yr), x2 = xOf(Math.min(yr + 0.5, stop));
-        var imput = p.imputed && yr >= p.imputed[0] && yr < p.imputed[1];
-        ctx.strokeStyle = imput ? "rgba(13,148,136,0.30)" : (e > 0.02 ? "rgba(13,148,136," + (0.15 + 0.75 * e) + ")" : "#CBD5E1");
+        var fill = yr < SEAM && filled(yr) && e > 0.02;
+        ctx.strokeStyle = fill ? "rgba(13,148,136,0.30)" : (e > 0.02 ? "rgba(13,148,136," + (0.15 + 0.75 * e) + ")" : "#CBD5E1");
         ctx.lineWidth = (e > 0.02 ? (1.5 + 6 * e) : 1.2) * wt;
-        if (imput) ctx.setLineDash([2, 3]); else if (yr > SEAM) ctx.setLineDash([5, 3]);
+        if (fill) ctx.setLineDash([2, 3]); else if (yr > SEAM) ctx.setLineDash([3, 2]);
         ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke(); ctx.setLineDash([]);
       }
       if (p.claim && year >= p.claim) {
@@ -411,18 +452,14 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
         ctx.strokeStyle = INK; ctx.lineWidth = 2.6;
         ctx.beginPath(); ctx.moveTo(dx, y - 6); ctx.lineTo(dx, y + 6); ctx.stroke();
       }
-      ctx.fillStyle = MUTED; ctx.font = "9.5px 'JetBrains Mono', monospace"; ctx.textAlign = "left";
-      if (year >= Math.max(p.entry, Y0)) ctx.fillText(p.n, xOf(Math.max(p.entry, Y0)) - 12, y + 3);
+      ctx.fillStyle = MUTED; ctx.font = (fs - 0.5) + "px 'JetBrains Mono', monospace"; ctx.textAlign = "left";
+      if (year >= Math.max(p.entry, Y0)) label(p.n, xOf(Math.max(p.entry, Y0)) - 12, y + 3);
     });
     ctx.strokeStyle = "#E2E8F0"; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(PADL, VTOP - 10); ctx.lineTo(LW - PADR, VTOP - 10); ctx.stroke();
-    ctx.fillStyle = MUTED; ctx.font = "10px 'JetBrains Mono', monospace"; ctx.textAlign = "left";
-    ctx.fillText("calibration strip - share of cohort claimed - compared against an external reference (validation, not tuning)", PADL, VTOP + 4);
-    var by = VTOP + VH - 12, bh = 34, total = claims.length;
-    var bandLo = by - bh * 0.86, bandHi = by - bh * 0.66;
-    ctx.fillStyle = BAND; ctx.fillRect(xOf(2024), bandLo, xOf(Y1) - xOf(2024), bandHi - bandLo);
-    ctx.fillStyle = MUTED; ctx.font = "9px 'JetBrains Mono', monospace";
-    ctx.fillText("external reference band", xOf(2024.5), bandLo - 3);
+    ctx.fillStyle = MUTED; ctx.font = fs + "px 'JetBrains Mono', monospace"; ctx.textAlign = "left";
+    label("share of these 12 people who have claimed benefits", PADL, VTOP + 4);
+    var by = VTOP + VH - 12, bh = 34, total = P.length;
     ctx.strokeStyle = TEAL; ctx.lineWidth = 2; ctx.beginPath();
     var startedStrip = false;
     for (var sy = Y0; sy <= Math.min(year, Y1); sy += 0.5) {
@@ -431,10 +468,6 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
       if (!startedStrip) { ctx.moveTo(vx, vy); startedStrip = true; } else ctx.lineTo(vx, vy);
     }
     ctx.stroke();
-    if (year >= Y1 - 0.5) {
-      ctx.fillStyle = TEAL; ctx.font = "9.5px 'JetBrains Mono', monospace";
-      ctx.fillText("lands in band - residual gap explained on the wall", xOf(2027), by + 10);
-    }
     var cx2 = xOf(Math.min(year, Y1));
     ctx.strokeStyle = "rgba(16,24,40,0.55)"; ctx.lineWidth = 1.2;
     ctx.beginPath(); ctx.moveTo(cx2, ROWT - 14); ctx.lineTo(cx2, VTOP + VH - 6); ctx.stroke();
@@ -464,10 +497,9 @@ dl.gloss dd { margin: 0.15rem 0 0; opacity: 0.8; }
     var my = (ev.clientY - r.top) * scale, i = Math.floor((my - ROWT) / ROWH);
     if (i < 0 || i >= P.length) { tip.hidden = true; return; }
     var p = P[i], bits = ["Person " + p.n + " - born " + p.born + " - weight " + (p.wt || 1).toFixed(1)];
-    if (p.imputed) bits.push("history " + p.imputed[0] + "-" + p.imputed[1] + " imputed (missed waves)");
     if (p.childOf) bits.push("child of " + p.childOf);
-    if (p.marry) bits.push("marries " + p.marry.with + " in " + p.marry.w);
-    if (p.disabled) bits.push("disability onset " + p.disabled);
+    if (p.marry) bits.push("marries " + p.marry.with + " in " + p.marry.w + (p.marry.w > SEAM ? " (simulated)" : ""));
+    if (p.disabled) bits.push("reports a work-limiting disability from " + p.disabled);
     if (p.claim) bits.push("claims at " + (p.claim - p.born) + " (" + p.claim + (p.claim > SEAM ? ", simulated" : "") + ")");
     if (p.die) bits.push("dies " + p.die + (p.die > SEAM ? " (simulated)" : ""));
     if (p.note) bits.push(p.note);

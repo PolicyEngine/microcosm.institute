@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dynamics — microcosm</title>
-<meta name="description" content="Microcosm Dynamics is an open dynamic microsimulation model for U.S. Social Security. Its earnings, family and disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components." />
+<meta name="description" content="Microcosm Dynamics is an open dynamic microsimulation model for U.S. Social Security. Its earnings, family and work-limiting disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components." />
 <meta property="og:title" content="Dynamics — microcosm" />
-<meta property="og:description" content="Microcosm Dynamics follows individual Americans through time and computes each person's Social Security benefits. Its earnings, family and disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components." />
+<meta property="og:description" content="Microcosm Dynamics follows individual Americans through time and computes each person's Social Security benefits. Its earnings, family and work-limiting disability components each pass a test on held-out or external data. Four blind tests compare it with DYNASIM3's published results, and none of them uses those tested components." />
 <meta property="og:type" content="article" />
 <link rel="icon" type="image/svg+xml" href="/assets/microcosm-operator.svg" />
 <meta name="theme-color" content="#F6FAF7" />
@@ -41,16 +41,18 @@
       <p class="strategy-lede reveal" style="--d:2">
         Microcosm Dynamics ages people forward through earnings, family
         structure, disability and mortality. Analysts of retirement and
-        social-insurance policy need that aging. The benchmark U.S. models
-        that provide it, DYNASIM, MINT and CBOLT, run inside their
-        institutions on code or administrative records that are not public,
-        so outside analysts cannot rerun them. Microcosm Dynamics is open. It
+        social-insurance policy need that aging. Established U.S. models
+        that provide it, among them the Urban Institute's DYNASIM, the Social
+        Security Administration's MINT and the Congressional Budget Office's
+        CBOLT, run inside their institutions. CBO does not publish CBOLT's
+        code, and we found no public code with which to rerun DYNASIM or
+        MINT. Microcosm Dynamics is open. It
         adds a longitudinal layer to Microcosm's certified cross-sectional
         data, a single snapshot that we calibrate to one year of
         administrative targets.
       </p>
       <div class="strategy-status-row reveal" style="--d:3">
-        <span class="tag tag-wip">earnings, family and disability pass gates · four blind tests</span>
+        <span class="tag tag-wip">earnings, family and work-limiting disability pass gates · four blind tests</span>
         <span class="tag tag-preprint">working paper · October 2026</span>
         <a class="btn btn-primary" href="/dynamics/paper">Read the paper</a>
         <a class="btn btn-ghost" href="/dynamics/benchmarks">Benchmark wall</a>
@@ -72,7 +74,7 @@
         Panel Study of Income Dynamics, draws claim ages from the Social
         Security Administration's published awards and runs these transitions
         forward year by year.
-        Its earnings, family, disability and population-transport components
+        Its earnings, family, work-limiting disability and population-transport components
         each pass a gate: a test on held-out or external data that we register
         publicly before we run it, with a pass rule fixed in advance and changed
         only by public amendment. The term comes from the quality gates that code
@@ -81,9 +83,13 @@
         gates pass only under amendments we adopted after an earlier attempt
         failed: those for generated earnings histories, family formation, the
         transport onto the CPS frame and the whole engine's 2015–2019
-        holdout, which certifies nothing about mortality drift. Four blind tests compare the model with DYNASIM3's published
-        results, and none of them uses a gated component. The projection tests draw no earnings after 2010, apply no
+        holdout, which certifies nothing about mortality drift. No projection
+        starts from Microcosm's CPS frame yet: every projection so far starts
+        from PSID members. Four blind tests compare the model with DYNASIM3's
+        published results, and none of them uses a gated component. The two
+        tests that project to 2030 draw no earnings after 2010, apply no
         retirement earnings test and model no claiming response to reform.
+        The model produces no cost estimates.
       </p>
     </div>
     <div class="cards">
@@ -91,30 +97,35 @@
         <header><span class="card-id mono">01</span><span class="tag tag-shipped">built · gated</span></header>
         <h3>Gated components</h3>
         <p>
-          Generated earnings histories, the forward earnings law, family formation,
-          household composition, disability and the transport of
+          Generated earnings histories, the forward earnings model (the paper
+          calls it the forward earnings law), family formation,
+          household composition, work-limiting disability and the transport of
           PSID-estimated processes onto Microcosm's CPS frame each pass a
-          gate. Claiming, disability-insurance entitlement and the immigrants
-          who enter the population on a schedule run without one.
+          gate. Mortality, claiming, disability-insurance entitlement and the
+          immigrants who enter the population on a schedule run without one.
         </p>
       </article>
       <article class="card">
         <header><span class="card-id mono">02</span><span class="tag tag-live">reported</span></header>
         <h3>Four blind tests against DYNASIM3</h3>
         <p>
-          A one-point COLA cut lands within 0.74 points of DYNASIM3 in every
-          age group. The other three tests locate specific differences between
-          the two models. We post each test's plan in public, make one scored
-          run and commit its output before comparing it with DYNASIM3.
+          A one-point cut to cost-of-living adjustments, which acts
+          mechanically on benefits already being paid, lands within 0.74
+          percentage points of DYNASIM3 in every age group. Each of the other
+          three tests finds a gap between the two models. We post each test's
+          plan in public, make one scored run and save its output to the
+          public repository before comparing it with DYNASIM3.
         </p>
       </article>
       <article class="card">
         <header><span class="card-id mono">03</span><span class="tag tag-wip">design</span></header>
         <h3>Claims bounded by horizon</h3>
         <p>
-          Gate 3 would score near-term components, such as beneficiary
+          Gate 3 is meant to score near-term outputs, such as beneficiary
           counts and average benefits, against administrative publications.
-          We have defined it and have not yet run it. For the long horizon, we
+          We have named it but have not yet set the specific statistics it
+          will score or how close counts as a pass, and it has never run.
+          For the long horizon, we
           plan to publish sensitivity surfaces over documented assumptions and
           to present none of them as the model's forecast.
         </p>
@@ -123,7 +134,7 @@
         <header><span class="card-id mono">04</span><span class="tag tag-draft">planned</span></header>
         <h3>Next: forward earnings</h3>
         <p>
-          We plan to connect the forward earnings law to the projections,
+          We plan to connect the forward earnings model to the projections,
           apply the retirement earnings test and add behavioral claiming.
           None of these pieces joins the model until it passes its own gate.
         </p>
@@ -145,7 +156,7 @@
     <div class="prose">
       <p>
         We validate the model on one program first: U.S. Social Security.
-        We can score near-term components against its administrative
+        We can score near-term outputs against its administrative
         statistics, and we compare the model with DYNASIM3's published
         results for it.
       </p>
