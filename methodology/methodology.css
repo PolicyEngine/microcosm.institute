@@ -1,0 +1,156 @@
+/* Curated methodology pages reuse the site's Microcosm identity and tokens. */
+.methodology-main {
+  padding-bottom: 80px;
+}
+
+.methodology-hero {
+  padding-top: 132px;
+  padding-bottom: 64px;
+}
+
+.methodology-hero h1 { max-width: 23ch; }
+.methodology-hero .lede { max-width: 60ch; }
+.methodology-context { padding-top: 48px; padding-bottom: 0; }
+.methodology-context > * { max-width: 880px; margin-inline: auto; }
+
+.methodology-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 32px;
+  margin-block: 0 28px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.methodology-meta dt { color: var(--paper-faint); margin-bottom: 5px; }
+.methodology-meta dd { color: var(--paper-dim); }
+.methodology-scope {
+  padding: 20px 24px;
+  border-left: 3px solid var(--accent);
+  background: var(--ink-2);
+  font-size: 1rem;
+}
+
+.methodology-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+  padding-top: 64px;
+  padding-bottom: 0;
+}
+
+.methodology-toc {
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  align-self: start;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.methodology-toc p { color: var(--paper-faint); margin-bottom: 16px; }
+.methodology-toc ol { list-style: none; display: grid; gap: 12px; }
+.methodology-toc a { text-decoration: none; color: var(--paper-dim); }
+.methodology-toc a:hover { color: var(--amber-soft); }
+
+.methodology-article { min-width: 0; max-width: 72ch; }
+.methodology-article section {
+  scroll-margin-top: 104px;
+  margin-bottom: 80px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.methodology-article section:last-child { margin-bottom: 0; padding-bottom: 0; border: 0; }
+.methodology-article .band-head { margin-bottom: 36px; }
+.methodology-article h3 { font-size: 1.3rem; font-weight: 600; margin: 28px 0 12px; }
+.methodology-article > section > .prose { margin-bottom: 22px; }
+.methodology-article > section > .prose:last-child { margin-bottom: 0; }
+.methodology-article li { margin-bottom: 12px; }
+.methodology-article ul { padding-left: 24px; }
+.methodology-main a { color: var(--accent-strong); text-underline-offset: 0.18em; overflow-wrap: anywhere; }
+.methodology-main .btn { text-decoration: none; }
+.methodology-main .btn-primary { color: var(--ink); }
+.methodology-main .btn-ghost { color: var(--paper); }
+.methodology-main .btn-ghost:hover { color: var(--amber-soft); }
+.methodology-main .reference { font-family: var(--mono); font-size: 0.7em; white-space: nowrap; }
+.methodology-main a:focus-visible,
+.methodology-main summary:focus-visible,
+.methodology-table-wrap:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.methodology-pipeline { margin: 28px 0 0; }
+.methodology-pipeline ol { list-style: none; display: grid; gap: 12px; }
+.methodology-pipeline li { position: relative; padding: 18px 20px; margin: 0; }
+.methodology-pipeline .cards { margin-bottom: 0; }
+
+.methodology-pipeline span { display: block; color: var(--accent-strong); font-size: 11px; margin-bottom: 8px; }
+.methodology-pipeline strong { display: block; font-size: 1rem; font-weight: 600; }
+.methodology-pipeline p { margin: 8px 0 0; }
+.methodology-pipeline figcaption { font-family: var(--mono); color: var(--paper-dim); font-size: 11px; margin-top: 14px; }
+
+.methodology-table-wrap { overflow-x: auto; margin: 26px 0; }
+.methodology-table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.95rem; line-height: 1.5; }
+.methodology-table-wrap caption { text-align: left; font-family: var(--mono); font-size: 11px; color: var(--paper-dim); margin-bottom: 12px; }
+.methodology-table-wrap th,
+.methodology-table-wrap td { padding: 14px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.methodology-table-wrap thead th { font-family: var(--mono); font-size: 11px; font-weight: 500; background: var(--ink-2); }
+.methodology-table-wrap tbody th { font-weight: 600; min-width: 175px; }
+.methodology-table-wrap .table-note { display: block; font-size: 0.8rem; color: var(--paper-dim); font-weight: 400; margin-top: 4px; }
+
+.methodology-history { padding: 16px 20px; background: var(--ink-2); margin: 24px 0; font-size: 0.95rem; }
+.methodology-history summary { cursor: pointer; font-family: var(--mono); font-size: 12px; }
+.methodology-history p { margin: 16px 0 0; }
+.methodology-references { padding-left: 24px; font-size: 0.9rem; }
+.methodology-references li { padding-left: 4px; scroll-margin-top: 104px; }
+
+.methodology-skip-link {
+  position: fixed;
+  top: 12px;
+  left: 20px;
+  z-index: 20;
+  transform: translateY(-150%);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+.methodology-skip-link:focus { transform: none; }
+
+@media (min-width: 960px) {
+  .methodology-layout { grid-template-columns: 210px minmax(0, 1fr); gap: 40px; }
+  .methodology-toc { position: sticky; top: 100px; }
+}
+
+/* The shared navigation can wrap to two rows on tablets. */
+@media (min-width: 760px) and (max-width: 1199px) {
+  .methodology-article section, .methodology-references li { scroll-margin-top: 136px; }
+  .methodology-toc { top: 136px; }
+}
+
+@media (min-width: 700px) {
+  .methodology-pipeline ol { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .methodology-pipeline li { padding: 14px 12px; }
+  .methodology-pipeline li + li::before { content: "→"; position: absolute; top: -23px; left: -10px; color: var(--paper-faint); }
+}
+
+@media (max-width: 500px) {
+  .methodology-hero { padding-top: 112px; }
+  .methodology-scope { padding: 16px 18px; }
+  .methodology-table-wrap th, .methodology-table-wrap td { padding: 12px; }
+}
+
+@media print {
+  .nav, .methodology-toc, .foot, .methodology-skip-link, .grain, #field, .methodology-hero .hero-cta { display: none; }
+  .methodology-main { max-width: none; padding: 0; }
+  .methodology-main .band, .methodology-hero { padding: 0; }
+  .methodology-hero { min-height: 0; display: block; }
+  .methodology-main .reveal, .methodology-main .band-head, .methodology-main .prose, .methodology-main .cards { opacity: 1; transform: none; }
+  .methodology-layout { display: block; }
+  .methodology-hero { margin-bottom: 30px; }
+  .methodology-pipeline li, .methodology-table-wrap tr { break-inside: avoid; }
+  .methodology-table-wrap { overflow: visible; }
+  .methodology-article h2, .methodology-article h3 { break-after: avoid; }
+}

@@ -71,6 +71,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 24px;
   padding: 22px clamp(20px, 5vw, 56px);
   backdrop-filter: blur(7px);
   background: linear-gradient(var(--ink), transparent);
@@ -82,6 +83,7 @@ body::before {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
 }
 /* The wordmark (constellation-design/identities/microcosm/wordmark.svg),
    inlined in the markup; fill comes from currentColor, the world-point from
@@ -91,6 +93,8 @@ body::before {
 
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: center;
   gap: clamp(14px, 2.4vw, 30px);
   font-family: var(--mono);
@@ -109,6 +113,12 @@ body::before {
 
 @media (min-width: 760px) {
   .nav-links a:not(.nav-gh) { display: inline; }
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--amber-soft);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
 }
 
 /* ---------- hero ---------- */
