@@ -66,9 +66,9 @@
 
   <section class="band methodology-context" aria-label="Document and release scope">
     <dl class="methodology-meta">
-      <div><dt>Document</dt><dd>Version 0.1 · draft for editorial review</dd></div>
+      <div><dt>Document</dt><dd>Version 0.2 · draft for editorial review</dd></div>
       <div><dt>Scope</dt><dd>FRS 2024–25 pipeline, including the local build</dd></div>
-      <div><dt>Prepared</dt><dd><time datetime="2026-10-08">8 October 2026</time></dd></div>
+      <div><dt>Prepared</dt><dd><time datetime="2026-10-12">12 October 2026</time></dd></div>
     </dl>
     <aside class="methodology-scope" aria-label="Release scope">
       <p><strong>Methodology and release status.</strong> This page describes the method as implemented at <a href="https://github.com/PolicyEngine/microcosm/tree/e3e3d881f0fdaf8d4796dea25ed4b72deb52cb6e">source revision e3e3d88</a>. It does not certify any dataset or identify one as approved for local analysis. National and local builds have separate release requirements; constituency and local-authority analysis needs a local dataset release and its validation evidence. <a class="reference" href="#ref-release">[1]</a></p>
@@ -96,15 +96,141 @@
         <div class="prose"><p>A microsimulation dataset represents households through records of their members, relationships, incomes and other characteristics. Each household has a weight: the number of households it represents in the population. PolicyEngine applies tax and benefit rules to these records and uses their weights to estimate population outcomes.</p></div>
         <div class="prose"><p>Microcosm starts with the Family Resources Survey (FRS) and adds income, wealth and spending information from other sources. Throughout, it keeps the links between people, their benefit units and their households. A benefit unit is a single adult or a couple and any dependent children: the family group that means-tested benefits such as Universal Credit assess together.</p></div>
         <div class="prose"><p>The completed records then follow one of two routes. The national route calibrates their weights to UK, country and regional statistics. The local route first copies each household and places every copy in a small census area, then calibrates one set of weights against national and local statistics together. It can also select a smaller, fixed number of records and refit their weights before packaging; these reduced exports are checked again before release review. <a class="reference" href="#ref-build">[2]</a></p></div>
-        <figure class="methodology-pipeline" aria-labelledby="pipeline-caption">
-          <ol class="cards">
-            <li class="card"><span class="mono">01</span><strong>Build households</strong><p>Read FRS records and preserve family relationships.</p></li>
-            <li class="card"><span class="mono">02</span><strong>Add information</strong><p>Draw income, wealth and spending information from other sources, adding records where needed.</p></li>
-            <li class="card"><span class="mono">03</span><strong>Assign areas</strong><p>Copy each household and give each copy one small census area in its region.</p></li>
-            <li class="card"><span class="mono">04</span><strong>Calibrate weights</strong><p>Fit national and local statistics jointly.</p></li>
-            <li class="card"><span class="mono">05</span><strong>Check and package</strong><p>Evaluate fit, support and integrity before release review.</p></li>
-          </ol>
-          <figcaption id="pipeline-caption">The local build. The national route calibrates the same records to UK, country and regional statistics without copying households, assigning areas or fitting local statistics.</figcaption>
+        <figure class="diagram-figure methodology-diagram" aria-labelledby="pipeline-caption">
+          <div class="methodology-diagram-scroll" role="region" aria-label="Pipeline diagram" tabindex="0">
+            <svg viewBox="0 0 680 656" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pipeline-diagram-title pipeline-diagram-desc">
+              <title id="pipeline-diagram-title">How Microcosm builds UK household data</title>
+              <desc id="pipeline-diagram-desc">The Family Resources Survey 2024–25 is the starting point. The Survey of Personal Incomes, Wealth and Assets Survey, Living Costs and Food Survey, National Travel Survey, Effects of Taxes and Benefits dataset, NHS tables and other published statistics are imputed onto its records, which also gain added records with Survey of Personal Incomes incomes and capital gains. Both routes then calibrate these household records to official statistics. The national route uses the same records without copies and fits UK, country and regional statistics only. The local route copies each household 15 times with its weight split equally, assigns each copy one Output Area or Data Zone in its FRS region with chances weighted by census households, and labels each copy with its 2024 constituency and April 2023 local authority; it then fits statistics for the UK, countries, regions, constituencies and local authorities together, reconciled across levels, with one weight per record and an equal share of the objective for each level. Each route is checked before it is packaged: release gates and a comparison with Enhanced FRS for both, plus five holdout rotations and area support diagnostics for the local route.</desc>
+              <defs>
+                <marker id="uk-pipeline-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="var(--paper-faint)" stroke-width="1.5"/>
+                </marker>
+              </defs>
+
+              <!-- sources: the FRS is the starting point; the rest are imputed onto it -->
+              <text class="dg-kicker" x="0" y="12">sources</text>
+              <g>
+                <title>Family Resources Survey 2024–25, Department for Work and Pensions (UK Data Service SN 9563)</title>
+                <rect class="dg-box" x="0" y="22" width="126" height="188" rx="5"/>
+                <text class="dg-title" x="12" y="46">FRS 2024–25</text>
+                <text class="dg-label" x="12" y="64">DWP</text>
+                <text class="dg-label" x="12" y="88">the starting</text>
+                <text class="dg-label" x="12" y="101">point: people,</text>
+                <text class="dg-label" x="12" y="114">benefit units</text>
+                <text class="dg-label" x="12" y="127">and households</text>
+              </g>
+
+              <rect x="140" y="22" width="540" height="188" rx="8" fill="none" stroke="var(--line)"/>
+              <text class="dg-kicker" x="152" y="40">added from other sources</text>
+              <g>
+                <title>Survey of Personal Incomes 2022–23 Public Use Tape, HM Revenue and Customs (SN 9422)</title>
+                <rect class="dg-box" x="150" y="50" width="166" height="46" rx="5"/>
+                <text class="dg-title" x="160" y="69">SPI 2022–23</text>
+                <text class="dg-label" x="160" y="85">HMRC · taxpayer income</text>
+              </g>
+              <g>
+                <title>Wealth and Assets Survey round 8, April 2020 to March 2022, Great Britain, Office for National Statistics (SN 7215)</title>
+                <rect class="dg-box" x="327" y="50" width="166" height="46" rx="5"/>
+                <text class="dg-title" x="337" y="69">WAS 2020–22</text>
+                <text class="dg-label" x="337" y="85">ONS · wealth and debts</text>
+              </g>
+              <g>
+                <title>Living Costs and Food Survey 2023–24, Office for National Statistics (SN 9468)</title>
+                <rect class="dg-box" x="504" y="50" width="166" height="46" rx="5"/>
+                <text class="dg-title" x="514" y="69">LCFS 2023–24</text>
+                <text class="dg-label" x="514" y="85">ONS · spending</text>
+              </g>
+              <g>
+                <title>National Travel Survey, Department for Transport (SN 5340); the microdata cover England only</title>
+                <rect class="dg-box" x="150" y="104" width="254" height="46" rx="5"/>
+                <text class="dg-title" x="160" y="123">NTS, England</text>
+                <text class="dg-label" x="160" y="139">DfT · bus use</text>
+              </g>
+              <g>
+                <title>Effects of Taxes and Benefits dataset, Office for National Statistics (SN 8856), and NHS activity and cost tables</title>
+                <rect class="dg-box" x="416" y="104" width="254" height="46" rx="5"/>
+                <text class="dg-title" x="426" y="123">ETB and NHS tables</text>
+                <text class="dg-label" x="426" y="139">ONS, NHS · VAT and public services</text>
+              </g>
+              <rect class="dg-box" x="150" y="158" width="520" height="46" rx="5"/>
+              <text class="dg-title" x="160" y="177">Published statistics and research</text>
+              <text class="dg-label" x="160" y="193">benefit take-up, house prices, capital gains, salary sacrifice, student loans</text>
+
+              <path class="dg-edge" d="M 63 210 L 63 244" marker-end="url(#uk-pipeline-arrow)"/>
+              <path class="dg-edge" d="M 410 210 L 410 244" marker-end="url(#uk-pipeline-arrow)"/>
+              <text class="dg-label" x="420" y="232">imputed onto the FRS records</text>
+
+              <!-- the enriched records split into the two routes -->
+              <rect class="dg-box" x="0" y="246" width="680" height="60" rx="5"/>
+              <text class="dg-title" x="12" y="266">Household records</text>
+              <text class="dg-label" x="12" y="284">FRS values kept as reported, plus imputed income, wealth, spending, travel and public-service values,</text>
+              <text class="dg-label" x="12" y="298">and added records with SPI incomes and capital gains</text>
+
+              <path class="dg-edge" d="M 140 306 L 140 340" marker-end="url(#uk-pipeline-arrow)"/>
+              <text class="dg-label-accent" x="150" y="328">local route</text>
+              <path class="dg-edge" d="M 400 306 L 400 340" marker-end="url(#uk-pipeline-arrow)"/>
+              <text class="dg-label-accent" x="410" y="328">national route</text>
+
+              <!-- left: the local route copies and places households -->
+              <rect class="dg-box" x="0" y="342" width="280" height="78" rx="5"/>
+              <text class="dg-title" x="12" y="362">Copy households</text>
+              <text class="dg-label" x="12" y="380">15 identical copies of each household,</text>
+              <text class="dg-label" x="12" y="394">with its weight split equally</text>
+
+              <path class="dg-edge" d="M 140 420 L 140 448" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box-accent" x="0" y="450" width="280" height="78" rx="5"/>
+              <text class="dg-title" x="12" y="470">Assign a small area</text>
+              <text class="dg-label" x="12" y="488">one Output Area or Data Zone per copy,</text>
+              <text class="dg-label" x="12" y="502">within its FRS region, weighted by</text>
+              <text class="dg-label" x="12" y="516">census household counts</text>
+
+              <path class="dg-edge" d="M 140 528 L 140 556" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box" x="0" y="558" width="280" height="78" rx="5"/>
+              <text class="dg-title" x="12" y="578">Label each copy</text>
+              <text class="dg-label" x="12" y="596">2024 constituency and April 2023</text>
+              <text class="dg-label" x="12" y="610">local authority, from published lookups</text>
+
+              <!-- middle: official statistics feed both calibrations -->
+              <rect class="dg-box" x="300" y="342" width="200" height="78" rx="5"/>
+              <text class="dg-title" x="312" y="362">Calibrate nationally</text>
+              <text class="dg-label" x="312" y="380">same records, no copies;</text>
+              <text class="dg-label" x="312" y="394">UK, country and regional</text>
+              <text class="dg-label" x="312" y="408">statistics only</text>
+
+              <path class="dg-edge" d="M 400 450 L 400 422" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box" x="300" y="450" width="200" height="78" rx="5"/>
+              <text class="dg-title" x="312" y="470">Official statistics</text>
+              <text class="dg-label" x="312" y="488">UK, country and region,</text>
+              <text class="dg-label" x="312" y="502">constituency and</text>
+              <text class="dg-label" x="312" y="516">local authority</text>
+
+              <path class="dg-edge" d="M 400 528 L 400 556" marker-end="url(#uk-pipeline-arrow)"/>
+              <text class="dg-label" x="410" y="546">reconciled across levels</text>
+              <path class="dg-edge" d="M 280 597 L 298 597" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box-accent" x="300" y="558" width="200" height="78" rx="5"/>
+              <text class="dg-title" x="312" y="578">Calibrate jointly</text>
+              <text class="dg-label" x="312" y="596">one weight per record,</text>
+              <text class="dg-label" x="312" y="610">every level at once,</text>
+              <text class="dg-label" x="312" y="624">equal share per level</text>
+
+              <!-- right: each route is checked before it is packaged -->
+              <path class="dg-edge" d="M 500 381 L 518 381" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box" x="520" y="342" width="160" height="78" rx="5"/>
+              <text class="dg-title" x="532" y="362">Check and package</text>
+              <text class="dg-label" x="532" y="380">release gates,</text>
+              <text class="dg-label" x="532" y="394">comparison with</text>
+              <text class="dg-label" x="532" y="408">Enhanced FRS</text>
+
+              <path class="dg-edge" d="M 500 597 L 518 597" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box" x="520" y="558" width="160" height="92" rx="5"/>
+              <text class="dg-title" x="532" y="578">Check and package</text>
+              <text class="dg-label" x="532" y="596">5 holdout rotations,</text>
+              <text class="dg-label" x="532" y="610">support per area,</text>
+              <text class="dg-label" x="532" y="624">release gates,</text>
+              <text class="dg-label" x="532" y="638">vs Enhanced FRS</text>
+            </svg>
+          </div>
+          <figcaption id="pipeline-caption">Both routes start from the same household records and calibrate their weights to official statistics. The national route fits UK, country and regional statistics without copies or areas. The local route copies each household, gives each copy one small area within its region, then fits statistics at every level together, reconciled across levels.</figcaption>
         </figure>
       </section>
 
@@ -167,7 +293,7 @@
       <section id="efrs">
         <div class="band-head"><p class="kicker mono">05 · Enhanced FRS</p>
         <h2>What changes from Enhanced FRS</h2></div>
-        <div class="prose"><p>Enhanced FRS, built in the policyengine-uk-data repository, is the UK dataset that PolicyEngine currently certifies for policy analysis. Its current release (1.58.0) also starts from the FRS 2024–25 and draws on the same families of surveys for income, wealth and spending. For local estimates, it fits two separate weight matrices, one for constituencies and one for local authorities. In each, a household carries a separately fitted weight for every area in its country, while its characteristics, and the taxes and benefits calculated from them, stay the same in every area. Recent releases also give each household one output area within its FRS region, but the local weight matrices are not tied to that location. <a class="reference" href="#ref-efrs">[8]</a></p></div>
+        <div class="prose"><p>Enhanced FRS, built in the policyengine-uk-data repository, is the UK dataset that PolicyEngine certifies for policy analysis. At the time of writing, its latest release (1.58.0) also starts from the FRS 2024–25 and draws on the same families of surveys for income, wealth and spending. For local estimates, it fits two separate weight matrices, one for constituencies and one for local authorities. In each, a household carries a separately fitted weight for every area in its country, while its characteristics, and the taxes and benefits calculated from them, stay the same in every area. That release also gives each household one output area within its FRS region, but the local weight matrices are not tied to that location. <a class="reference" href="#ref-efrs">[8]</a></p></div>
         <div class="prose"><p>For example, a household outside London can contribute to a London constituency estimate while keeping the outside-London benefit cap, because PolicyEngine-UK reads the household’s region when calculating the cap. <a class="reference" href="#ref-benefit-cap">[9]</a> In Microcosm, each copy of a household stays in its original FRS region and carries one weight, so region- and country-based rules match the areas the copy counts towards. Microcosm also sets PolicyEngine-UK’s local-authority input from the assigned area. Some finer inputs still come from the source household or are drawn within its region, including the Broad Rental Market Area used for Local Housing Allowance and the household’s council-tax bill.</p></div>
         <div class="prose"><p>Microcosm fits national, regional, constituency and local-authority targets with one weight per record in a single optimisation, whereas Enhanced FRS fits its constituency and local-authority matrices separately, each alongside national targets. Microcosm also places 15 copies of each household so that each area has more records to weight, adds census household-count targets, reconciles overlapping targets across levels under a declared order, limits how far any weight can rise, and records local support and release checks. These changes improve geographic consistency and make the assumptions easier to inspect. They do not, on their own, establish that every local estimate is more accurate; the release process requires a measured comparison with Enhanced FRS. <a class="reference" href="#ref-release">[1]</a></p></div>
       </section>
@@ -197,6 +323,7 @@
         <div class="prose"><p>The pipeline code and methodology references are public. Several underlying surveys require licensed access; publishing the methodology does not make their respondent-level data freely redistributable. <a class="reference" href="#ref-sources">[3]</a></p></div>
         <details class="methodology-history">
           <summary>Document history</summary>
+          <p><time datetime="2026-10-12">12 October 2026</time> · Version 0.2: rebased the Enhanced FRS comparison on release 1.58.0 and corrected the differences it lists; corrected the reconciliation order, the weight-limit description, the national route, source roles and target coverage by nation; added the copy count, the inputs that stay with the source household, UK Data Service study links and a pipeline diagram. Editorial and technical review pending.</p>
           <p><time datetime="2026-10-08">8 October 2026</time> · Version 0.1: initial draft covering source enrichment, local assignment, joint calibration, the Enhanced FRS comparison and validation limits. Editorial and technical review pending.</p>
         </details>
         <h3>Source references</h3>

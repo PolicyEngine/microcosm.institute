@@ -75,20 +75,17 @@
 .methodology-main .reference { font-family: var(--mono); font-size: 0.7em; white-space: nowrap; }
 .methodology-main a:focus-visible,
 .methodology-main summary:focus-visible,
+.methodology-diagram-scroll:focus-visible,
 .methodology-table-wrap:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
 }
 
-.methodology-pipeline { margin: 28px 0 0; }
-.methodology-pipeline ol { list-style: none; display: grid; gap: 12px; }
-.methodology-pipeline li { position: relative; padding: 18px 20px; margin: 0; }
-.methodology-pipeline .cards { margin-bottom: 0; }
-
-.methodology-pipeline span { display: block; color: var(--accent-strong); font-size: 11px; margin-bottom: 8px; }
-.methodology-pipeline strong { display: block; font-size: 1rem; font-weight: 600; }
-.methodology-pipeline p { margin: 8px 0 0; }
-.methodology-pipeline figcaption { font-family: var(--mono); color: var(--paper-dim); font-size: 11px; margin-top: 14px; }
+/* The pipeline diagram keeps its text legible by scrolling sideways on phones. */
+.methodology-diagram { margin: 32px 0 0; max-width: none; }
+.methodology-diagram-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.methodology-diagram-scroll svg { min-width: 600px; }
+.methodology-diagram figcaption { color: var(--paper-dim); font-size: 11.5px; }
 
 .methodology-table-wrap { overflow-x: auto; margin: 26px 0; }
 .methodology-table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.95rem; line-height: 1.5; }
@@ -130,16 +127,11 @@
   .methodology-toc { top: 136px; }
 }
 
-@media (min-width: 700px) {
-  .methodology-pipeline ol { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
-  .methodology-pipeline li { padding: 14px 12px; }
-  .methodology-pipeline li + li::before { content: "→"; position: absolute; top: -23px; left: -10px; color: var(--paper-faint); }
-}
-
 @media (max-width: 500px) {
   .methodology-hero { padding-top: 112px; }
   .methodology-scope { padding: 16px 18px; }
   .methodology-table-wrap th, .methodology-table-wrap td { padding: 12px; }
+  .methodology-table-wrap tbody th { min-width: 0; }
 }
 
 @media print {
@@ -150,7 +142,8 @@
   .methodology-main .reveal, .methodology-main .band-head, .methodology-main .prose, .methodology-main .cards { opacity: 1; transform: none; }
   .methodology-layout { display: block; }
   .methodology-hero { margin-bottom: 30px; }
-  .methodology-pipeline li, .methodology-table-wrap tr { break-inside: avoid; }
-  .methodology-table-wrap { overflow: visible; }
+  .methodology-diagram, .methodology-table-wrap tr { break-inside: avoid; }
+  .methodology-table-wrap, .methodology-diagram-scroll { overflow: visible; }
+  .methodology-diagram-scroll svg { min-width: 0; }
   .methodology-article h2, .methodology-article h3 { break-after: avoid; }
 }
