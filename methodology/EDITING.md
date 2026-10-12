@@ -18,10 +18,11 @@ instructions alone do not enforce review.
 
 ## Draft status
 
-While the UK page is a draft, it carries `noindex` and the homepage does not link
-to it. At publication, after editorial and technical approval, remove `noindex`,
-add the homepage links (navigation, the release walkthrough and the footer),
-update the status line and record the review date.
+While the UK page is a draft, it carries `noindex`, its status line says it is a
+draft, and the homepage's release walkthrough describes it as a draft where it
+links to it. At publication, after editorial and technical approval, remove
+`noindex` and the homepage's draft wording, update the status line and record
+the review date.
 
 ## Authoring
 
