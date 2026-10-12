@@ -10,11 +10,18 @@ Before publication, maintainers should name an editorial owner and a UK data
 maintainer responsible for checking technical claims. The initial UK page is a
 draft pending those reviews.
 
-Configure `.github/CODEOWNERS` for `/methodology/` with eligible human reviewers
-who have write access. Enable required owner review on the publishing branch and
-prevent automation from bypassing the review requirement. Protect the ownership
-file and deployment configuration too. These are repository settings; contributor
+`.github/CODEOWNERS` names the human reviewers for `/methodology/`; they need
+write access. Enable required owner review on the publishing branch and prevent
+automation from bypassing the review requirement. Protect the ownership file and
+deployment configuration too. These are repository settings; contributor
 instructions alone do not enforce review.
+
+## Draft status
+
+While the UK page is a draft, it carries `noindex` and the homepage does not link
+to it. At publication, after editorial and technical approval, remove `noindex`,
+add the homepage links (navigation, the release walkthrough and the footer),
+update the status line and record the review date.
 
 ## Authoring
 

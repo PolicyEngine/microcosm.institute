@@ -188,12 +188,6 @@ h1 em {
   border: 1px solid var(--line);
 }
 .btn-ghost:hover { border-color: var(--amber); color: var(--amber-soft); }
-/* an in-section link to a companion page, outlined in the accent */
-.btn-signpost {
-  color: var(--amber-soft);
-  border: 1px solid var(--amber);
-}
-.btn-signpost:hover { transform: translateY(-2px); background: var(--accent-subtle); }
 
 .hero-foot { color: var(--paper-faint); font-size: 14px; }
 .mono { font-family: var(--mono); }
