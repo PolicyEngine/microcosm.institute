@@ -1,0 +1,5 @@
+# Public methodology pages need review from the UK data maintainer and a
+# technical reviewer (see methodology/EDITING.md). Required owner review is a
+# branch-protection setting on master; this file alone does not enforce it.
+/methodology/ @juaristi22 @vahid-ahmadi
+/.github/CODEOWNERS @juaristi22 @vahid-ahmadi
