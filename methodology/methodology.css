@@ -30,6 +30,7 @@
   background: var(--ink-2);
   font-size: 1rem;
 }
+.methodology-scope p + p { margin-top: 12px; }
 
 .methodology-layout {
   display: grid;
@@ -67,6 +68,7 @@
 .methodology-article > section > .prose:last-child { margin-bottom: 0; }
 .methodology-article li { margin-bottom: 12px; }
 .methodology-article ul { padding-left: 24px; }
+.methodology-article .prose ul + p { margin-top: 10px; }
 .methodology-main a { color: var(--accent-strong); text-underline-offset: 0.18em; overflow-wrap: anywhere; }
 .methodology-main .btn { text-decoration: none; }
 .methodology-main .btn-primary { color: var(--ink); }
@@ -86,6 +88,11 @@
 .methodology-diagram-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .methodology-diagram-scroll svg { min-width: 600px; }
 .methodology-diagram figcaption { color: var(--paper-dim); font-size: 11.5px; }
+/* Shown only where the diagram is wider than its box (min-width 600px plus side padding). */
+.methodology-diagram-hint { display: none; color: var(--paper-dim); font-size: 11px; margin-bottom: 8px; }
+@media (max-width: 669px) {
+  .methodology-diagram-hint { display: block; }
+}
 
 .methodology-table-wrap { overflow-x: auto; margin: 26px 0; }
 .methodology-table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.95rem; line-height: 1.5; }
