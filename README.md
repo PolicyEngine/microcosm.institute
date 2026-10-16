@@ -4,8 +4,16 @@ Landing site for **microcosm** — an open-source stack for building weighted
 synthetic populations from survey and administrative data.
 
 - The stack: https://github.com/PolicyEngine/microcosm
-- The site: a single static page (`index.html` + `style.css` + `field.js`),
+- The site: static HTML pages (`index.html` + `style.css` + `field.js`),
   no build step.
+
+## UK methodology
+
+The UK pipeline methodology lives at `/methodology/uk`, with canonical page
+source in [`methodology/uk/index.html`](methodology/uk/index.html). It starts as
+a draft pending editorial and technical review. Follow
+[`methodology/EDITING.md`](methodology/EDITING.md) for focused updates,
+source references, release scope and publication review.
 
 ## Develop
 
