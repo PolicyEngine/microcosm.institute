@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UK pipeline methodology — Microcosm</title>
+<meta name="description" content="How Microcosm builds UK household data: survey sources, imputation, geographic assignment, joint national and local calibration, and validation limits." />
+<!-- Draft: keep out of search results until editorial and technical review are complete (methodology/EDITING.md). -->
+<meta name="robots" content="noindex" />
+<meta property="og:title" content="UK pipeline methodology — Microcosm" />
+<meta property="og:description" content="One location and one weight per household record, shared across national, constituency and local-authority estimates." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://microcosm.institute/methodology/uk" />
+<meta property="og:image" content="https://microcosm.institute/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Microcosm — calibrated synthetic microdata for public policy." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="UK pipeline methodology — Microcosm" />
+<meta name="twitter:description" content="How Microcosm builds UK household data, with one location and one weight across national and local estimates." />
+<meta name="twitter:image" content="https://microcosm.institute/assets/og-image.png" />
+<meta name="theme-color" content="#F6FAF7" />
+<link rel="canonical" href="https://microcosm.institute/methodology/uk" />
+<link rel="icon" type="image/svg+xml" href="/assets/microcosm-operator.svg" />
+<link rel="stylesheet" href="/vendor/fonts/microcosm-fonts.css" />
+<link rel="stylesheet" href="/vendor/microcosm-tokens.css" />
+<link rel="stylesheet" href="/style.css" />
+<link rel="stylesheet" href="/methodology/methodology.css" />
+<noscript><style>.methodology-main .band-head, .methodology-main .prose, .methodology-main .cards { opacity: 1; transform: none; }</style></noscript>
+</head>
+<body>
+<a class="methodology-skip-link" href="#main">Skip to methodology</a>
+<div class="grain" aria-hidden="true"></div>
+<canvas id="field" aria-hidden="true"></canvas>
+<header class="nav">
+  <a class="brand" href="/">
+    <svg class="wm" viewBox="-16 -690 5245 726" role="img" aria-label="microcosm"><g text-anchor="middle" font-family="Urbanist,'Avenir Next','Century Gothic',Futura,sans-serif" font-size="1000" font-weight="400" fill="currentColor"><text x="444.25" y="0" fill-opacity=".75">m</text><text x="1023.5" y="0" fill-opacity=".83">i</text><text x="1413.25" y="0" fill-opacity=".9">c</text><text x="1886.75" y="0" fill-opacity=".96">r</text><text x="2385.5" y="0">o</text><text x="2960.25" y="0" fill-opacity=".96">c</text><text x="3535" y="0" fill-opacity=".9">o</text><text x="4069.75" y="0" fill-opacity=".83">s</text><text x="4768.75" y="0" fill-opacity=".75">m</text></g><circle cx="2385.5" cy="-251" r="77" fill="var(--accent)"/></svg>
+  </a>
+  <nav class="nav-links" aria-label="Main navigation">
+    <a href="/#idea">the idea</a>
+    <a href="/#stack">the stack</a>
+    <a href="/#sources">sources</a>
+    <a href="/#releases">releases</a>
+    <a href="/#result">evidence</a>
+    <a href="/#commons">the commons</a>
+    <a href="/papers">papers</a>
+    <a href="/lineage">lineage</a>
+    <a class="methodology-nav" aria-current="page" href="/methodology/uk">UK methodology</a>
+    <a class="nav-gh" href="https://github.com/PolicyEngine/microcosm" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"/></svg></a>
+  </nav>
+</header>
+
+<main id="main" class="methodology-main">
+  <section class="hero methodology-hero">
+    <div class="hero-inner">
+    <p class="strategy-crumb reveal" style="--d:0"><a href="/">microcosm</a> / UK methodology</p>
+    <p class="eyebrow reveal" style="--d:0">Household data · United Kingdom</p>
+    <h1 class="reveal" style="--d:1">How Microcosm builds <em>UK household data</em></h1>
+    <p class="lede reveal" style="--d:2">Microcosm combines household survey records with income, wealth and spending data, then calibrates their weights against official statistics. Its local pipeline gives each household record one location and one weight, shared across national, constituency and local-authority estimates.</p>
+    <div class="hero-cta reveal" style="--d:3">
+      <a class="btn btn-primary" href="#overview">Read the methodology</a>
+      <a class="btn btn-ghost" href="#efrs">What changes from Enhanced FRS</a>
+      <a class="btn btn-ghost" href="https://github.com/PolicyEngine/microcosm/tree/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722">Read the code</a>
+    </div>
+    <p class="hero-foot reveal" style="--d:4"><span class="mono">one location · one weight · consistent national and local totals</span></p>
+    </div>
+  </section>
+
+  <section class="band methodology-context" aria-label="Document and release scope">
+    <dl class="methodology-meta">
+      <div><dt>Document</dt><dd>Version 0.6 · draft for editorial review</dd></div>
+      <div><dt>Scope</dt><dd>FRS 2024–25 pipeline, including the local build</dd></div>
+      <div><dt>Prepared</dt><dd><time datetime="2026-10-27">27 October 2026</time></dd></div>
+    </dl>
+    <aside class="methodology-scope" aria-label="Release scope">
+      <p><strong>In short.</strong> Microcosm UK 2024–25 is the dataset PolicyEngine certifies for UK policy analysis. It replaced Enhanced FRS as the UK default in policyengine.py, PolicyEngine’s Python package, from version 6.10.0 on 21 October 2026. Each release has two files: a national file for UK-wide and country results, and a separate local-area file that constituency and local-authority analyses use. PolicyEngine certifies both files together. At the time of writing, policyengine.py 6.11.1 serves the release built at Microcosm revision <a href="https://github.com/PolicyEngine/microcosm/tree/67ee2ddf3a08a7f0e341c67e86ef0433420ad057">67ee2ddf3</a> with PolicyEngine-UK 2.151.0.</p>
+      <p><strong>Methodology and release status.</strong> This page describes the method as implemented at <a href="https://github.com/PolicyEngine/microcosm/tree/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722">source revision 90ff43f95</a>, which locks PolicyEngine-UK 2.162.8. The next release is being built on this revision with PolicyEngine-UK 2.162.12 and one unreleased engine change; the method described here is unchanged. No release has yet been certified from this revision or later; until one is, the release named above remains the one in use. Changes marked “planned for the next release” reach users only if that release passes its checks. The page does not itself certify a dataset or report measured fit for one. National and local builds have separate release requirements. <a class="reference" href="#ref-release">[1]</a></p>
+    </aside>
+  </section>
+
+  <div class="band methodology-layout">
+    <nav class="methodology-toc" aria-label="On this page">
+      <p class="mono">On this page</p>
+      <ol>
+        <li><a href="#overview">Pipeline overview</a></li>
+        <li><a href="#data">Data sources and enrichment</a></li>
+        <li><a href="#geography">Geographic assignment</a></li>
+        <li><a href="#calibration">Joint calibration</a></li>
+        <li><a href="#efrs">Changes from Enhanced FRS</a></li>
+        <li><a href="#validation">Validation and limitations</a></li>
+        <li><a href="#version">Version and references</a></li>
+      </ol>
+    </nav>
+
+    <article class="methodology-article" aria-label="UK pipeline methodology">
+      <section id="overview">
+        <div class="band-head"><p class="kicker mono">01 · Overview</p>
+        <h2>From survey records to a weighted population</h2></div>
+        <div class="prose"><p>A microsimulation dataset represents households through records of their members, relationships, incomes and other characteristics. Each household has a weight: the number of households it represents in the population. PolicyEngine applies tax and benefit rules to these records and uses their weights to estimate population outcomes. Those rules are modelled in PolicyEngine-UK rather than in this pipeline; the <a href="https://policyengine.github.io/policyengine-uk/">PolicyEngine-UK documentation</a> lists which are covered.</p></div>
+        <div class="prose"><p>Microcosm starts with the Family Resources Survey (FRS) and adds income, wealth and spending information from other sources. This imputation gives the records their characteristics; calibration, described below, then changes only how many households each record represents. Throughout, Microcosm keeps the links between people, their benefit units and their households. A benefit unit is a single adult or a couple and any dependent children: the family group that means-tested benefits such as Universal Credit assess together.</p></div>
+        <div class="prose"><p>The completed records then follow one of two routes. The national route calibrates their weights to UK, country and regional statistics. The local route first copies each household and places every copy in a small census area. In Great Britain, each copy then takes the Broad Rental Market Area its area lies in and, if it rents privately, a rent from that market area; in England and Wales, owner-occupied copies also take a home value and council-tax band that fit their area. The local route then calibrates one set of weights against national and local statistics together. A local release can hold either every copy or an exact-size selection of households (150,000 at this revision), whose weights are refitted to the same targets; the selection must pass the same release checks. <a class="reference" href="#ref-build">[2]</a></p></div>
+        <figure class="diagram-figure methodology-diagram" aria-labelledby="pipeline-diagram-title">
+          <p class="methodology-diagram-hint mono" aria-hidden="true">Scroll sideways to see both routes →</p>
+          <div class="methodology-diagram-scroll" role="region" aria-label="Pipeline diagram" tabindex="0">
+            <svg viewBox="0 0 680 684" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pipeline-diagram-title pipeline-diagram-desc">
+              <title id="pipeline-diagram-title">How Microcosm builds UK household data</title>
+              <desc id="pipeline-diagram-desc">The Family Resources Survey 2024–25 is the starting point. The Survey of Personal Incomes, Wealth and Assets Survey, Living Costs and Food Survey, National Travel Survey, Effects of Taxes and Benefits dataset, NHS tables and other published statistics are imputed onto its records, which also gain added records for Survey of Personal Incomes incomes, capital gains and high-value homes. Both routes then calibrate these household records to official statistics. The national route uses the same records without copying them into areas and fits UK, country and regional statistics only. The local route copies each household 15 times with its weight split equally, assigns each copy one Output Area (a Data Zone in Northern Ireland) in its FRS region with chances weighted by census households, and labels each copy with its 2024 constituency and April 2023 local authority. In Great Britain each copy also takes the Broad Rental Market Area and, for private renters, a rent from its area, and in England and Wales owner-occupied copies take a home value and council-tax band from their area. The local route then fits statistics for the UK, countries, regions, constituencies and local authorities together, reconciled across levels, with one weight per record and the objective shared equally by level and, within each level, by family of statistics, and selects 150,000 households whose weights are refitted. Each route is checked before it is packaged: both pass release gates; the national route must also fit official statistics better than Enhanced FRS; the local route also checks support in each area, with holdout rotations and a comparison with Enhanced FRS optional.</desc>
+              <defs>
+                <marker id="uk-pipeline-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="var(--paper-faint)" stroke-width="1.5"/>
+                </marker>
+              </defs>
+
+              <!-- sources: the FRS is the starting point; the rest are imputed onto it -->
+              <text class="dg-kicker" x="0" y="12">sources</text>
+              <g>
+                <title>Family Resources Survey 2024–25, Department for Work and Pensions (UK Data Service SN 9563)</title>
+                <rect class="dg-box" x="0" y="22" width="126" height="188" rx="5"/>
+                <text class="dg-title" x="12" y="46">FRS 2024–25</text>
+                <text class="dg-label" x="12" y="64">DWP</text>
+                <text class="dg-label" x="12" y="88">the starting</text>
+                <text class="dg-label" x="12" y="101">point: people,</text>
+                <text class="dg-label" x="12" y="114">benefit units</text>
+                <text class="dg-label" x="12" y="127">and households</text>
+              </g>
+
+              <rect x="140" y="22" width="540" height="188" rx="8" fill="none" stroke="var(--line)"/>
+              <text class="dg-kicker" x="152" y="40">added from other sources</text>
+              <g>
+                <title>Survey of Personal Incomes 2022–23 Public Use Tape, HM Revenue and Customs (SN 9422)</title>
+                <rect class="dg-box" x="150" y="50" width="166" height="46" rx="5"/>
+                <text class="dg-title" x="160" y="69">SPI 2022–23</text>
+                <text class="dg-label" x="160" y="85">HMRC · taxpayer income</text>
+              </g>
+              <g>
+                <title>Wealth and Assets Survey round 8, April 2020 to March 2022, Great Britain, Office for National Statistics (SN 7215)</title>
+                <rect class="dg-box" x="327" y="50" width="166" height="46" rx="5"/>
+                <text class="dg-title" x="337" y="69">WAS 2020–22</text>
+                <text class="dg-label" x="337" y="85">ONS · wealth and debts</text>
+              </g>
+              <g>
+                <title>Living Costs and Food Survey 2024–25, Office for National Statistics (SN 9603)</title>
+                <rect class="dg-box" x="504" y="50" width="166" height="46" rx="5"/>
+                <text class="dg-title" x="514" y="69">LCFS 2024–25</text>
+                <text class="dg-label" x="514" y="85">ONS · spending</text>
+              </g>
+              <g>
+                <title>National Travel Survey, Department for Transport (SN 5340); the microdata cover England only</title>
+                <rect class="dg-box" x="150" y="104" width="254" height="46" rx="5"/>
+                <text class="dg-title" x="160" y="123">NTS, England</text>
+                <text class="dg-label" x="160" y="139">DfT · bus use</text>
+              </g>
+              <g>
+                <title>Effects of Taxes and Benefits dataset, Office for National Statistics (SN 8856), and NHS activity and cost tables</title>
+                <rect class="dg-box" x="416" y="104" width="254" height="46" rx="5"/>
+                <text class="dg-title" x="426" y="123">ETB and NHS tables</text>
+                <text class="dg-label" x="426" y="139">ONS, NHS · VAT and public services</text>
+              </g>
+              <rect class="dg-box" x="150" y="158" width="520" height="46" rx="5"/>
+              <text class="dg-title" x="160" y="177">Published statistics and research</text>
+              <text class="dg-label" x="160" y="193">benefit take-up, house prices, rental income, capital gains and more</text>
+
+              <path class="dg-edge" d="M 63 210 L 63 244" marker-end="url(#uk-pipeline-arrow)"/>
+              <path class="dg-edge" d="M 410 210 L 410 244" marker-end="url(#uk-pipeline-arrow)"/>
+              <text class="dg-label" x="420" y="232">imputed onto the FRS records</text>
+
+              <!-- the enriched records split into the two routes -->
+              <rect class="dg-box" x="0" y="246" width="680" height="60" rx="5"/>
+              <text class="dg-title" x="12" y="266">Household records</text>
+              <text class="dg-label" x="12" y="284">FRS values kept as reported, plus imputed income, wealth, spending, travel and public-service values,</text>
+              <text class="dg-label" x="12" y="298">and added records for SPI incomes, capital gains and high-value homes</text>
+
+              <path class="dg-edge" d="M 140 306 L 140 340" marker-end="url(#uk-pipeline-arrow)"/>
+              <text class="dg-label-accent" x="150" y="328">local route</text>
+              <path class="dg-edge" d="M 400 306 L 400 340" marker-end="url(#uk-pipeline-arrow)"/>
+              <text class="dg-label-accent" x="410" y="328">national route</text>
+
+              <!-- left: the local route copies and places households -->
+              <rect class="dg-box" x="0" y="342" width="280" height="78" rx="5"/>
+              <text class="dg-title" x="12" y="362">Copy households</text>
+              <text class="dg-label" x="12" y="380">15 copies of each household,</text>
+              <text class="dg-label" x="12" y="394">with its weight split equally</text>
+
+              <path class="dg-edge" d="M 140 420 L 140 448" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box-accent" x="0" y="450" width="280" height="78" rx="5"/>
+              <text class="dg-title" x="12" y="470">Assign a small area</text>
+              <text class="dg-label" x="12" y="488">one Output Area per copy (a Data Zone</text>
+              <text class="dg-label" x="12" y="502">in Northern Ireland), within its FRS</text>
+              <text class="dg-label" x="12" y="516">region, weighted by census households</text>
+
+              <path class="dg-edge" d="M 140 528 L 140 570" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box" x="0" y="572" width="280" height="106" rx="5"/>
+              <text class="dg-title" x="12" y="592">Label each copy</text>
+              <text class="dg-label" x="12" y="610">2024 constituency and April 2023 local</text>
+              <text class="dg-label" x="12" y="624">authority; in Great Britain, rental</text>
+              <text class="dg-label" x="12" y="638">market area and private rent from the</text>
+              <text class="dg-label" x="12" y="652">area; in England and Wales, owner</text>
+              <text class="dg-label" x="12" y="666">homes take an area value and tax band</text>
+
+              <!-- middle: official statistics feed both calibrations -->
+              <rect class="dg-box" x="300" y="342" width="200" height="78" rx="5"/>
+              <text class="dg-title" x="312" y="362">Calibrate nationally</text>
+              <text class="dg-label" x="312" y="380">same records, not copied</text>
+              <text class="dg-label" x="312" y="394">into areas; UK, country and</text>
+              <text class="dg-label" x="312" y="408">regional statistics only</text>
+
+              <path class="dg-edge" d="M 400 446 L 400 422" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect x="290" y="446" width="390" height="98" rx="8" fill="none" stroke="var(--line)"/>
+              <text class="dg-kicker" x="302" y="464">official statistics</text>
+              <rect class="dg-box" x="300" y="474" width="180" height="62" rx="5"/>
+              <text class="dg-title" x="312" y="494">UK, countries and regions</text>
+              <text class="dg-label" x="312" y="512">national and local routes</text>
+              <rect class="dg-box" x="490" y="474" width="180" height="62" rx="5"/>
+              <text class="dg-title" x="502" y="494">Local areas</text>
+              <text class="dg-label" x="502" y="512">constituencies and local</text>
+              <text class="dg-label" x="502" y="526">authorities; local route</text>
+
+              <path class="dg-edge" d="M 400 544 L 400 570" marker-end="url(#uk-pipeline-arrow)"/>
+              <text class="dg-label" x="410" y="561">reconciled across levels</text>
+              <path class="dg-edge" d="M 280 625 L 298 625" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box-accent" x="300" y="572" width="200" height="106" rx="5"/>
+              <text class="dg-title" x="312" y="592">Calibrate jointly</text>
+              <text class="dg-label" x="312" y="610">one weight per record,</text>
+              <text class="dg-label" x="312" y="624">every level at once, equal</text>
+              <text class="dg-label" x="312" y="638">shares by level and family;</text>
+              <text class="dg-label" x="312" y="652">then select 150,000</text>
+              <text class="dg-label" x="312" y="666">households and refit</text>
+
+              <!-- right: each route is checked before it is packaged -->
+              <path class="dg-edge" d="M 500 381 L 518 381" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box" x="520" y="342" width="160" height="78" rx="5"/>
+              <text class="dg-title" x="532" y="362">Check and package</text>
+              <text class="dg-label" x="532" y="380">release gates;</text>
+              <text class="dg-label" x="532" y="394">must fit better</text>
+              <text class="dg-label" x="532" y="408">than Enhanced FRS</text>
+
+              <path class="dg-edge" d="M 500 625 L 518 625" marker-end="url(#uk-pipeline-arrow)"/>
+              <rect class="dg-box" x="520" y="572" width="160" height="106" rx="5"/>
+              <text class="dg-title" x="532" y="592">Check and package</text>
+              <text class="dg-label" x="532" y="610">release gates,</text>
+              <text class="dg-label" x="532" y="624">support per area;</text>
+              <text class="dg-label" x="532" y="638">holdouts and</text>
+              <text class="dg-label" x="532" y="652">Enhanced FRS</text>
+              <text class="dg-label" x="532" y="666">comparison optional</text>
+            </svg>
+          </div>
+        </figure>
+        <h3>Which file PolicyEngine uses</h3>
+        <div class="prose"><p>PolicyEngine uses both files of a release. Results for the UK and for England, Scotland, Wales and Northern Ireland come from the national file; a country’s results use the households whose region lies in it. Results for a constituency or local authority come from the local-area file, using the copies assigned to that area. The two files start from the same household records and the same pinned statistics but are calibrated separately, so their weights differ: constituency results from the local-area file add up to that file’s national total, which can differ from the national file’s. The local-area file is not the default dataset, but it is certified together with the national file. <a class="reference" href="#ref-release">[1]</a></p></div>
+        <h3>Key terms</h3>
+        <div class="prose"><ul>
+          <li><strong>Imputation</strong>: giving a household a characteristic the FRS does not record well, drawn from similar households in another source.</li>
+          <li><strong>Calibration</strong>: adjusting weights so that weighted totals match official statistics, called targets.</li>
+          <li><strong>Holdout</strong>: a target left out of a fit, to check how well the result matches it.</li>
+          <li><strong>Effective sample size</strong>: how many equally weighted records an area’s weights are worth; it falls when a few records carry much of the weight.</li>
+        </ul></div>
+      </section>
+
+      <section id="data">
+        <div class="band-head"><p class="kicker mono">02 · Sources</p>
+        <h2>What each source contributes</h2></div>
+        <div class="prose"><p>The FRS supplies the household structure and reported characteristics. Other sources add information that the FRS does not collect in enough detail or represent adequately on its own. The source manifest pins the files and versions a build must use; the vintages below are those of the implementation this page describes, in which 49 ordered stages build the household records that both routes share. <a class="reference" href="#ref-sources">[3]</a></p></div>
+        <div class="methodology-table-wrap" role="region" aria-labelledby="source-table-caption" tabindex="0">
+          <table>
+            <caption id="source-table-caption">Core microdata sources</caption>
+            <thead><tr><th scope="col">Source</th><th scope="col">Vintage</th><th scope="col">Role in the pipeline</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Family Resources Survey<br /><span class="table-note">Department for Work and Pensions · <a href="https://datacatalogue.ukdataservice.ac.uk/studies/study/9563">UK Data Service SN 9563</a></span></th><td>2024–25</td><td>People and household relationships; reported income, benefit receipt, housing and demographic characteristics.</td></tr>
+              <tr><th scope="row">Survey of Personal Incomes<br /><span class="table-note">HM Revenue and Customs · <a href="https://datacatalogue.ukdataservice.ac.uk/studies/study/9422">UK Data Service SN 9422</a></span></th><td>2022–23 Public Use Tape</td><td>Incomes for added copies of FRS households, from taxpayer records matched on age, sex, region, main income source and whether the person has pay, self-employment income or has reached State Pension age; also landlords’ mortgage-interest costs. HMRC’s published taxpayer counts by income band set the number and starting weights of dedicated high-income records.</td></tr>
+              <tr><th scope="row">Wealth and Assets Survey<br /><span class="table-note">Office for National Statistics · <a href="https://datacatalogue.ukdataservice.ac.uk/studies/study/7215">UK Data Service SN 7215</a></span></th><td>Round 8: 2020–22, Great Britain</td><td>Property, financial and private pension wealth, savings, debts and vehicle ownership. Northern Ireland households are imputed using the pattern for Wales.</td></tr>
+              <tr><th scope="row">Living Costs and Food Survey<br /><span class="table-note">Office for National Statistics · <a href="https://datacatalogue.ukdataservice.ac.uk/studies/study/9603">UK Data Service SN 9603</a></span></th><td>2024–25</td><td>Household spending by category, including information used for indirect-tax and energy analysis.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prose"><p>The FRS 2024–25 achieved sample was 16,299 households across the UK (<a href="https://www.gov.uk/government/statistics/family-resources-survey-financial-year-2024-to-2025/family-resources-survey-background-information-and-methodology">DWP</a>), of which about 1,900 were in Scotland (<a href="https://www.gov.scot/publications/poverty-and-income-inequality-in-scotland-2022-25/pages/8-data-source/">Scottish Government</a>). Every record in the dataset, including the copies described below, starts from one of these households.</p></div>
+        <div class="prose"><p>Additional stages use:</p><ul>
+          <li>the National Travel Survey for bus use;</li>
+          <li>the Effects of Taxes and Benefits dataset for VAT and for the value of education, rail and bus subsidies;</li>
+          <li>National Health Service (NHS) activity and cost tables for health-service use;</li>
+          <li>published take-up statistics for whether eligible families claim benefits: DWP’s counts of households on Universal Credit by family type and award amount, its Move to Universal Credit statistics for families moved from older benefits, and the Scottish Government’s <a href="https://www.gov.scot/publications/take-up-rates-scottish-benefits-2024/">take-up rates</a> for Scottish Child Payment. No rate is published for carers whom a reform or a later year newly entitles to Carer’s Allowance (Carer Support Payment in Scotland), so their take-up is an assumed rate, informed by the Independent Review of Carer’s Allowance Overpayments and DWP statistics;</li>
+          <li>house-price statistics to update property values, and HM Land Registry sale prices for owner-occupiers’ home values in England and Wales;</li>
+          <li>HMRC’s Annual Stamp Tax Statistics, for which households buy property during the year and at what price;</li>
+          <li>HMRC’s Property Rental Income Statistics, with the Survey of Personal Incomes, for landlords’ rental receipts and mortgage-interest costs;</li>
+          <li>published statistics and research for capital gains, pension salary sacrifice and student loans;</li>
+          <li>planned for the next release, the Department for Education’s rate of apprentices in learning in England, applied across the UK to flag employees aged 21 to 24 as apprentices, which the FRS does not record;</li>
+          <li>planned for the next release, HMRC’s alcohol and tobacco clearances and gambling duty figures, shared out in proportion to each household’s Living Costs and Food Survey spending so that PolicyEngine-UK can calculate these duties, and the Gambling Commission’s Gambling Survey for Great Britain 2025 for how many households gamble; OBR’s forecasts of these duties are measured as checks rather than fitted.</li>
+        </ul></div>
+        <div class="prose"><p>The manifest records each stage’s coverage and assumptions. For example, recent National Travel Survey microdata cover England only, so bus use in Scotland, Wales and Northern Ireland is predicted as if households lived in a stand-in English region. Bus fares in Scotland and Northern Ireland are then priced from their own published statistics, while Welsh fares keep their survey-based values. <a class="reference" href="#ref-sources">[3]</a></p></div>
+        <h3>How imputation adds characteristics</h3>
+        <div class="prose"><p>Microcosm imputes values conditional on shared characteristics such as age, sex, income, household composition, tenure and region; the predictors differ by stage. Its main method, weighted quantile regression forests, predicts the range of values a characteristic takes among similar households; the <a href="/support/paper">imputation working paper</a> explains this choice and compares it with alternatives such as hot-deck matching and linear regression. Most values are drawn at random from that range rather than set to its average, so otherwise similar households still differ. Incomes drawn from the Survey of Personal Incomes are the exception: each copied adult takes the income at the same position among similar taxpayers that the original adult’s own income holds among similar FRS respondents. The draws do not link an FRS household to the same identifiable household in another survey.</p></div>
+        <div class="prose"><p>The income stage keeps the incomes reported on the original FRS records. It also adds copies of a random sample of FRS households. Adults in those copies who have taxable income, such as pay, self-employment income, a pension or more than £1,000 of investment and other income, take incomes from the Survey of Personal Incomes; other adults keep their FRS values. The copies’ housing costs, and the benefits of adults given new incomes, are then redrawn to match. Because the FRS contains few households with very high incomes, further copies give one adult an income drawn within one of HMRC’s income bands from £200,000 upwards, with starting weights set from HMRC’s published taxpayer counts. These records give calibration enough high-income households to work with. <a class="reference" href="#ref-sources">[3]</a></p></div>
+        <div class="prose"><p>HMRC’s income statistics count income received over a tax year, while the FRS records each adult’s current income. A further stage therefore describes each adult’s previous 12 months from the FRS’s own questions on jobs, pensions and benefits, for example a job that ended during the year, so that HMRC targets are compared with annual income. Tax, benefit and poverty calculations still use current income. <a class="reference" href="#ref-sources">[3]</a></p></div>
+        <div class="prose"><p>FRS landlords report rental profit after mortgage interest. A later stage adds back an estimate of that interest, drawn from the Survey of Personal Incomes, and sets their rental receipts from HMRC’s Property Rental Income Statistics.</p></div>
+        <div class="prose"><p>In England and Wales, owner-occupiers’ home values are set from HM Land Registry sale prices in their region, uprated with the UK House Price Index, at the household’s rank among owners there; the local build later replaces them with values from each copy’s constituency. A further stage draws which households buy property during the year, and at what price, so that purchases in England and Northern Ireland, where Stamp Duty Land Tax applies, match HMRC’s stamp-tax statistics.</p></div>
+        <div class="prose"><p>Owner-occupied households in the top 5 per cent of home values in their region are split into six records of equal weight, so that the local build can place expensive homes in more areas. Added records take their starting weights from the households they copy or from their region, so the total starting weight is unchanged, and they draw their own childcare take-up rather than sharing their source household’s draw. Wealth and spending stages then draw related variables in sequence.</p></div>
+      </section>
+
+      <section id="geography">
+        <div class="band-head"><p class="kicker mono">03 · Geography</p>
+        <h2>One location for each household record</h2></div>
+        <div class="prose"><p>The FRS identifies a household’s region but does not provide a representative sample for every constituency. In the local build, Microcosm makes 15 copies of each completed household, keeping its people and family relationships together, and splits the household’s weight equally among them. Each copy receives one small census area within its original FRS region, drawn with probability proportional to the area’s census household count. The draws are reproducible: each is tied to the record’s identity, so rebuilding with the same inputs gives the same assignment. <a class="reference" href="#ref-build">[2]</a></p></div>
+        <div class="prose"><p>The assignment uses 2021 Census Output Areas in England and Wales, 2022 Census Output Areas in Scotland (the building blocks of Scotland’s own Data Zones) and Northern Ireland’s 2021 Census Data Zones. Published, versioned lookups map each area to one constituency, one local authority and other geographic labels; in Great Britain, an area that straddles a boundary is assigned wholly to one side by the official best-fit lookup. The constituency geography uses the 2024 boundaries; the local-authority geography uses the April 2023 definition. <a class="reference" href="#ref-geography">[4]</a></p></div>
+        <div class="prose"><p>In England and Wales, each owner-occupied copy then takes a home value from HM Land Registry sale prices in its assigned constituency (the latest sale of each home since 1995, uprated with the UK House Price Index), at the household’s rank among owners in its region, and a council-tax band from the Valuation Office Agency’s band mix for its assigned Lower Layer Super Output Area (LSOA). Renters, and households in Scotland and Northern Ireland, keep the home values and council-tax bands in their household records. The council-tax bill still comes from the source household. <a class="reference" href="#ref-build">[2]</a></p></div>
+        <div class="prose"><p>In Great Britain, each copy also takes the Broad Rental Market Area (BRMA) that contains its small area, so the Local Housing Allowance rates PolicyEngine-UK applies match the copy’s location. Each private renter’s rent is then read from the published list of rents for homes of its size in that BRMA (the rent officers’ lists in England and Wales, and Scottish Government rent statistics in Scotland), at the household’s rank among private renters with homes of that size in its region, and rescaled so that each region keeps its FRS average rent. Social renters keep their rents. Northern Ireland has no open BRMA boundaries, so households there keep the BRMA drawn within their region, and their rents. <a class="reference" href="#ref-build">[2]</a></p></div>
+        <div class="prose"><p><strong>Each resulting household record has one location and one weight.</strong> The same record and weight contribute to its constituency, its local authority and the national total. Constituencies and local authorities overlap, so Microcosm derives both labels from the small area rather than assuming that one sits inside the other.</p></div>
+        <div class="prose"><p>These assignments create a modelled local population. They do not recover respondents’ actual addresses or establish that a record describes a particular small area accurately. The local calibration described below fits constituency and local-authority statistics; small-area assignment alone does not validate ward or neighbourhood estimates.</p></div>
+      </section>
+
+      <section id="calibration">
+        <div class="band-head"><p class="kicker mono">04 · Calibration</p>
+        <h2>One set of weights, fitted across geographic levels</h2></div>
+        <div class="prose"><p>For each target statistic, Microcosm calculates every household’s contribution and compares the weighted total with the official value. A target might count people in an age band, sum employment income among taxpayers, or count families receiving Universal Credit. The local build fits national, regional, constituency and local-authority targets in one optimisation. <a class="reference" href="#ref-targets">[5]</a></p></div>
+        <div class="methodology-table-wrap" role="region" aria-labelledby="target-table-caption" tabindex="0">
+          <table>
+            <caption id="target-table-caption">Local calibration statistics</caption>
+            <thead><tr><th scope="col">Statistics</th><th scope="col">Geographic levels</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Population in ten-year age bands up to 79, and census household counts</th><td>Constituencies and local authorities</td></tr>
+              <tr><th scope="row">HMRC employment and self-employment income amounts and recipient counts</th><td>Constituencies and local authorities</td></tr>
+              <tr><th scope="row">HMRC higher-rate taxpayer counts</th><td>Constituencies and local authorities in England, Wales and Northern Ireland</td></tr>
+              <tr><th scope="row">Universal Credit households with a payment, including constituency groups by number of children</th><td>Constituencies and local authorities in Great Britain; the split by number of children is for constituencies only</td></tr>
+              <tr><th scope="row">Housing tenure, private rents and council-tax bands; planned for the next release, dwellings with a single-adult council-tax discount</th><td>Local authorities: tenure across the UK, private rents in England and Wales, council-tax bands in Great Britain (England’s band H is not fitted) and single-adult discounts in England. Scotland’s private rents are fitted for its 18 Broad Rental Market Areas</td></tr>
+              <tr><th scope="row">Domestic electricity and gas use, and households on mains gas (DESNZ)</th><td>Local authorities in Great Britain and, planned for the next release, constituencies in Great Britain, whose figures Microcosm splits from local-authority totals using DESNZ’s small-area data; no gas targets for Orkney and Shetland</td></tr>
+              <tr><th scope="row">Owner-occupied homes worth more than £1 million, £1.5 million and £2 million, estimated by Microcosm from HM Land Registry sales and other published statistics</th><td>Local authorities in England and Wales, with English regions and Wales as controls; not fitted for constituencies</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prose"><p>Published local cells too small to fit reliably are not fitted directly but still count towards their region’s total: council-tax band cells of fewer than 50 dwellings, higher-rate taxpayer cells below 5,500, which HMRC rounds to the nearest thousand, and local-authority cells of fewer than 400 high-value homes. National and regional targets include population, household, income, tax and benefit statistics, along with housing, student-loan, spending and other administrative totals. Targets have defined populations and reference periods; HMRC income statistics, for example, describe taxpayers rather than all residents. Targets refer to 2025, and the build records which targets it fitted, which it excluded, and how it brought source values to that year. Available targets and coverage differ across the UK’s countries. <a class="reference" href="#ref-targets">[5]</a></p></div>
+        <h3>What is fitted for Scotland</h3>
+        <div class="prose"><p>Scotland enters the national calibration as one of the twelve regional rows: for population by age; for HMRC taxpayers, total income and income tax by income band, scaled so that the twelve regions add up to HMRC’s UK totals; for higher- and additional-rate taxpayers; and for Capital Gains Tax taxpayers and gains. It also enters through Scotland-specific statistics:</p><ul>
+          <li>National Records of Scotland’s household estimate, and the Scottish Government’s council-tax stock by band, whose total is set to that estimate;</li>
+          <li>Scottish Child Payment spending, and Scottish Government statistics on bus passenger revenue and government support for buses;</li>
+          <li>ONS counts of children under 16 and babies under one in Scotland;</li>
+          <li>DWP’s count of Scottish Universal Credit households with a child under one, and its State Pension caseloads for Scotland.</li>
+        </ul><p>OBR’s council-tax receipts are fitted only as one Great Britain total, which includes Scotland’s.</p></div>
+        <div class="prose"><p>Locally, Scotland’s 32 councils and 57 constituencies take the age, HMRC employment and self-employment income, Universal Credit and census household-count targets. The councils also take tenure, council-tax bands and DESNZ electricity and gas use, and, planned for the next release, the constituencies take electricity and gas use too; there are no gas targets for Orkney and Shetland. Private rents are fitted for Scotland’s 18 Broad Rental Market Areas rather than its councils. There are no Scottish higher-rate taxpayer or high-value-home targets, and some UK benefit totals exclude Scotland; see the limits under Evidence. <a class="reference" href="#ref-targets">[5]</a></p></div>
+        <h3>Reconciling overlapping statistics</h3>
+        <div class="prose"><p>Published totals for the same concept can differ across geographic levels because of reference periods, definitions or census disclosure controls. Before fitting weights, both builds reconcile targets that measure the same thing at more than one level:</p><ul>
+          <li>where a total is fitted for the UK, Great Britain, England and Wales, a nation or a region, the targets beneath it are rescaled to match it, so regional rows add up to national totals and local rows to the regional ones;</li>
+          <li>for household counts, each nation’s own household estimate takes precedence, and counts that split an area’s total, such as tenure, keep their shares of it;</li>
+          <li>where there is no higher total, local-authority targets are rescaled to the constituency totals in the same region or nation;</li>
+          <li>every adjustment is recorded.</li>
+        </ul><p>The rule applies only to matching measurements and to relationships declared, with reasons, in one reviewed file; the build stops if a local target has no declared route to a higher total or two overlapping targets are not declared. It does not combine statistics with incompatible populations. <a class="reference" href="#ref-reconciliation">[6]</a></p></div>
+        <h3>Fitting with constraints</h3>
+        <div class="prose"><p>A gradient-based optimiser adjusts the weights to reduce the relative error between weighted totals and their targets; a <a href="/calibration/paper">calibration working paper</a>, in preparation, will compare this approach with classical methods such as raking. Each target’s contribution is capped, so a single badly missed target cannot dominate the fit. In the local build, the objective is shared equally among four groups: targets for the UK, Great Britain or England and Wales; targets for the four nations and the English regions; constituency targets; and local-authority targets. Within each group, every family of statistics, such as age bands or council-tax bands, takes an equal share, and within a family larger counts carry more weight, in proportion to the square root of their size. This keeps the many local targets from overwhelming the national ones. The national build gives each family of statistics an equal share. In both builds, no calibrated weight can exceed ten times its weight at the start of calibration; this is a hard limit applied throughout the fit, with no matching lower limit. The total number of households is fitted as a target rather than held fixed. For an exact-size local release, Microcosm first chooses the households with an L0 penalty, which favours a smaller set of households that can still fit the targets (the <a href="/sparsity/paper">L0 working paper</a> describes the method and tests it on US data). The selected households’ weights are then refitted to the same targets under the same limits, with a penalty that keeps the weights close to equal. These constraints can leave residual discrepancies, which the diagnostics report. <a class="reference" href="#ref-doctrine">[7]</a></p></div>
+        <div class="prose"><p>For a policy comparison, PolicyEngine calculates baseline and reform outcomes for the same household records. An area’s total income change sums each assigned household’s change multiplied by its weight. With the same dataset and population definition, constituency totals sum to that dataset’s national weighted total; in PolicyEngine, that is the local-area file’s total, not the national file’s. An average divides by the relevant weighted household count; averages and percentages do not add across areas.</p></div>
+      </section>
+
+      <section id="efrs">
+        <div class="band-head"><p class="kicker mono">05 · Enhanced FRS</p>
+        <h2>What changes from Enhanced FRS</h2></div>
+        <div class="prose"><p>Enhanced FRS, built in the policyengine-uk-data repository, was the UK dataset PolicyEngine certified for policy analysis until policyengine.py 6.10.0 replaced it with Microcosm on 21 October 2026; its last certified release was 1.58.1. Like Microcosm, it starts from the FRS 2024–25 and draws on the same families of surveys for income, wealth and spending. It can still be loaded by name, and it remains Microcosm’s benchmark. A national release can be certified only if it fits a shared set of official statistics better than a pinned Enhanced FRS file, and both builds block a release when the weighted total of an input drifts from a pinned Enhanced FRS reference by more than a reviewed tolerance. <a class="reference" href="#ref-release">[1]</a></p></div>
+        <div class="prose"><p>For local estimates, Enhanced FRS 1.58.1 fits two separate weight matrices, one for constituencies and one for local authorities. In each, a household carries a separately fitted weight for every area in its country, while its characteristics, and the taxes and benefits calculated from them, stay the same in every area. That release also gives each household one output area within its FRS region, but the local weight matrices are not tied to that location. Since version 6.10.0, policyengine.py no longer loads these matrices; constituency and local-authority results use Microcosm’s local-area file instead. <a class="reference" href="#ref-efrs">[8]</a></p></div>
+        <div class="prose"><p>For example, a household outside London can contribute to a London constituency estimate while keeping the outside-London benefit cap, because PolicyEngine-UK reads the household’s region when calculating the cap. <a class="reference" href="#ref-benefit-cap">[9]</a> In Microcosm, each copy of a household stays in its original FRS region and carries one weight, so region- and country-based rules match the areas the copy counts towards. Microcosm also sets PolicyEngine-UK’s local-authority input from the assigned area; in Great Britain, the Broad Rental Market Area used for Local Housing Allowance and private renters’ rents; and, for owner-occupied homes in England and Wales, the home value and council-tax band. The council-tax bill still comes from the source household and is not recalculated when the band changes, and in Northern Ireland the Broad Rental Market Area is still drawn within the household’s region.</p></div>
+        <div class="prose"><p>Microcosm fits national, regional, constituency and local-authority targets with one weight per record in a single optimisation, whereas Enhanced FRS fits its constituency and local-authority matrices separately, each alongside national targets. Microcosm also places 15 copies of each household so that each area has more records to weight, adds census household-count targets, reconciles overlapping targets across levels under a declared order, limits how far any weight can rise, and records local support and release checks. These changes improve geographic consistency and make the assumptions easier to inspect. They do not, on their own, establish that every local estimate is more accurate. A national release must fit shared targets better than Enhanced FRS, but for a local release that comparison of fit is optional, and a release that skips it records that it makes no such comparison. <a class="reference" href="#ref-release">[1]</a></p></div>
+      </section>
+
+      <section id="validation">
+        <div class="band-head"><p class="kicker mono">06 · Evidence</p>
+        <h2>Read calibration fit alongside local support</h2></div>
+        <div class="prose"><p>Calibration diagnostics report discrepancies for individual targets and groups of targets. A headline percentage of targets within a tolerance describes fit to those targets. It does not measure the accuracy of every household characteristic or policy result.</p></div>
+        <div class="prose"><p>The local pipeline can also run rotated holdouts, which a local release may include but does not have to. A holdout run refits the weights five times, each time leaving out one of five groups of local targets and measuring how well the refit matches them, while national targets stay in every fit; each local target is held out once. For an exact-size release, each rotation also reruns the selection. This checks performance on local statistics that the refit did not directly target. It is not fully independent external validation, because the omitted targets can share sources and information with the fitted targets. A release that does not run the holdouts records that it makes no out-of-sample claim. <a class="reference" href="#ref-support">[10]</a></p></div>
+        <div class="prose"><p>Support diagnostics count records, distinct source households, and effective sample size within each area. Effective sample size summarises weight concentration: it falls when a few records carry much of an area’s weight. <strong>Copied households do not create additional independent survey observations.</strong> Record counts and effective sample size should therefore be read alongside the number of underlying source households. <a class="reference" href="#ref-support">[10]</a></p></div>
+        <div class="prose"><p>The build measures the number of distinct source households and the effective sample size for each constituency and local authority. An area below the support floors listed next blocks a local release unless a reviewed exclusion names the area and the floors it misses. Treat estimates for areas with few source households, and for narrowly defined groups within any area, as indicative. The dataset does not provide confidence intervals.</p></div>
+        <h3>What a release must pass</h3>
+        <div class="prose"><p>Release checks assess source provenance, imputation stages, household relationships, geography, calibration quality, local support and the exported dataset. In both builds, every national target must be within 25 per cent of its value unless a reviewed exclusion names it. A national release must also fit a shared set of official statistics better than a pinned Enhanced FRS file. A local release is also blocked unless:</p><ul>
+          <li>every constituency and local authority has at least 50 records with positive weight, an effective sample size of at least 50 and at least 50 distinct source households, unless a reviewed exclusion names the area;</li>
+          <li>every fitted local target is within 25 per cent of its value, unless a reviewed exclusion names it, and at least half of the targets in every family of five or more are within 25 per cent;</li>
+          <li>no weight is more than 100 times the median weight, and the effective sample size is at least 1 per cent of the records;</li>
+          <li>every copy’s geography is consistent and its Broad Rental Market Area is one PolicyEngine-UK recognises.</li>
+        </ul><p>Passing software tests or completing an optimisation does not establish that a dataset has passed these checks. Any published fit figures must identify the dataset release, target scope and diagnostic evidence they describe. <a class="reference" href="#ref-release">[1]</a> <a class="reference" href="#ref-support">[10]</a></p></div>
+        <h3>Limits on interpretation</h3>
+        <div class="prose"><ul>
+          <li><strong>Finite survey support.</strong> Rare household types and narrowly defined groups can have little underlying evidence, even after copying and calibration.</li>
+          <li><strong>Imputed relationships.</strong> Characteristics drawn from different sources depend on the predictors, coverage and assumptions used to connect them.</li>
+          <li><strong>Untargeted outcomes.</strong> Fitting population, income or Universal Credit counts does not guarantee local accuracy for disability, savings, every benefit or every reform.</li>
+          <li><strong>Inputs that do not follow the assigned area.</strong> Household characteristics such as income, wealth and spending, whether reported or imputed, come from the source household: imputation runs before areas are assigned, and the area drawn does not depend on them. In Great Britain, copies do take their Broad Rental Market Area and private rents from their area, and in England and Wales owner-occupied copies take a home value and council-tax band from it, but their council-tax bill still comes from the source household.</li>
+          <li><strong>Scotland.</strong> Adult and Child Disability Payment are read from the FRS and treated like PIP and DLA, and Pension Age Disability Payment and Carer Support Payment arrive under the Attendance Allowance and Carer’s Allowance codes, but no Scottish totals for these payments are targeted. Salary-sacrifice relief targets split by income-tax rate band are fitted using each taxpayer’s Scottish or rest-of-UK bands. Higher-rate taxpayer counts are fitted by constituency and local authority outside Scotland only, and Scottish owner-occupied copies keep the home values and council-tax bands in their household records, although Scottish copies do take their Broad Rental Market Area and private rents from their area. Scottish council-tax bills exclude water and sewerage charges, which are modelled separately, and council-tax income after reduction is checked against Scottish Local Government Finance Statistics but not targeted. Private rents are fitted for Scotland’s Broad Rental Market Areas, not its councils. <a class="reference" href="#ref-targets">[5]</a> <a class="reference" href="#ref-support">[10]</a></li>
+          <li><strong>Northern Ireland.</strong> There are no local Universal Credit or council-tax targets, household wealth is imputed using the pattern for Wales, and the Broad Rental Market Area, rents and home values come from the household records rather than the assigned area.</li>
+          <li><strong>Model and policy assumptions.</strong> Local impacts also depend on tax and benefit rules, benefit take-up and the policy comparison. The dataset pipeline does not itself establish behavioural responses or confidence intervals.</li>
+        </ul></div>
+      </section>
+
+      <section id="version">
+        <div class="band-head"><p class="kicker mono">07 · Version and references</p>
+        <h2>A methodology that can be cited and checked</h2></div>
+        <div class="prose"><p>This draft covers the FRS 2024–25 implementation at Microcosm revision <a href="https://github.com/PolicyEngine/microcosm/tree/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722">90ff43f9575fb5ae5c0c4389ba4790ab4ade5722</a>, which locks PolicyEngine-UK 2.162.8. It does not report measured performance for a named dataset release. A reproducible policy analysis should also identify its dataset release, PolicyEngine-UK version, policy year and reform.</p></div>
+        <div class="prose"><p>The pipeline code is public under the MIT licence. The survey microdata it uses (FRS, SPI, WAS, LCFS, NTS and ETB) are available to registered users from the UK Data Service under its licence conditions, so rebuilding the dataset requires your own access; publishing the methodology does not make respondent-level data redistributable. The released files are derived from these licensed surveys and are not publicly downloadable. Questions and corrections: open an issue on the <a href="https://github.com/PolicyEngine/microcosm/issues">Microcosm repository</a>. <a class="reference" href="#ref-sources">[3]</a></p></div>
+        <details class="methodology-history">
+          <summary>Document history</summary>
+          <p><time datetime="2026-10-27">27 October 2026</time> · Version 0.6: re-pinned to Microcosm revision 90ff43f95 and PolicyEngine-UK 2.162.8. Microcosm is now the UK dataset PolicyEngine certifies (policyengine.py 6.10.0 onwards), so the summary, release status and Enhanced FRS section now treat Enhanced FRS as the predecessor that a national release must still fit shared targets better than, and the overview says which file PolicyEngine uses for national and local results, both certified together. The overview now separates imputation from calibration, the pipeline diagram groups the official statistics and no longer has a caption, and the imputation and calibration sections link the imputation, calibration and L0 working papers. Added the stages since 866fee4 (annual income for HMRC targets, regional Land Registry home values, property purchases, Universal Credit take-up by family type and award, Move to Universal Credit, Carer’s Allowance take-up and childcare take-up for added copies), Broad Rental Market Areas and private rents that follow the assigned area in Great Britain, Scotland’s Broad Rental Market Area rent targets, the 150,000-household local release, optional holdouts and Enhanced FRS comparison for local releases, the local release criteria and the high-value home small-cell rule. Marked as planned for the next release: constituency energy and single-adult discount targets, apprentice flags, and alcohol, tobacco and gambling duty inputs. Moved the benefit-cap reference to its new location in PolicyEngine-UK. Editorial and technical review pending.</p>
+          <p><time datetime="2026-10-19">19 October 2026</time> · Version 0.5: said which target-weighting rule each build uses; noted the penalty that keeps refitted weights close to equal in an exact-size local release, and named the release size once; described the source of area-based home values and the LSOA band mix more fully; added the higher-rate taxpayer small-cell rule; and named the other published statistics behind the high-value home estimates. Editorial and technical review pending.</p>
+          <p><time datetime="2026-10-16">16 October 2026</time> · Version 0.4: re-pinned to Microcosm revision 866fee4. Updated the Living Costs and Food Survey vintage to 2024–25 (SN 9603). Updated the Survey of Personal Incomes draws; added landlords’ rental receipts and mortgage-interest costs, the split of high-value homes, and area-based home values and council-tax bands for owner-occupiers in England and Wales; added the higher-rate taxpayer, domestic energy and high-value home local targets; updated the target-weighting rule, cross-level reconciliation, the 100,000-household release file, the Scotland entries, Enhanced FRS 1.58.1 and PolicyEngine-UK 2.132.6. Corrected two version 0.3 statements: OBR’s Scottish council-tax receipts are not fitted separately, and Microcosm has certified national datasets from this pipeline. Editorial and technical review pending.</p>
+          <p><time datetime="2026-10-13">13 October 2026</time> · Version 0.3: added a summary of which dataset to use, where tax and benefit rules are modelled, the FRS sample for the UK and Scotland, what is and is not fitted for Scotland, guidance on reading local results, data access and contact, and key terms; clarified the Scottish and Northern Irish small areas; added a scrolling hint to the diagram on phones. Editorial and technical review pending.</p>
+          <p><time datetime="2026-10-12">12 October 2026</time> · Version 0.2: rebased the Enhanced FRS comparison on release 1.58.0 and corrected the differences it lists; corrected the reconciliation order, the weight-limit description, the national route, source roles and target coverage by nation; added the copy count, the inputs that stay with the source household, UK Data Service study links and a pipeline diagram. Editorial and technical review pending.</p>
+          <p><time datetime="2026-10-08">8 October 2026</time> · Version 0.1: initial draft covering source enrichment, local assignment, joint calibration, the Enhanced FRS comparison and validation limits. Editorial and technical review pending.</p>
+        </details>
+        <h3>Source references</h3>
+        <ol class="methodology-references">
+          <li id="ref-release"><a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/docs/uk-dense-release-assembly-runbook-762.md">UK local release requirements</a>, <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/docs/uk-national-release-assembly-runbook-806.md">UK national release requirements</a> and <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-data/src/microcosm/data/registry.py">dataset variants</a>; policyengine.py’s <a href="https://github.com/PolicyEngine/policyengine.py/blob/b14ee554033cbdd75d63afbfa316be3b9f85bb8a/CHANGELOG.md">release notes</a> for versions 6.10.0 and 6.11.1 and its <a href="https://github.com/PolicyEngine/policyengine.py/blob/b14ee554033cbdd75d63afbfa316be3b9f85bb8a/src/policyengine/countries/uk/regions.py">UK regions</a>, which say which file each region uses.</li>
+          <li id="ref-build"><a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/docs/uk-full-build-graph.md">UK build pipeline and geographic assignment</a>, and the steps that give each placed copy its <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk_runtime/brma_area_layer.py">Broad Rental Market Area</a>, its <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk_runtime/private_rent_localisation.py">private rent</a>, and its <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk_runtime/property_localisation.py">home value and council-tax band</a>.</li>
+          <li id="ref-sources"><a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk/source_stages.json">UK source and enrichment manifest</a>, including source vintages, licensed microdata references and imputation stages.</li>
+          <li id="ref-geography"><a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk/uk_atomic_area_supports.provenance.json">Small-area lookups, their published sources and boundary vintages</a>.</li>
+          <li id="ref-targets"><a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk/uk_population_targets.json">National and local target definitions</a> and <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk_runtime/local_targets.py">local household measurements</a>, with the <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk/local_small_cell_rule.json">small-cell rule</a>.</li>
+          <li id="ref-reconciliation"><a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk_runtime/ledger_targets.py">Reconciliation across geographic levels</a>, with its precedence, control levels and declared relationships in <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk/cross_grain_declarations.json">one declarations file</a>.</li>
+          <li id="ref-doctrine"><a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk_runtime/local_doctrine.py">Local calibration objective and weight constraints</a>, the <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk_runtime/target_weights.py">target-weighting rule</a>, the <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk_runtime/national_doctrine.py">national build’s objective</a> and the <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-calibrate/src/microcosm/calibrate/solve.py">solver’s loss and per-record weight limit</a>.</li>
+          <li id="ref-efrs">Enhanced FRS 1.58.1 <a href="https://github.com/PolicyEngine/policyengine-uk-data/blob/daad71cd26c107f1b784ff600d1464ba59c70e4a/policyengine_uk_data/utils/calibrate.py">area-weight calibration</a>, <a href="https://github.com/PolicyEngine/policyengine-uk-data/blob/daad71cd26c107f1b784ff600d1464ba59c70e4a/policyengine_uk_data/datasets/local_areas/constituencies/loss.py">constituency measurements and country restrictions</a> and <a href="https://github.com/PolicyEngine/policyengine-uk-data/blob/daad71cd26c107f1b784ff600d1464ba59c70e4a/policyengine_uk_data/calibration/clone_and_assign.py">output-area assignment</a>.</li>
+          <li id="ref-benefit-cap"><a href="https://github.com/PolicyEngine/policyengine-uk/blob/50ae2934e08c0bca7ed2ae0251f331b50ea4c9af/policyengine_uk/utils/benefit_cap.py#L12-L31">PolicyEngine-UK benefit-cap limits</a> (version 2.162.8, as locked by Microcosm at this revision), which read the household’s region.</li>
+          <li id="ref-support"><a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk_runtime/local_rowwise.py">Rotated local-target holdouts and area-support diagnostics</a>, <a href="https://github.com/PolicyEngine/microcosm/blob/90ff43f9575fb5ae5c0c4389ba4790ab4ade5722/packages/microcosm-build/src/microcosm/build/uk/local_validation_levels.json">report-only local validation levels</a>.</li>
+        </ol>
+      </section>
+    </article>
+  </div>
+</main>
+
+
+<footer class="foot">
+  <div class="foot-row">
+    <a class="brand" href="/"><svg class="wm" viewBox="-16 -690 5245 726" role="img" aria-label="microcosm"><g text-anchor="middle" font-family="Urbanist,'Avenir Next','Century Gothic',Futura,sans-serif" font-size="1000" font-weight="400" fill="currentColor"><text x="444.25" y="0" fill-opacity=".75">m</text><text x="1023.5" y="0" fill-opacity=".83">i</text><text x="1413.25" y="0" fill-opacity=".9">c</text><text x="1886.75" y="0" fill-opacity=".96">r</text><text x="2385.5" y="0">o</text><text x="2960.25" y="0" fill-opacity=".96">c</text><text x="3535" y="0" fill-opacity=".9">o</text><text x="4069.75" y="0" fill-opacity=".83">s</text><text x="4768.75" y="0" fill-opacity=".75">m</text></g><circle cx="2385.5" cy="-251" r="77" fill="var(--accent)"/></svg></a>
+  </div>
+  <p class="mono foot-fine">
+    Calibrated synthetic microdata for public policy. Open source · MIT · <a href="https://policyengine.org">a PolicyEngine project</a>.
+  </p>
+  <p class="mono foot-fine foot-links">
+    <a href="/methodology/uk">UK methodology</a> ·
+    <a href="/calibration/dashboard">calibration dashboard</a> ·
+    <a href="/lineage">lineage</a> ·
+    <a href="/papers">papers</a> ·
+    <a href="https://github.com/PolicyEngine/microcosm">source</a>
+  </p>
+  <p class="mono foot-fine foot-links"><a href="https://github.com/PolicyEngine/microcosm.institute/tree/master/methodology">Documentation source</a></p>
+</footer>
+<script src="/field.js" defer></script>
+<script src="/reveal.js" defer></script>
+</body>
+</html>
