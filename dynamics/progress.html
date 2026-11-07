@@ -90,12 +90,16 @@
     <p class="strategy-crumb"><a href="/papers">strategies</a> / <a href="/dynamics">dynamics</a> / progress</p>
     <p class="eyebrow">strategy 06 · dynamics · development</p>
     <h1>Progress.</h1>
+    <!-- The script sets #lede-campaign and #built-note from progress.json's
+         archived note (COPY in the script). Keep this static wording equal
+         to COPY.stopped, which readers without JavaScript see. -->
     <p class="progress-lede">
       Dynamics builds Social Security earnings histories from the PSID, and
       the corrected series is only as credible as the reading of the source
-      documentation beneath it. The foundations are built; this page records
-      the verification campaign that ran on top of them. Every number below
-      is produced by an audited pipeline, not self-reported.
+      documentation beneath it. The foundations are built;
+      <span id="lede-campaign">this page records the verification campaign
+      that ran on top of them</span>. Every number below is produced by an
+      audited pipeline, not self-reported.
     </p>
     <p class="asof" id="asof">Snapshot of 2026-09-09 (UTC).</p>
     <!-- The script re-renders this notice from progress.json's archived.note
@@ -108,7 +112,7 @@
 
   <section class="progress-section">
     <h2>Already built</h2>
-    <p class="forecast-note">Complete and in the repository as of the snapshot; the campaign below was the verification layer on top.</p>
+    <p class="forecast-note" id="built-note">Complete and in the repository as of the snapshot; the campaign below was the verification layer on top.</p>
     <ul class="links-list" id="foundations"></ul>
   </section>
 
@@ -219,23 +223,46 @@
 
   function fmt(n) { return n.toLocaleString("en-US"); }
 
-  // Upstream writes the archived note in Markdown for its own docs site,
-  // where link targets are relative to docs/. Those targets would 404 here,
-  // so they resolve against docs/ on GitHub, and any target that would land
-  // outside the repository renders as plain text.
-  var UPSTREAM_REPO = "https://github.com/PolicyEngine/microcosm-dynamics/";
-  var UPSTREAM_DOCS = UPSTREAM_REPO + "blob/master/docs/";
+  // Framing copy for the two states of progress.json. The static HTML
+  // carries COPY.stopped for readers without JavaScript; keep them equal.
+  var COPY = {
+    stopped: {
+      lede: "this page records the verification campaign that ran on top of them",
+      built: "Complete and in the repository as of the snapshot; the campaign below was the verification layer on top."
+    },
+    running: {
+      lede: "this page tracks the verification campaign running on top of them",
+      built: "Complete and in the repository today; the campaign below is the verification layer on top."
+    }
+  };
+
+  // Upstream writes the archived note in Markdown for its own docs site.
+  // The notice links only over https to PolicyEngine's GitHub organization,
+  // microcosm.institute and policyengine.org; any other target, hosting
+  // addresses such as *.github.io included, shows as plain text. Upstream
+  // writes relative targets against its docs/ folder, so they resolve
+  // against docs/ on GitHub and must stay inside the repository.
+  var UPSTREAM_DOCS =
+    "https://github.com/PolicyEngine/microcosm-dynamics/blob/master/docs/";
+  var LINK_HOSTS = ["microcosm.institute", "policyengine.org", "www.policyengine.org"];
 
   function noteHref(target) {
-    if (/^https?:\/\//i.test(target)) return target;
-    if (/^[a-z][a-z0-9+.-]*:/i.test(target)) return null;
     var url;
-    try { url = new URL(target, UPSTREAM_DOCS).href; } catch (e) { return null; }
-    return url.indexOf(UPSTREAM_REPO) === 0 ? url : null;
+    try { url = new URL(target, UPSTREAM_DOCS); } catch (e) { return null; }
+    if (url.protocol !== "https:" || url.username || url.password) return null;
+    if (!/^[a-z][a-z0-9+.-]*:/i.test(target)) {
+      return url.host === "github.com" &&
+        /^\/policyengine\/microcosm-dynamics\//i.test(url.pathname) ? url.href : null;
+    }
+    if (url.host === "github.com") {
+      return /^\/policyengine(\/|$)/i.test(url.pathname) ? url.href : null;
+    }
+    return LINK_HOSTS.indexOf(url.host) >= 0 ? url.href : null;
   }
 
   // Append text to parent, rendering each [label](target) as a link and
-  // everything else as plain text.
+  // everything else as plain text. Only that link form counts: any other
+  // Markdown (emphasis, code, link titles) shows as typed.
   function appendWithLinks(parent, text) {
     var re = /\[([^\]]+)\]\(([^()\s]+)\)/g;
     var last = 0;
@@ -269,6 +296,9 @@
       appendWithLinks(noteText, " " + String(note));
     }
     notice.hidden = !note;
+    var copy = note ? COPY.stopped : COPY.running;
+    document.getElementById("lede-campaign").textContent = copy.lede;
+    document.getElementById("built-note").textContent = copy.built;
 
     // A stopped campaign gets no live dot and no "Live" wording, even when
     // the data comes fresh from the repository.
