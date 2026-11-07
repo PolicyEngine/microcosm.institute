@@ -261,8 +261,9 @@
   }
 
   // Append text to parent, rendering each [label](target) as a link and
-  // everything else as plain text. Only that link form counts: any other
-  // Markdown (emphasis, code, link titles) shows as typed.
+  // everything else as plain text. The helper interprets no other Markdown:
+  // emphasis and code show as typed, ![alt](src) shows as "!" and a link,
+  // and it reads a target in <angle brackets> literally.
   function appendWithLinks(parent, text) {
     var re = /\[([^\]]+)\]\(([^()\s]+)\)/g;
     var last = 0;
