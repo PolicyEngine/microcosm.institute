@@ -56,7 +56,7 @@
     p.push(`<path d="M ${sx + sw} ${y + (ROW - 18) / 2} C ${sx + sw + 60} ${y + (ROW - 18) / 2}, ${mx - 60} ${midY}, ${mx} ${midY}" fill="none" stroke="var(--paper-faint)" stroke-opacity="0.55"/>`);
   });
   p.push(`<rect x="${mx}" y="${midY - 34}" width="${mw}" height="68" rx="6" fill="var(--ink-2)" stroke="var(--amber-soft)"/>`);
-  p.push(`<text x="${mx + mw / 2}" y="${midY - 8}" text-anchor="middle" fill="var(--paper)" font-size="13">populace-us 2024</text>`);
+  p.push(`<text x="${mx + mw / 2}" y="${midY - 8}" text-anchor="middle" fill="var(--paper)" font-size="13">Microcosm US 2024</text>`);
   p.push(`<text x="${mx + mw / 2}" y="${midY + 10}" text-anchor="middle" fill="var(--paper-faint)" font-size="10.5">${(d.headline.n_households || 0).toLocaleString()} households</text>`);
   p.push(`<text x="${mx + mw / 2}" y="${midY + 24}" text-anchor="middle" fill="var(--paper-faint)" font-size="10.5">${compact(d.headline.weighted_persons)} people represented</text>`);
   p.push(`<path d="M ${mx + mw} ${midY} L ${tx} ${midY}" stroke="var(--paper-faint)" stroke-opacity="0.55"/>`);
