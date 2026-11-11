@@ -12,8 +12,10 @@
 //      now, and before the package was renamed from populace-build). It is
 //      present at every build's commit, so the counts update automatically as
 //      each new release pins a newer commit — no code change. The commit is the
-//      build manifest's code.git_commit, else its build_sha, else the commit
-//      hash in the release id (e.g. ...-75d5add-<timestamp>). For a source
+//      build manifest's code.git_commit, else its build_sha. Only when the
+//      build has no build manifest path, or its manifest records no commit, is
+//      it the commit hash in the release id (e.g. ...-75d5add-<timestamp>); a
+//      manifest that cannot be read hides the section. For a source
 //      enrichment, which runs no input-coverage check of its own, it is its
 //      parent build's commit, from parent_build_manifest.json in its folder.
 //   2) fall back to an in-release copy, if a future build publishes
@@ -87,11 +89,10 @@
     let sha = null;
     let buildManifest = null;
     if (build.buildManifest) {
-      try {
-        buildManifest = await getJSON(releases.fileUrl(build.buildManifest));
-      } catch (_) {
-        buildManifest = null;
-      }
+      // A build manifest that cannot be read hides the section (the catch
+      // below): without it the page cannot tell a source enrichment, and a
+      // commit guessed from the build id could name the wrong manifest.
+      buildManifest = await getJSON(releases.fileUrl(build.buildManifest));
     }
     if (buildManifest && buildManifest.release_type === "source_enrichment") {
       // A source enrichment adds columns to its parent build's dataset and runs
