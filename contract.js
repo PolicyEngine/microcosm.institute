@@ -2,21 +2,24 @@
 // latest release and renders the required / reviewed-exclusion counts, the gate,
 // and the full exclusion list with reasons. Like releases.js, this renders real
 // registry data or nothing: the live region stays hidden unless the manifest
-// loads, so the page cannot go stale.
+// loads, so the page cannot go stale. The latest build, and its folder, come
+// from us-releases.js: releases.json where the repository has one, else
+// latest.json.
 //
 // Fetch strategy, in order:
-//   1) raw.githubusercontent.com at the build sha embedded in the release id
-//      (e.g. ...-75d5add-<timestamp>), where the manifest is a source file at
+//   1) raw.githubusercontent.com at the commit the build was made from, where the
+//      manifest is a source file at
 //      packages/microcosm-build/src/microcosm/build/us/release_input_coverage_manifest.json.
-//      It is present at every build's commit, so this renders today and the counts
-//      update automatically as each new release pins a newer sha — no code change.
+//      It is present at every build's commit, so the counts update automatically
+//      as each new release pins a newer commit — no code change. The commit is
+//      the build manifest's code.git_commit, else its build_sha, else the commit
+//      hash in the release id (e.g. ...-75d5add-<timestamp>).
 //   2) fall back to an in-release copy, if a future build publishes
 //      release_input_coverage_manifest.json next to the other manifests.
-// (1) is primary because it always exists at the build sha; the release-directory
-// copy is only a safety net, so no request 404s on a normal load.
+// (1) is primary because it always exists at the build's commit; the
+// release-directory copy is only a safety net.
 (async () => {
-  const HF =
-    "https://huggingface.co/datasets/policyengine/populace-us/resolve/main/";
+  const releases = window.microcosmUsReleases;
   const RAW = "https://raw.githubusercontent.com/PolicyEngine/microcosm/";
   const GH_BLOB = "https://github.com/PolicyEngine/microcosm/blob/";
   const COV_PATH =
@@ -33,12 +36,19 @@
     return res.json();
   };
 
+  const COMMIT_RE = /^[0-9a-f]{7,40}$/;
+  // The commit a build manifest records: code.git_commit, or build_sha.
+  const commitFromBuildManifest = (bm) => {
+    const candidates = [bm && bm.code && bm.code.git_commit, bm && bm.build_sha];
+    return candidates.find((value) => COMMIT_RE.test(String(value || ""))) || null;
+  };
   // The build sha is the last 7–40 char hex segment of the release id, sitting
-  // just before the trailing ...T......Z timestamp segment.
+  // just before the trailing ...T......Z timestamp segment. A segment of digits
+  // only is a date such as 20260915, not a commit, so it is skipped.
   const shaFromReleaseId = (rid) => {
     const segs = String(rid || "").split("-");
     for (let i = segs.length - 1; i >= 0; i--) {
-      if (/^[0-9a-f]{7,40}$/.test(segs[i])) return segs[i];
+      if (COMMIT_RE.test(segs[i]) && !/^[0-9]+$/.test(segs[i])) return segs[i];
     }
     return null;
   };
@@ -54,11 +64,22 @@
   let releaseId = "";
   let sourceHref = "";
   try {
-    const latest = await getJSON(HF + "latest.json");
-    releaseId = latest.release_id || "";
+    const build = await releases.latestBuild();
+    if (!build) return;
+    releaseId = build.id || "";
 
-    // (1) source tree at the release's build sha — present at every build's commit
-    const sha = shaFromReleaseId(releaseId);
+    // (1) source tree at the commit the build was made from
+    let sha = null;
+    if (build.buildManifest) {
+      try {
+        sha = commitFromBuildManifest(
+          await getJSON(releases.fileUrl(build.buildManifest))
+        );
+      } catch (_) {
+        sha = null;
+      }
+    }
+    sha = sha || shaFromReleaseId(releaseId);
     if (sha) {
       try {
         manifest = await getJSON(RAW + sha + "/" + COV_PATH);
@@ -69,11 +90,8 @@
     }
     // (2) safety net: an in-release copy, if a future build publishes one
     if (!manifest) {
-      const relDir = String(
-        (latest.paths && latest.paths.build_manifest) || ""
-      ).replace(/build_manifest\.json$/, "");
-      if (!relDir) return;
-      const url = HF + relDir + COV_FILE;
+      if (!build.folder) return;
+      const url = releases.fileUrl(build.folder + COV_FILE);
       manifest = await getJSON(url);
       sourceHref = url;
     }
