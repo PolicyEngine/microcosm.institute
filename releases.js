@@ -23,7 +23,9 @@
     row.hidden = false;
   };
 
-  try {
+  // The three rows load at the same time: a slow or failing request for one
+  // row never delays or hides another.
+  (async () => { try {
     const build = await releases.latestBuild();
     if (!build) throw new Error("no current build");
     let meta = day(build.publishedAt);
@@ -42,9 +44,9 @@
       meta = bits.join(" · ");
     } catch (_) {}
     show("release-row-latest", build.id, meta);
-  } catch (_) {}
+  } catch (_) {} })();
 
-  try {
+  (async () => { try {
     const manifest = await getJSON(PY_MANIFEST);
     const us = manifest.data_releases && manifest.data_releases.us;
     if (us && us.build_id) {
@@ -54,13 +56,13 @@
         bits.push("policyengine-us " + cert.certified_for_model_version);
       show("release-row-certified", us.build_id, bits.join(" · "));
     }
-  } catch (_) {}
+  } catch (_) {} })();
 
   // Local-area (non-default) row. Same cannot-go-stale contract as the rows
   // above: find the local-area build, then read its published manifests. If
   // no local build is published, or a manifest is missing, the row and its
   // note stay hidden.
-  try {
+  (async () => { try {
     const build = await releases.localAreaBuild();
     if (!build) throw new Error("no local build");
     const fileUrl = (name) => releases.fileUrl(build.folder + name);
@@ -94,5 +96,5 @@
     show("release-row-local", build.id, bits.join(" · "));
     const note = document.getElementById("release-local-note");
     if (note) note.hidden = false;
-  } catch (_) {}
+  } catch (_) {} })();
 })();

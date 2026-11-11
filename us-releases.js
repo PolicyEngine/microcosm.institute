@@ -24,6 +24,14 @@ window.microcosmUsReleases = (() => {
   const RECORD_SCHEMA_VERSION = 1;
   const LOCAL_AREA_RELEASE = "microcosm-us-2024-local";
   const MISSING_REPOSITORY_OR_REVISION = ["RepoNotFound", "RevisionNotFound"];
+  // The release and build names the release writer accepts (the dashboard's
+  // reader checks the same pattern). A name that does not match is not
+  // shown, and no URL or page text is built from it.
+  const SAFE_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+  const isSafeName = (value) => typeof value === "string" && SAFE_NAME.test(value);
+  // A build's folder in either layout: releases/<build>/ or
+  // releases/<release>/<build>/, each segment a safe name.
+  const SAFE_FOLDER = /^releases\/(?:[A-Za-z0-9][A-Za-z0-9._-]{0,127}\/){1,2}$/;
 
   const fileUrl = (path) => FILES + path;
   const isObject = (value) =>
@@ -67,12 +75,12 @@ window.microcosmUsReleases = (() => {
   // listed or has no current build. The release writer never makes a
   // withdrawn build current; one that is withdrawn is not shown either.
   const currentBuild = (record, release) => {
-    if (typeof release !== "string" || !hasOwn(record.releases, release)) {
+    if (!isSafeName(release) || !hasOwn(record.releases, release)) {
       return null;
     }
     const entry = record.releases[release];
     const build = isObject(entry) ? entry.current : null;
-    if (typeof build !== "string" || !isObject(entry.builds)) return null;
+    if (!isSafeName(build) || !isObject(entry.builds)) return null;
     const buildEntry = hasOwn(entry.builds, build) ? entry.builds[build] : null;
     if (!isObject(buildEntry) || buildEntry.withdrawn) return null;
     const folder = "releases/" + release + "/" + build + "/";
@@ -91,11 +99,15 @@ window.microcosmUsReleases = (() => {
     if (record) return currentBuild(record, record.default);
 
     const latest = await getJSON(fileUrl("latest.json"));
-    const buildManifest = (latest.paths && latest.paths.build_manifest) || null;
+    if (!isSafeName(latest.release_id)) return null;
+    const path = (latest.paths && latest.paths.build_manifest) || null;
+    const folder = typeof path === "string" ? path.replace(/[^/]*$/, "") : null;
+    const safe = folder !== null && SAFE_FOLDER.test(folder) &&
+      path === folder + "build_manifest.json";
     return {
       id: latest.release_id,
-      folder: buildManifest ? buildManifest.replace(/[^/]*$/, "") : null,
-      buildManifest,
+      folder: safe ? folder : null,
+      buildManifest: safe ? path : null,
       publishedAt: latest.updated_at,
     };
   };
@@ -112,7 +124,7 @@ window.microcosmUsReleases = (() => {
     const refs = await getJSON(REFS);
     const localTags = (refs.tags || [])
       .map((tag) => tag && tag.name)
-      .filter((name) => typeof name === "string" && name.includes("-acs-local-"));
+      .filter((name) => isSafeName(name) && name.includes("-acs-local-"));
     if (!localTags.length) return null;
     const trailing = (name) => name.split("-").pop();
     const id = localTags.reduce((newest, name) =>
